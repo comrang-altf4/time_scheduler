@@ -95,21 +95,3 @@ class SQLConnection {
         }
     }
 }
-
-class User {
-    protected String username;
-    protected String password;
-    protected String email;
-    User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-}
-
-class Main {
-    public static void main(String args[]) {
-        SQLConnection system = new SQLConnection();
-        system.sendEmail("howardsu08@gmail.com", "A");
-    }
-}
