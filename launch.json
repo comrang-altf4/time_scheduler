@@ -1,0 +1,29 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Launch Current File",
+			"request": "launch",
+			"mainClass": "${file}"
+		},
+		{
+			"type": "java",
+			"name": "Launch App",
+			"request": "launch",
+			"vmArgs": "--module-path C:\\Users\\pomec\\Documents\\fra-uas\\java\\openjfx-17.0.1_windows-x64_bin-sdk\\javafx-sdk-17.0.1\\lib --add-modules javafx.controls,javafx.fxml",
+			"mainClass": "com.App",
+			"projectName": "time_scheduler-1_dd94e802"
+		},
+		{
+			"type": "java",
+			"name": "Launch Event",
+			"request": "launch",
+			"mainClass": "com.Event",
+			"projectName": "time_scheduler-1_dd94e802"
+		}
+	]
+}
