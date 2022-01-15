@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainFXMLController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="226.0" layoutY="34.0" prefHeight="69.0" prefWidth="149.0" text="January">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tLink" layoutX="97.0" layoutY="140.0" prefHeight="35.0" prefWidth="491.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Button layoutX="273.0" layoutY="304.0" mnemonicParsing="false" onAction="#btnSaveClicked" text="Save" />
+      <Label fx:id="lbLink" layoutX="8.0" layoutY="144.0" prefHeight="27.0" prefWidth="44.0" text="Link:">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="hpLink" contentDisplay="CENTER" layoutX="97.0" layoutY="222.0" onAction="#openLink" prefHeight="30.0" prefWidth="491.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Hyperlink>
+      <Label layoutX="8.0" layoutY="225.0" text="Click here: ">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
