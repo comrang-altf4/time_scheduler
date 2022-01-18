@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 public class AnimationFX {
-    public static void transition(String fxml, Node node, AnchorPane anchorPane) throws IOException {
+    public static void transition(String fxml, Node node, Parent anchorPane) throws IOException {
         Parent parent = FXMLLoader.load(AnimationFX.class.getResource(fxml));
         Scene scene = node.getScene();
         Group container = (Group) scene.getRoot();

@@ -20,7 +20,7 @@ public class StartScreen extends Application implements SplashArt.SharedScene {
     public void init() throws IOException, InterruptedException {
         Parent parent = FXMLLoader.load(getClass().getResource("WelcomeScreen_v2.fxml"));
         parentNode = new Group(parent);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
     }
 
     public void start(Stage stage) {

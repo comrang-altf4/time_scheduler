@@ -1,10 +1,14 @@
 package com.example.login_v2;
 
+import homepage.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -15,11 +19,16 @@ public class StartScreenController {
     @FXML private Hyperlink forgetPassword;
     @FXML private AnchorPane anchorPane;
     @FXML
-    private void onActionButton() throws SQLException, ClassNotFoundException {
+    private void onActionButton(ActionEvent e) throws SQLException, ClassNotFoundException, IOException {
         if(username.getText()==null||username.getText().isEmpty()||password.getText()==null||password.getText().isEmpty())
             System.out.println("Wrong username/password!!");
         else
+        {
             Database.loginUserDB(username.getText(), password.getText());
+            controller c=new controller();
+            c.doChangeview(e,"design.fxml");
+//            AnimationFX.transition("design.fxml",(Node)e.getSource(),anchorPane);
+        }
     }
 
     @FXML

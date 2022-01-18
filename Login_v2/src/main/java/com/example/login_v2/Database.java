@@ -7,7 +7,7 @@ public class Database {
     private static Statement statement;
     private final static String JDBC_URL = "jdbc:mysql://localhost:3306/Java";
     private final static String JDBC_User = "root";
-    private final static String JDBC_Password = "eKak5CxcBsr";
+    private final static String JDBC_Password = "eggnebi";
 
     private static void connectDB() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
