@@ -106,12 +106,11 @@ public class controller_monthview extends controller {
 						if (paneOn == 0) {
 							Button notedPane=(Button) e.getSource();
 							Bounds bnds = notedPane.localToScreen(notedPane.getLayoutBounds());
-							double x = bnds.getMinX() - (scrollPane.getWidth() / 2) +
-									(notedPane.getWidth() / 2);
-							double y = bnds.getMinY() - scrollPane.getHeight();
+							double x = bnds.getMaxX();
+							double y = bnds.getMaxY();
 							System.out.println(x);
-							popup2.setX(x - 10);
-							popup2.setY(y - 20);
+							popup2.setX(x);
+							popup2.setY(y);
 							popup2.show();
 							paneOn = 1;
 						}
