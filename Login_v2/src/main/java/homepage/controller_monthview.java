@@ -4,15 +4,18 @@ package homepage;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -21,17 +24,25 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
-
 public class controller_monthview extends controller {
 	static Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 	static boolean buttoncreated = false;
@@ -42,6 +53,12 @@ public class controller_monthview extends controller {
 	private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
 
 	private final Group group = new Group();
+
+	private final LocalTime firstSlotStart = LocalTime.of(0, 0);
+	private final java.time.Duration slotLength = java.time.Duration.ofMinutes(15);
+	private final LocalTime lastSlotStart = LocalTime.of(23, 59);
+	private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
+	private final List<TimeSlot> timeSlots = new ArrayList<>();
 	@FXML
 	public void ChangeView(ActionEvent e) throws IOException {
 		doChangeview(e, "design.fxml");
@@ -58,6 +75,54 @@ public class controller_monthview extends controller {
 
 	@FXML
 	void initialize() {
+		GridPane calendarView = new GridPane();
+
+		ObjectProperty<TimeSlot> mouseAnchor = new SimpleObjectProperty<>();
+
+		LocalDate today = LocalDate.now();
+		LocalDate startOfWeek = today;//.minusDays(today.getDayOfWeek().getValue() - 1);
+		LocalDate endOfWeek = today;//startOfWeek.plusDays(6);
+
+		for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
+			int slotIndex = 1;
+
+			for (LocalDateTime startTime = date.atTime(firstSlotStart); !startTime
+					.isAfter(date.atTime(lastSlotStart)); startTime = startTime.plus(slotLength)) {
+
+				TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
+				timeSlots.add(timeSlot);
+
+				registerDragHandlers(timeSlot, mouseAnchor);
+
+				calendarView.add(timeSlot.getView(), timeSlot.getDayOfWeek().getValue(), slotIndex);
+				slotIndex++;
+			}
+		}
+
+		// headers:
+
+		DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("E\nMMM d");
+
+		for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
+			Label label = new Label(date.format(dayFormatter));
+			label.setPadding(new Insets(1));
+			label.setTextAlignment(TextAlignment.CENTER);
+			GridPane.setHalignment(label, HPos.CENTER);
+			calendarView.add(label, date.getDayOfWeek().getValue(), 0);
+		}
+
+		int slotIndex = 1;
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+		for (LocalDateTime startTime = today.atTime(firstSlotStart); !startTime
+				.isAfter(today.atTime(lastSlotStart)); startTime = startTime.plus(slotLength)) {
+			Label label = new Label(startTime.format(timeFormatter));
+			label.setPadding(new Insets(2));
+			GridPane.setHalignment(label, HPos.RIGHT);
+			calendarView.add(label, 0, slotIndex);
+			slotIndex++;
+		}
+
+
 		AnchorPane root = new AnchorPane();
 		AnchorPane.setTopAnchor(scrollPane, 10.0d);
 		AnchorPane.setRightAnchor(scrollPane, 10.0d);
@@ -67,14 +132,12 @@ public class controller_monthview extends controller {
 		scrollPane.setPannable(true);
 		scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollPane.fitToWidthProperty().set(true);
+		scrollPane.fitToHeightProperty().set(true);
 		PanAndZoomPane canvas = new PanAndZoomPane();
 
-		Rectangle rect = new Rectangle(100, 100);
-		rect.setStroke(Color.NAVY);
-		rect.setFill(Color.NAVY);
-		rect.setStrokeType(StrokeType.INSIDE);
 
-		group.getChildren().add(rect);
+		group.getChildren().add(calendarView);
 		canvas.getChildren().add(group);
 		zoomProperty.bind(canvas.myScale);
 		deltaY.bind(canvas.deltaY);
@@ -90,6 +153,7 @@ public class controller_monthview extends controller {
 
 		root.getChildren().add(scrollPane);
 		Scene scene2 = new Scene(root, 600, 400);
+		scene2.getStylesheets().add(getClass().getResource("calendar-view.css").toExternalForm());
 		popup2.setScene(scene2);
 		popup2.initStyle(StageStyle.UNDECORATED);
 
@@ -121,6 +185,86 @@ public class controller_monthview extends controller {
 		displayMonthCalendar();
 
 	}
+	private void registerDragHandlers(TimeSlot timeSlot, ObjectProperty<TimeSlot> mouseAnchor) {
+		timeSlot.getView().setOnDragDetected(event -> {
+			mouseAnchor.set(timeSlot);
+			timeSlot.getView().startFullDrag();
+			timeSlots.forEach(slot -> slot.setSelected(slot == timeSlot));
+		});
+
+		timeSlot.getView().setOnMouseDragEntered(event -> {
+			TimeSlot startSlot = mouseAnchor.get();
+			timeSlots.forEach(slot -> slot.setSelected(isBetween(slot, startSlot, timeSlot)));
+		});
+
+		timeSlot.getView().setOnMouseReleased(event -> mouseAnchor.set(null));
+	}
+	private boolean isBetween(TimeSlot testSlot, TimeSlot startSlot, TimeSlot endSlot) {
+
+		boolean daysBetween = testSlot.getDayOfWeek().compareTo(startSlot.getDayOfWeek())
+				* endSlot.getDayOfWeek().compareTo(testSlot.getDayOfWeek()) >= 0;
+
+		boolean timesBetween = testSlot.getTime().compareTo(startSlot.getTime())
+				* endSlot.getTime().compareTo(testSlot.getTime()) >= 0;
+
+		return daysBetween && timesBetween;
+	}
+
+
+	public static class TimeSlot {
+
+		private final LocalDateTime start;
+		private final java.time.Duration duration;
+		private final Region view;
+
+		private final BooleanProperty selected = new SimpleBooleanProperty();
+
+		public final BooleanProperty selectedProperty() {
+			return selected;
+		}
+
+		public final boolean isSelected() {
+			return selectedProperty().get();
+		}
+
+		public final void setSelected(boolean selected) {
+			selectedProperty().set(selected);
+		}
+
+		public TimeSlot(LocalDateTime start, java.time.Duration duration) {
+			this.start = start;
+			this.duration = duration;
+
+			view = new Region();
+			view.setMinSize(80, 20);
+			view.getStyleClass().add("time-slot");
+
+			selectedProperty().addListener((obs, wasSelected, isSelected) -> view
+					.pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, isSelected));
+
+		}
+
+		public LocalDateTime getStart() {
+			return start;
+		}
+
+		public LocalTime getTime() {
+			return start.toLocalTime();
+		}
+
+		public DayOfWeek getDayOfWeek() {
+			return start.getDayOfWeek();
+		}
+
+		public java.time.Duration getDuration() {
+			return duration;
+		}
+
+		public Node getView() {
+			return view;
+		}
+	}
+
 	class PanAndZoomPane extends Pane {
 
 		public static final double DEFAULT_DELTA = 1.3d;

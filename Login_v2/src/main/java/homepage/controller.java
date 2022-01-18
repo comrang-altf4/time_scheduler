@@ -65,6 +65,7 @@ public class controller {
 				controller_monthview.popup2.hide();
 			}
 		});
+
 		stage.setScene(scene);
 		stage.show();
 		System.out.println("c");
