@@ -20,11 +20,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.event.EventHandler;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
@@ -124,35 +121,40 @@ public class controller_monthview extends controller {
 
 
 		AnchorPane root = new AnchorPane();
-		AnchorPane.setTopAnchor(scrollPane, 10.0d);
-		AnchorPane.setRightAnchor(scrollPane, 10.0d);
-		AnchorPane.setBottomAnchor(scrollPane, 10.0d);
-		AnchorPane.setLeftAnchor(scrollPane, 10.0d);
+//		AnchorPane.setTopAnchor(scrollPane, 10.0d);
+//		AnchorPane.setRightAnchor(scrollPane, 10.0d);
+//		AnchorPane.setBottomAnchor(scrollPane, 10.0d);
+//		AnchorPane.setLeftAnchor(scrollPane, 10.0d);
 
 		scrollPane.setPannable(true);
 		scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollPane.fitToWidthProperty().set(true);
-		scrollPane.fitToHeightProperty().set(true);
+//		scrollPane.fitToWidthProperty().set(true);
+//		scrollPane.fitToHeightProperty().set(true);
+		scrollPane.setFitToHeight(true);
 		PanAndZoomPane canvas = new PanAndZoomPane();
 
+		FlowPane fp=new FlowPane();
+//		fp.getChildren().add(calendarView);
+//		fp.getChildren().add(button2);
 
 		group.getChildren().add(calendarView);
 		canvas.getChildren().add(group);
+		fp.getChildren().add(group);
 		zoomProperty.bind(canvas.myScale);
 		deltaY.bind(canvas.deltaY);
-		scrollPane.setContent(canvas);
+		scrollPane.setContent(fp);
 
 		canvas.toBack();
 
-		SceneGestures sceneGestures = new SceneGestures(canvas);
-		scrollPane.addEventFilter(MouseEvent.MOUSE_CLICKED, sceneGestures.getOnMouseClickedEventHandler());
-		scrollPane.addEventFilter(MouseEvent.MOUSE_PRESSED, sceneGestures.getOnMousePressedEventHandler());
-		scrollPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, sceneGestures.getOnMouseDraggedEventHandler());
-		scrollPane.addEventFilter(ScrollEvent.ANY, sceneGestures.getOnScrollEventHandler());
+//		SceneGestures sceneGestures = new SceneGestures(canvas);
+//		scrollPane.addEventFilter(MouseEvent.MOUSE_CLICKED, sceneGestures.getOnMouseClickedEventHandler());
+//		scrollPane.addEventFilter(MouseEvent.MOUSE_PRESSED, sceneGestures.getOnMousePressedEventHandler());
+//		scrollPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, sceneGestures.getOnMouseDraggedEventHandler());
+//		scrollPane.addEventFilter(ScrollEvent.ANY, sceneGestures.getOnScrollEventHandler());
 
-		root.getChildren().add(scrollPane);
-		Scene scene2 = new Scene(root, 600, 400);
+//		root.getChildren().add(scrollPane);
+		Scene scene2 = new Scene(scrollPane,200,200);//, 600, 400);
 		scene2.getStylesheets().add(getClass().getResource("calendar-view.css").toExternalForm());
 		popup2.setScene(scene2);
 		popup2.initStyle(StageStyle.UNDECORATED);

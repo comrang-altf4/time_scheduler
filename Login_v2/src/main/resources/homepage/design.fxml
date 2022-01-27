@@ -19,5 +19,6 @@
       </Pane>
       <Button id="btn2" fx:id="btnChangeview" layoutX="623.0" layoutY="46.0" mnemonicParsing="false" onAction="#ChangeView" text="Change View" />
       <Text fx:id="currentDayMonth" layoutX="359.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="104.5367431640625" />
+      <Button layoutX="126.0" layoutY="46.0" mnemonicParsing="false" onAction="#switchWeekpage" text="Button" />
    </children>
 </AnchorPane>

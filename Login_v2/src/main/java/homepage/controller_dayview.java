@@ -4,6 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -45,5 +49,15 @@ public class controller_dayview extends controller {
 		int year = calendar.get(Calendar.YEAR);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 		display_DayCalendar(dayOfWeek, day, month, year);
+	}
+	public void switchWeekpage(ActionEvent e)
+	{
+		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		Weekpage wp=new Weekpage();
+		scene = new Scene(wp,600,600);
+		scene.getStylesheets().add(getClass().getResource("calendar-view.css").toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+
 	}
 }

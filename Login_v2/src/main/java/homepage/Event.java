@@ -50,18 +50,22 @@ class Event {
 	void update() {
 		String n = "from text box";
 		String l = "from text box";
-		int d = 1;// from timer box
-		int day = 2;// from set date box
-		int month = 2;// from set date box
-		int year = 2;// from set date box
+		int d = 30;// from timer box
+		int day = 26;// from set date box
+		int month = 0;// from set date box
+		int year = 2022;// from set date box
 		int hour = 2;// from set date box
-		int minute = 2;// from set date box
+		int minute = 0;// from set date box
 		int p = 3;// from priority box
 		this.event_duration = d;
 		this.event_name = n;
 		this.event_location = l;
 		this.event_priority = p;
 		this.event_date.set(year, month, day, hour, minute);
+	}
+	void setEvent_duration(int x)
+	{
+		this.event_duration=x;
 	}
 
 	public boolean equals(Event e) {

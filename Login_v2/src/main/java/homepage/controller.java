@@ -53,7 +53,6 @@ public class controller {
 	}
 
 	public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
-		test=1;
 		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		root = FXMLLoader.load(getClass().getResource(fxmlfile));
 		scene = new Scene(root);
