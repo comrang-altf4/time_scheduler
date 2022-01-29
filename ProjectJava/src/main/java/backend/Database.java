@@ -62,4 +62,9 @@ public class Database {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
         statement.execute("INSERT INTO ACCOUNTS\n" + "VALUES ('" + username + "', '" + password + "', '" + email + "');");
     }
+
+    public static void addEvent(Event event) throws SQLException, ClassNotFoundException {
+        connectDB();
+
+    }
 }
