@@ -1,6 +1,5 @@
 package homepage;
 
-import javax.swing.Action;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

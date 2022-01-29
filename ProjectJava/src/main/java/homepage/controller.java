@@ -13,9 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import com.example.login_v2.AnimationFX;
 public class controller {
 	static protected Stage stage;
 	static protected Scene scene;
