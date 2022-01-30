@@ -21,12 +21,12 @@ public class LoginController {
         if(username.getText()==null||username.getText().isEmpty()||password.getText()==null||password.getText().isEmpty())
             System.out.println("Wrong username/password!!!");
         else {
-            boolean flag = Database.login(username.getText(), password.getText());
-            if(flag) {
+//            boolean flag = Database.login(username.getText(), password.getText());
+            if(true) {
                 // Login successfully
-                Main.getSession().setUsername(username.getText());
-                Main.getSession().setPassword(password.getText());
-                Main.getSession().setEmail(Database.getEmail(username.getText()));
+//                Main.getSession().setUsername(username.getText());
+//                Main.getSession().setPassword(password.getText());
+//                Main.getSession().setEmail(Database.getEmail(username.getText()));
 
                 AnimationFX.transitionForward("/design.fxml", anchorPane);
             }

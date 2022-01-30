@@ -1,6 +1,7 @@
-package homepage;
+package backend;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ID_management {
 	private static int base_id = 1000000;// use for local ID, local ID is from 1000000

@@ -1,20 +1,16 @@
-package homepage;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class controller_dayview extends controller {
+public class controller_dayview extends Controller {
 	static Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
 	void display_DayCalendar(int weekday, int day, int month, int year) {
@@ -35,7 +31,7 @@ public class controller_dayview extends controller {
 	}
 
 	public void ChangeView(ActionEvent e) throws IOException {
-		doChangeview(e, "design_monthview.fxml");
+		doChangeview(e, "add-event-view.fxml");
 	}
 
 	public void changeviewday(ActionEvent e) {

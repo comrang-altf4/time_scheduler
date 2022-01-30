@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddEventController">
+   <children>
+      <TextField fx:id="eventName" layoutX="169.0" layoutY="48.0" prefHeight="26.0" prefWidth="254.0" promptText="Event name" />
+      <ExpansionPanel layoutX="43.0" layoutY="49.0" prefHeight="26.0" prefWidth="99.0" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="95.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../clock.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="307.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="cbStart" layoutX="143.0" layoutY="127.0" prefWidth="150.0" />
+      <ComboBox fx:id="cbEnd" layoutX="334.0" layoutY="127.0" prefWidth="150.0" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="96.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pin.png" />
+         </image>
+      </ImageView>
+      <TextField layoutX="143.0" layoutY="167.0" prefHeight="26.0" prefWidth="342.0" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="96.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bell.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="143.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remind me:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <ComboBox layoutX="232.0" layoutY="206.0" prefWidth="150.0" />
+      <Button layoutX="324.0" layoutY="322.0" mnemonicParsing="false" onAction="#getCbItem" prefHeight="38.0" prefWidth="106.0" text="Close">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="450.0" layoutY="322.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: blue;" text="Save" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,4 +1,4 @@
-package homepage;
+package controller;
 
 
 import javafx.animation.KeyFrame;
@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
@@ -21,10 +22,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -40,7 +37,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-public class controller_monthview extends controller {
+
+public class controller_monthview extends Controller{
 	static Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 	static boolean buttoncreated = false;
 	static Button[] buttons = new Button[42];

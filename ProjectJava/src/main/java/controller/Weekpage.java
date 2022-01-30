@@ -7,36 +7,33 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class Weekpage extends VBox {
 
     private final Group group = new Group();
     private double cellheight = 67.2 / 3;
     private final LocalTime firstSlotStart = LocalTime.of(0, 0);
-    private final java.time.Duration slotLength = java.time.Duration.ofMinutes(15);
+    private final Duration slotLength = Duration.ofMinutes(15);
     private final LocalTime lastSlotStart = LocalTime.of(23, 59);
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
     private final List<TimeSlot> timeSlots = new ArrayList<>();
-    private List<CustomHBox> hboxes[] = new ArrayList[7];
+    private List<customHbox> hboxes[] = new ArrayList[7];
     ObjectProperty<TimeSlot> mouseAnchor = new SimpleObjectProperty<>();
 
     LocalDate today = LocalDate.now();
@@ -48,7 +45,7 @@ public class Weekpage extends VBox {
     public Weekpage() {
         super();
         for (int i = 0; i < 7; i++)
-            hboxes[i] = new ArrayList<CustomHBox>();
+            hboxes[i] = new ArrayList<customHbox>();
         setScene();
     }
 
@@ -88,7 +85,7 @@ public class Weekpage extends VBox {
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e-> {
             try {
-                new ControllerMonth().ChangeView(e);
+                new controller_monthview().ChangeView(e);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -99,7 +96,7 @@ public class Weekpage extends VBox {
         HBox hb=new HBox();
         hb.getChildren().addAll(backBtn,addEventBtn);
         this.getChildren().addAll(hb, scrollPane);
-        for (Event event: Sess1on.getEventList())
+        for (Event event:Sess1on.eventList)
         {
             addEventToGrid(event);
         }
@@ -108,7 +105,7 @@ public class Weekpage extends VBox {
     public static class TimeSlot {
 
         private final LocalDateTime start;
-        private final java.time.Duration duration;
+        private final Duration duration;
         private final Region view;
 
         private final BooleanProperty selected = new SimpleBooleanProperty();
@@ -125,7 +122,7 @@ public class Weekpage extends VBox {
             selectedProperty().set(selected);
         }
 
-        public TimeSlot(LocalDateTime start, java.time.Duration duration) {
+        public TimeSlot(LocalDateTime start, Duration duration) {
             this.start = start;
             this.duration = duration;
 
@@ -150,7 +147,7 @@ public class Weekpage extends VBox {
             return start.getDayOfWeek();
         }
 
-        public java.time.Duration getDuration() {
+        public Duration getDuration() {
             return duration;
         }
 
@@ -184,12 +181,11 @@ public class Weekpage extends VBox {
 
         return daysBetween && timesBetween;
     };
-
     public void addEvent() {
-//        Event event = new Event();
-//        event.update();
-//        Sess1on.eventList.add(event);
-//        addEventToGrid(event);
+        Event event = new Event();
+        event.updateEvent();
+        Sess1on.eventList.add(event);
+        addEventToGrid(event);
     }
 
     public void refreshAgenda() {
@@ -216,19 +212,26 @@ public class Weekpage extends VBox {
         Instant firstDate = startOfWeek.atStartOfDay().toInstant(ZoneOffset.UTC);
         if (currentDate.isAfter(firstDate) && currentDate.isBefore(lastDate)) {
             int colId, rowId, span;
-            colId = event.getDate().get(Calendar.DAY_OF_WEEK) - 1;
-            rowId = event.getDate().get(Calendar.HOUR) - 1;
-            rowId += rowId * 4 + event.getDate().get(Calendar.MINUTE) / 15;
+            colId = event.date.get(Calendar.DAY_OF_WEEK) - 1;
+            rowId = event.date.get(Calendar.HOUR) - 1;
+            rowId += rowId * 4 + event.date.get(Calendar.MINUTE) / 15;
             span = event.getDuration() / 15 + 1;
-            Button btn = new Button(event.getName());
+            customButton btn = new customButton(event);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(cellheight * span);
-            CustomHBox.setHgrow(btn, Priority.ALWAYS);
+            btn.setOnAction(e->{
+                try {
+                    btn.eventClicked();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            customHbox.setHgrow(btn, Priority.ALWAYS);
 
             boolean flag = false;
             System.out.println(hboxes[colId].size());
             if (hboxes[colId].size() > 0)
-                for (CustomHBox chb : hboxes[colId]) {
+                for (customHbox chb : hboxes[colId]) {
                     if (rowId >= chb.firstRow && rowId <= chb.lastRow) {
                         chb.getChildren().add(btn);
                         if (rowId + span - 1 > chb.lastRow) {
@@ -241,7 +244,7 @@ public class Weekpage extends VBox {
                     }
                 }
             if (!flag) {
-                CustomHBox hb = new CustomHBox();
+                customHbox hb = new customHbox();
                 hb.setMaxHeight(Double.MAX_VALUE);
                 hb.setMaxWidth(Double.MAX_VALUE);
                 hb.getChildren().addAll(btn);
