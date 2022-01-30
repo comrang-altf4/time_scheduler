@@ -17,7 +17,7 @@ public class LoginController {
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private AnchorPane anchorPane;
-    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         if(username.getText()==null||username.getText().isEmpty()||password.getText()==null||password.getText().isEmpty())
             System.out.println("Wrong username/password!!!");
         else {
@@ -28,7 +28,7 @@ public class LoginController {
                 Main.getSession().setPassword(password.getText());
                 Main.getSession().setEmail(Database.getEmail(username.getText()));
 
-                System.out.println("Welcome!!!");
+                AnimationFX.transitionForward("/design.fxml", anchorPane);
             }
             else
                 System.out.println("Wrong username/password!!!");

@@ -52,7 +52,8 @@ public class RegisterController {
                 Main.getSession().setUsername(username.getText());
                 Main.getSession().setPassword(password.getText());
                 Main.getSession().setEmail(email.getText());
-                Email.sendVerificationCode(Main.getSession().getEmail());
+                String code = Email.sendVerificationCode(Main.getSession().getEmail());
+                Main.getSession().setCode(code);
                 AnimationFX.transitionForward("/verify-email-view.fxml", anchorPane);
             }
         }

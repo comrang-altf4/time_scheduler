@@ -1,10 +1,15 @@
 package backend;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sess1on {
     private String username = "";
     private String password = "";
     private String email = "";
     private String code = "";
+    private static List<Event> eventList=new ArrayList<>();
+
     public void setUsername(String username) {
         // Set username
         this.username = username;
@@ -38,5 +43,16 @@ public class Sess1on {
     public String getCode() {
         // Get verification code
         return this.code;
+    }
+
+    public static Event findEvent(int id)
+    {
+        for (Event e: eventList)if (e.getID()==id)return e;
+        return new Event();
+    }
+
+    public static List<Event> getEventList() {
+        // Get list of events
+        return eventList;
     }
 }
