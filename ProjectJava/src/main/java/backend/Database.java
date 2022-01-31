@@ -16,23 +16,23 @@ public class Database {
 
     // Connect to database
     private static void connectDB() throws ClassNotFoundException, SQLException {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//        Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_User, JDBC_Password);
-//        statement = connection.createStatement();
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_User, JDBC_Password);
+        statement = connection.createStatement();
     }
 
     public static boolean login(String username, String password) throws SQLException, ClassNotFoundException {
-//        connectDB();
-//
-//        // Result from query
-//        ResultSet result = statement.executeQuery("SELECT HASHPASS\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "';");
-//
-//        // Check if query returns null
-//        if (result.isBeforeFirst()) {
-//            result.next();
-//            // Check password
-//            return BCrypt.checkpw(password, result.getString(1));
-//        }
+        connectDB();
+
+        // Result from query
+        ResultSet result = statement.executeQuery("SELECT HASHPASS\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "';");
+
+        // Check if query returns null
+        if (result.isBeforeFirst()) {
+            result.next();
+            // Check password
+            return BCrypt.checkpw(password, result.getString(1));
+        }
         return false;
     }
 
