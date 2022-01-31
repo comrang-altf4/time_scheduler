@@ -4,14 +4,14 @@ import java.util.Calendar;
 
 public class Event {
     private int id;
+    private int duration;
     private String name;
     private String location;
-    private int duration;
-    private int priority;// red=0,yellow=1,green=2;
-    public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color: #f57b42;","-fx-background-color: #8df542;"};
-    public Calendar date;
+    private Calendar date;
+    private int priority;
+    private String username;
 
-    Event(int id, String name, String location, int duration, Calendar date, int priority) {
+    public Event(int id, String name, String location, int duration, Calendar date, int priority) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -20,10 +20,11 @@ public class Event {
         this.priority = priority;
     }
 
-    public Event() {
+    public Event() {}
 
-        this.id = ID_management.getID();
-        this.date = Calendar.getInstance();
+    public String getName() {
+        // Get name
+        return this.name;
     }
 
     public String getLocation() {
@@ -51,26 +52,31 @@ public class Event {
         return this.priority;
     }
 
-    public void updateEvent(){//String name, String location, int duration, Calendar date, int priority) {
-        int d = 30;// from timer box
-        int day = 26;// from set date box
-        int month = 0;// from set date box
-        int year = 2022;// from set date box
-        int hour = 2;// from set date box
-        int minute = 0;// from set date box
-        int p = 3;// from priority box
-        String n = "from text box";
-        String l = "from text box";
-        this.name = n;
-        this.location = l;
-        this.duration = d;
-        this.date.set(year, month, day, hour, minute);
-        this.priority = p;
+    public void setDate(Calendar date) {
+        // Set date
+        this.date = date;
     }
-    public boolean equals(Event e) {
-        return this.id == e.getID();
+
+    public void setName(String name) {
+        // Set event's name
+        this.name = name;
     }
-    public String getName() {
-        return this.name;
+
+    public void setLocation(String location) {
+        // Set event's location
+        this.location = location;
+    }
+
+    public void setUsername(String username) {
+        // Set event's host
+        this.username = username;
+    }
+
+    public void updateEvent(String name, String location, int duration, Calendar date, int priority) {
+        this.name = name;
+        this.location = location;
+        this.duration = duration;
+        this.date = date;
+        this.priority = priority;
     }
 }
