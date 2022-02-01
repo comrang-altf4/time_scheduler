@@ -8,6 +8,7 @@ public class Sess1on {
     private String password = "";
     private String email = "";
     private String code = "";
+    public static Event tempEvent=new Event();
     public static List<Event> eventList=new ArrayList<>();
 
     public void setUsername(String username) {

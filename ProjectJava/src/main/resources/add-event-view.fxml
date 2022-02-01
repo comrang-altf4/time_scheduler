@@ -2,7 +2,10 @@
 
 <?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,48 +13,76 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddEventController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="645.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddEventController">
    <children>
+      <CheckBox layoutX="431.0" layoutY="41.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="All day">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
       <TextField fx:id="eventName" layoutX="169.0" layoutY="48.0" prefHeight="26.0" prefWidth="254.0" promptText="Event name" />
       <ExpansionPanel layoutX="43.0" layoutY="49.0" prefHeight="26.0" prefWidth="99.0" />
-      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="95.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+      <ComboBox fx:id="cbPriority" layoutX="132.0" layoutY="215.0" prefHeight="29.0" prefWidth="99.0" promptText="Priority" style="-fx-background-color: lightgrey;" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="94.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../clock.png" />
+            <Image url="@clock.png" />
          </image>
       </ImageView>
-      <Text layoutX="307.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to">
+      <Text layoutX="390.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <ComboBox fx:id="cbStart" layoutX="143.0" layoutY="127.0" prefWidth="150.0" />
-      <ComboBox fx:id="cbEnd" layoutX="334.0" layoutY="127.0" prefWidth="150.0" />
-      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="96.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+      <ComboBox fx:id="cbStart" layoutX="273.0" layoutY="95.0" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" />
+      <ComboBox fx:id="cbEnd" layoutX="415.0" layoutY="96.0" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="94.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../pin.png" />
+            <Image url="@pin.png" />
          </image>
       </ImageView>
-      <TextField layoutX="143.0" layoutY="167.0" prefHeight="26.0" prefWidth="342.0" />
-      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="96.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+      <TextField layoutX="141.0" layoutY="136.0" prefHeight="26.0" prefWidth="342.0" promptText="Location" />
+      <ImageView fitHeight="26.0" fitWidth="50.0" layoutX="94.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../bell.png" />
+            <Image url="@bell.png" />
          </image>
       </ImageView>
-      <Text layoutX="143.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remind me:">
+      <Text layoutX="141.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remind me:">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <ComboBox layoutX="232.0" layoutY="206.0" prefWidth="150.0" />
-      <Button layoutX="324.0" layoutY="322.0" mnemonicParsing="false" onAction="#getCbItem" prefHeight="38.0" prefWidth="106.0" text="Close">
+      <ComboBox layoutX="230.0" layoutY="175.0" prefWidth="150.0" style="-fx-background-color: lightgrey;" />
+      <Button layoutX="326.0" layoutY="369.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" text="More details">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="450.0" layoutY="322.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: blue;" text="Save" textFill="WHITE">
+      <Button layoutX="452.0" layoutY="369.0" mnemonicParsing="false" onAction="#createEvent" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: #51acff;" text="Save" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
+      <ImageView fitHeight="26.0" fitWidth="33.0" layoutX="94.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@priority-icon.png" />
+         </image>
+      </ImageView>
+      <DatePicker fx:id="dpDate" layoutX="142.0" layoutY="96.0" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: lightgrey;" />
+      <Hyperlink layoutX="138.0" layoutY="260.0" text="Meeting link">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Hyperlink>
+      <ImageView fitHeight="26.0" fitWidth="32.0" layoutX="94.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@share-link.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="94.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@pencil.png" />
+         </image>
+      </ImageView>
+      <TextField layoutX="142.0" layoutY="299.0" prefHeight="26.0" prefWidth="342.0" promptText="Description" />
    </children>
 </AnchorPane>

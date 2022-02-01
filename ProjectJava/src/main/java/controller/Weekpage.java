@@ -19,6 +19,7 @@ import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,7 +53,6 @@ public class Weekpage extends VBox {
     public void setScene() {
         refreshAgenda();
         // headers:
-
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("E\nMMM d");
 
         for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
@@ -81,7 +81,8 @@ public class Weekpage extends VBox {
 
         group.getChildren().add(calendarView);
         FlowPane fp = new FlowPane();
-        Button addEventBtn = new Button("News Event");
+        customButton addEventBtn = new customButton();
+        addEventBtn.setText("New Event");
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e-> {
             try {
@@ -90,7 +91,15 @@ public class Weekpage extends VBox {
                 ex.printStackTrace();
             }
         });
-        addEventBtn.setOnAction(e -> addEvent());
+        addEventBtn.setOnAction(e -> {
+            try {
+                addEventBtn.addEvent();
+                addEvent();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         fp.getChildren().add(group);
         scrollPane.setContent(fp);
         HBox hb=new HBox();
@@ -182,8 +191,7 @@ public class Weekpage extends VBox {
         return daysBetween && timesBetween;
     };
     public void addEvent() {
-        Event event = new Event();
-        event.updateEvent();
+        Event event = new Event(Sess1on.tempEvent);
         Sess1on.eventList.add(event);
         addEventToGrid(event);
     }
@@ -207,21 +215,19 @@ public class Weekpage extends VBox {
     }
 
     public void addEventToGrid(Event event) {
-        Instant currentDate = event.getDate().getTime().toInstant();
-        Instant lastDate = endOfWeek.atTime(23, 59, 59).toInstant(ZoneOffset.UTC);
-        Instant firstDate = startOfWeek.atStartOfDay().toInstant(ZoneOffset.UTC);
-        if (currentDate.isAfter(firstDate) && currentDate.isBefore(lastDate)) {
+        LocalDate temp=event.date.toLocalDate();
+        if ((temp.isAfter(startOfWeek)|| temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek)||temp.isEqual(endOfWeek))) {
             int colId, rowId, span;
-            colId = event.date.get(Calendar.DAY_OF_WEEK) - 1;
-            rowId = event.date.get(Calendar.HOUR) - 1;
-            rowId += rowId * 4 + event.date.get(Calendar.MINUTE) / 15;
+            colId = event.date.getDayOfWeek().getValue()-1;
+            rowId = event.date.getHour();
+            rowId += rowId * 4 + event.date.getMinute() / 15;
             span = event.getDuration() / 15 + 1;
             customButton btn = new customButton(event);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(cellheight * span);
             btn.setOnAction(e->{
                 try {
-                    btn.eventClicked();
+                    btn.editEvent();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -229,7 +235,6 @@ public class Weekpage extends VBox {
             customHbox.setHgrow(btn, Priority.ALWAYS);
 
             boolean flag = false;
-            System.out.println(hboxes[colId].size());
             if (hboxes[colId].size() > 0)
                 for (customHbox chb : hboxes[colId]) {
                     if (rowId >= chb.firstRow && rowId <= chb.lastRow) {
@@ -239,7 +244,6 @@ public class Weekpage extends VBox {
                             GridPane.setRowSpan(chb, chb.lastRow - chb.firstRow + 1);
                         }
                         flag = true;
-                        System.out.println('b');
                         break;
                     }
                 }
@@ -250,8 +254,8 @@ public class Weekpage extends VBox {
                 hb.getChildren().addAll(btn);
 
                 GridPane.setRowSpan(hb, span);
-                GridPane.setColumnIndex(hb, colId);
-                GridPane.setRowIndex(hb, rowId);
+                GridPane.setColumnIndex(hb, colId+1);
+                GridPane.setRowIndex(hb, rowId+1);
 
                 hb.setFirstRow(rowId);
                 hb.setLastRow(rowId + span - 1);

@@ -56,7 +56,7 @@ public class controller_monthview extends Controller{
 	private final List<TimeSlot> timeSlots = new ArrayList<>();
 	@FXML
 	public void ChangeView(ActionEvent e) throws IOException {
-		doChangeview(e, "design.fxml");
+		doChangeview(e, "/design.fxml");
 	}
 
 	@FXML

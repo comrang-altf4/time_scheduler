@@ -3,15 +3,21 @@ package controller;
 import backend.Event;
 import backend.Sess1on;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class customButton extends Button {
     public Event event;
+    customButton()
+    {
+        super();
+    }
     customButton(Event e)
     {
         super();
@@ -21,13 +27,15 @@ public class customButton extends Button {
     }
     public void setColor()
     {
-        this.setStyle(event.priorityColor[event.getPriority()-1]);
+        this.setStyle(event.priorityColor[event.getPriority()]);
     }
-    public void eventClicked() throws IOException {
+    public void addEvent() throws IOException {
         showPopUp();
-//        refreshEvent();
-//        updateButtonContent();
-        System.out.println("bbbbbbbb");
+    }
+    public void editEvent() throws IOException {
+        showPopUp();
+        refreshEvent();
+        updateButtonContent();
     }
 
     private void updateButtonContent() {
@@ -43,6 +51,7 @@ public class customButton extends Button {
         Stage stage=new Stage();
         stage.setScene(new Scene(root));
         stage.showAndWait();
+
     }
 
 }

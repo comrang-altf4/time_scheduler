@@ -10,10 +10,6 @@ public class customLocalDateTime {
     {
         localDateTime=l;
     }
-    public String getname()
-    {
-        return localDateTime.format(timeFormatter);
-    }
     @Override
     public String toString()
     {

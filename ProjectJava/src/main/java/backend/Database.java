@@ -73,34 +73,34 @@ public class Database {
         return result.isBeforeFirst();
     }
 
-    public static void addEvent(Event event) throws SQLException, ClassNotFoundException {
-        connectDB();
-        Calendar calendar = event.getDate();
-        if(event.getID()<1e6) {
-            statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
-                    calendar.get(Calendar.DAY_OF_MONTH) + ", EMONTH = " + calendar.get(Calendar.MONTH) + ", EYEAR = " + calendar.get(Calendar.YEAR) + ", EHOUR = " + calendar.get(Calendar.HOUR) + ", EMINUTE = " +
-                    calendar.get(Calendar.MINUTE) + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + ";");
-        }
-        else
-            statement.execute("INSERT INTO APPOINTMENTS(EUSERNAME, ENAME, ELOCATION, EDURATION, EDAY, EMONTH, EYEAR, EHOUR, EMINUTE, EPRIORITY)\n" + "VALUES('" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
-                    event.getDuration() + ", " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(Calendar.MONTH) + ", " + calendar.get(Calendar.YEAR) + ", " + calendar.get(Calendar.HOUR) + ", " + calendar.get(Calendar.MINUTE) + ", " +
-                    event.getPriority() + ");");
-    }
-
-    public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
-        connectDB();
-        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EUSERNAME = '" + Main.getSession().getUsername() + "';");
-        List<Event> events = new ArrayList<Event>();
-        while (result.next()) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.DAY_OF_MONTH, result.getInt(6));
-            calendar.set(Calendar.MONTH, result.getInt(7));
-            calendar.set(Calendar.YEAR, result.getInt(8));
-            calendar.set(Calendar.HOUR, result.getInt(9));
-            calendar.set(Calendar.MINUTE, result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), calendar, result.getInt(11));
-            events.add(event);
-        }
-        return events;
-    }
+//    public static void addEvent(Event event) throws SQLException, ClassNotFoundException {
+//        connectDB();
+//        Calendar calendar = event.getDate();
+//        if(event.getID()<1e6) {
+//            statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
+//                    calendar.get(Calendar.DAY_OF_MONTH) + ", EMONTH = " + calendar.get(Calendar.MONTH) + ", EYEAR = " + calendar.get(Calendar.YEAR) + ", EHOUR = " + calendar.get(Calendar.HOUR) + ", EMINUTE = " +
+//                    calendar.get(Calendar.MINUTE) + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + ";");
+//        }
+//        else
+//            statement.execute("INSERT INTO APPOINTMENTS(EUSERNAME, ENAME, ELOCATION, EDURATION, EDAY, EMONTH, EYEAR, EHOUR, EMINUTE, EPRIORITY)\n" + "VALUES('" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
+//                    event.getDuration() + ", " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(Calendar.MONTH) + ", " + calendar.get(Calendar.YEAR) + ", " + calendar.get(Calendar.HOUR) + ", " + calendar.get(Calendar.MINUTE) + ", " +
+//                    event.getPriority() + ");");
+//    }
+//
+//    public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
+//        connectDB();
+//        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EUSERNAME = '" + Main.getSession().getUsername() + "';");
+//        List<Event> events = new ArrayList<Event>();
+//        while (result.next()) {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(Calendar.DAY_OF_MONTH, result.getInt(6));
+//            calendar.set(Calendar.MONTH, result.getInt(7));
+//            calendar.set(Calendar.YEAR, result.getInt(8));
+//            calendar.set(Calendar.HOUR, result.getInt(9));
+//            calendar.set(Calendar.MINUTE, result.getInt(10));
+//            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), calendar, result.getInt(11));
+//            events.add(event);
+//        }
+//        return events;
+//    }
 }
