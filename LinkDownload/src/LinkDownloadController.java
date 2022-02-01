@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
+import wagu.Block;
+import wagu.Board;
+import wagu.Table;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -116,7 +118,31 @@ public class LinkDownloadController implements Initializable {
         if (labItem == "Save as Text"){
             file_name += "Schedule.txt";
             FileWriter document = new FileWriter(file_name);
-            document.write(tLink.getText());
+            Board board = new Board(600);
+            Block bigblock = new Block(board, 216, 1, "Time Table");
+            board.setInitialBlock(bigblock.setDataAlign(Block.DATA_CENTER));
+            Block block2 = new Block(board, 30, 1, "Monday");
+            bigblock.setBelowBlock(block2.setDataAlign(Block.DATA_CENTER));
+            Block block3 = new Block(board, 30, 1, "Tuesday");
+            block2.setRightBlock(block3.setDataAlign(Block.DATA_CENTER));
+            Block block4 = new Block(board, 30, 1, "Wednesday");
+            block3.setRightBlock(block4.setDataAlign(Block.DATA_CENTER));
+            Block block5 = new Block(board, 30, 1, "Thursday");
+            block4.setRightBlock(block5.setDataAlign(Block.DATA_CENTER));
+            Block block6 = new Block(board, 30, 1, "Friday");
+            block5.setRightBlock(block6.setDataAlign(Block.DATA_CENTER));
+            Block block7 = new Block(board, 30, 1, "Saturday");
+            block6.setRightBlock(block7.setDataAlign(Block.DATA_CENTER));
+            Block block8 = new Block(board, 30, 1, "Sunday");
+            block7.setRightBlock(block8.setDataAlign(Block.DATA_CENTER));
+            makeCell(board, block2, 7);
+            makeCell(board, block3, 7);
+            makeCell(board, block4, 7);
+            makeCell(board, block5, 7);
+            makeCell(board, block6, 7);
+            makeCell(board, block7, 7);
+            makeCell(board, block8, 7);
+            document.write(board.invalidate().getPreview());
             document.close();
             System.out.println("Downloaded as Text!");
         }
@@ -135,5 +161,13 @@ public class LinkDownloadController implements Initializable {
         //add the call to the table
         table.addCell(cell);
    }
-    
+   public static void makeCell(Board board, Block block, int numCell)
+    {
+        Block tmp = block;
+        for (int i = 0; i < numCell; i++){
+            Block bl = new Block(board, 30, 3, "");
+            tmp.setBelowBlock(bl.setDataAlign(Block.DATA_CENTER));
+            tmp = bl;
+        }
+    }
 }

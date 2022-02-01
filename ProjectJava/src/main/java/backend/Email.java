@@ -43,4 +43,11 @@ public class Email {
         Transport.send(message);
         return verification;
     }
+
+    public static void sendReminder(String receiver, Event event, int time) throws MessagingException {
+        Message message = sendEmail(receiver);
+        message.setSubject("Event reminder!!!");
+        message.setText(event.getName() + " at " + event.getLocation() + " is happening in " + time + " minutes!!!");
+        Transport.send(message);
+    }
 }
