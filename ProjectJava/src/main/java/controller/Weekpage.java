@@ -86,7 +86,7 @@ public class Weekpage extends VBox {
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e-> {
             try {
-                new controller_monthview().ChangeView(e);
+                new ControllerMonth().ChangeView(e);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -215,12 +215,12 @@ public class Weekpage extends VBox {
     }
 
     public void addEventToGrid(Event event) {
-        LocalDate temp=event.date.toLocalDate();
+        LocalDate temp=event.getDate().toLocalDate();
         if ((temp.isAfter(startOfWeek)|| temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek)||temp.isEqual(endOfWeek))) {
             int colId, rowId, span;
-            colId = event.date.getDayOfWeek().getValue()-1;
-            rowId = event.date.getHour();
-            rowId += rowId * 4 + event.date.getMinute() / 15;
+            colId = event.getDate().getDayOfWeek().getValue()-1;
+            rowId = event.getDate().getHour();
+            rowId += rowId * 4 + event.getDate().getMinute() / 15;
             span = event.getDuration() / 15 + 1;
             customButton btn = new customButton(event);
             btn.setMaxWidth(Double.MAX_VALUE);

@@ -53,14 +53,14 @@ public class Controller {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
         scene = new Scene(root);
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
-            if (paneOn == 1)
-                paneOn = 2;
-            else if (paneOn == 2) {
-                paneOn = 0;
-                ControllerMonth.popup2.hide();
-            }
-        });
+//        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
+//            if (paneOn == 1)
+//                paneOn = 2;
+//            else if (paneOn == 2) {
+//                paneOn = 0;
+//                ControllerMonth.popup2.hide();
+//            }
+//        });
 
         stage.setScene(scene);
         stage.show();
