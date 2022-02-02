@@ -172,4 +172,10 @@ public class Database {
         }
         return 0;
     }
+
+    // Working
+    public static void setNotifyTime(int id, String email, int time) throws SQLException, ClassNotFoundException {
+        connectDB();
+        statement.execute("UPDATE PARTICIPANTS\n" + "SET PTIME = " + time + "\nWHERE PID = " + id + " AND PEMAIL = '" + email + "';");
+    }
 }
