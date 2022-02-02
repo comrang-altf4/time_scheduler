@@ -4,8 +4,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import project.Main;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Database {
@@ -91,15 +91,15 @@ public class Database {
     // Working
     public static void addEvent(Event event, int time) throws SQLException, ClassNotFoundException {
         connectDB();
-        Calendar calendar = event.getDate();
+        LocalDateTime date = event.getDate();
         if(event.getID()<1e6&&checkHost(event.getID(), Main.getSession().getUsername())) {
             statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
-                    calendar.get(Calendar.DAY_OF_MONTH) + ", EMONTH = " + calendar.get(Calendar.MONTH) + ", EYEAR = " + calendar.get(Calendar.YEAR) + ", EHOUR = " + calendar.get(Calendar.HOUR_OF_DAY) + ", EMINUTE = " +
-                    calendar.get(Calendar.MINUTE) + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + ";");
+                    date.getDayOfMonth() + ", EMONTH = " + date.getMonthValue() + ", EYEAR = " + date.getYear() + ", EHOUR = " + date.getHour() + ", EMINUTE = " +
+                    date.getMinute() + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + ";");
         }
         else {
             statement.execute("INSERT INTO APPOINTMENTS(EUSERNAME, ENAME, ELOCATION, EDURATION, EDAY, EMONTH, EYEAR, EHOUR, EMINUTE, EPRIORITY)\n" + "VALUES('" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
-                    event.getDuration() + ", " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(Calendar.MONTH) + ", " + calendar.get(Calendar.YEAR) + ", " + calendar.get(Calendar.HOUR_OF_DAY) + ", " + calendar.get(Calendar.MINUTE) + ", " +
+                    event.getDuration() + ", " + date.getDayOfMonth() + ", " + date.getMonthValue() + ", " + date.getYear() + ", " + date.getHour() + ", " + date.getMinute() + ", " +
                     event.getPriority() + ");");
             statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(LAST_INSERT_ID(), '" + Main.getSession().getEmail() + "', " + time + ");");
         }
@@ -110,14 +110,10 @@ public class Database {
         connectDB();
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EUSERNAME = '" + Main.getSession().getUsername() + "';");
         List<Event> eventList = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
+        LocalDateTime localDateTime = LocalDateTime.now();
         while (result.next()) {
-            calendar.set(Calendar.DAY_OF_MONTH, result.getInt(6));
-            calendar.set(Calendar.MONTH, result.getInt(7));
-            calendar.set(Calendar.YEAR, result.getInt(8));
-            calendar.set(Calendar.HOUR_OF_DAY, result.getInt(9));
-            calendar.set(Calendar.MINUTE, result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), calendar, result.getInt(11));
+            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
+            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11));
             eventList.add(event);
         }
         return eventList;
@@ -126,18 +122,14 @@ public class Database {
     // Working
     public static List<Event> getDayEvents() throws SQLException, ClassNotFoundException {
         connectDB();
-        Calendar calendar = Calendar.getInstance();
+        LocalDateTime localDateTime = LocalDateTime.now();
         List<Event> eventList = new ArrayList<>();
-        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EDAY = " + calendar.get(Calendar.DAY_OF_MONTH)  + " AND EMONTH = " + (calendar.get(Calendar.MONTH) + 1) +
-                " AND EYEAR = " + calendar.get(Calendar.YEAR) + ";");
+        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EDAY = " + localDateTime.getDayOfMonth() + " AND EMONTH = " + localDateTime.getMonthValue() +
+                " AND EYEAR = " + localDateTime.getYear() + ";");
 
         while (result.next()) {
-            calendar.set(Calendar.DAY_OF_MONTH, result.getInt(6));
-            calendar.set(Calendar.MONTH, result.getInt(7));
-            calendar.set(Calendar.YEAR, result.getInt(8));
-            calendar.set(Calendar.HOUR_OF_DAY, result.getInt(9));
-            calendar.set(Calendar.MINUTE, result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), calendar, result.getInt(11));
+            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
+            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11));
             eventList.add(event);
         }
         return eventList;

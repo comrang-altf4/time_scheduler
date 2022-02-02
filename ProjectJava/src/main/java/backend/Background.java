@@ -2,21 +2,20 @@ package backend;
 
 import javax.mail.MessagingException;
 import java.sql.SQLException;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Background implements Runnable {
     private Thread thread;
-
     public void run() {
         while (true) {
             try {
                 List<Event> eventList = Database.getDayEvents();
                 for (Event event : eventList) {
-                    Calendar calendar = event.getDate();
-                    Calendar current = Calendar.getInstance();
+                    LocalDateTime date = event.getDate();
+                    LocalDateTime current = LocalDateTime.now();
                     List<String> participants = Database.getParticipants(event.getID());
-                    int time = (calendar.get(Calendar.HOUR_OF_DAY) - current.get(Calendar.HOUR_OF_DAY)) * 60 + calendar.get(Calendar.MINUTE) - current.get(Calendar.MINUTE);
+                    int time = (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
                     for (String participant : participants) {
                         int notify = Database.getNotifyTime(event.getID(), participant);
                         if(notify==time)
