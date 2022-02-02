@@ -18,8 +18,10 @@ public class Background implements Runnable {
                     int time = (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
                     for (String participant : participants) {
                         int notify = Database.getNotifyTime(event.getID(), participant);
-                        if(notify==time)
+                        if(notify<=time) {
                             Email.sendReminder(participant, event, notify);
+                            Database.setNotifyTime(event.getID(), participant, 0);
+                        }
                     }
                 }
                 Thread.sleep(1000 * 30);
