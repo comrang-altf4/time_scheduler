@@ -21,46 +21,57 @@ public class AddEventController {
     private final java.time.Duration slotLength = java.time.Duration.ofMinutes(15);
     private final LocalTime lastSlotStart = LocalTime.of(23, 59);
     @FXML
-    TextField eventName=new TextField();
+    TextField eventName = new TextField();
     @FXML
-    ComboBox<customLocalDateTime>cbStart=new ComboBox<customLocalDateTime>();
+    ComboBox<customLocalDateTime> cbStart = new ComboBox<customLocalDateTime>();
     @FXML
-    ComboBox<customLocalDateTime>cbEnd=new ComboBox<customLocalDateTime>();
+    ComboBox<customLocalDateTime> cbEnd = new ComboBox<customLocalDateTime>();
     @FXML
-    ComboBox<customPriority>cbPriority=new ComboBox<customPriority>();
+    ComboBox<customPriority> cbPriority = new ComboBox<customPriority>();
     @FXML
     DatePicker dpDate;
+
     @FXML
-    void initialize()
-    {
+    void initialize() {
         LocalDate today = LocalDate.now();
-        ObservableList<customLocalDateTime> timeslot= FXCollections.observableArrayList();
-        ObservableList<customPriority> priority= FXCollections.observableArrayList();
+        ObservableList<customLocalDateTime> timeslot = FXCollections.observableArrayList();
+        ObservableList<customPriority> priority = FXCollections.observableArrayList();
         for (LocalDateTime startTime = today.atTime(firstSlotStart); !startTime
-                .isAfter(today.atTime(lastSlotStart)); startTime = startTime.plus(slotLength))
-        {
+                .isAfter(today.atTime(lastSlotStart)); startTime = startTime.plus(slotLength)) {
             timeslot.add(new customLocalDateTime(startTime));
         }
-        for (int i=0;i<3;i++)priority.add(new customPriority(i));
         cbStart.setItems(timeslot);
         cbEnd.setItems(timeslot);
         cbPriority.setItems(priority);
-        cbPriority.setValue(priority.get(0));
-        cbStart.setValue(timeslot.get(0));
-        cbEnd.setValue(timeslot.get(1));
-        dpDate.setValue(today);
-        eventName.setText("Untitled");
+        for (int i = 0; i < 3; i++) priority.add(new customPriority(i));
+        if (Sess1on.tempEvent.getName().equals("thisisdummyEvent")) {
+            cbPriority.setValue(priority.get(0));
+            cbStart.setValue(timeslot.get(0));
+            cbEnd.setValue(timeslot.get(1));
+            dpDate.setValue(today);
+            eventName.setText("Untitled");
+        }
+        else
+        {
+            eventName.setText(Sess1on.tempEvent.getName());
+            cbPriority.setValue(new customPriority(Sess1on.tempEvent.getPriority()));
+            customLocalDateTime tempCustom=new customLocalDateTime(Sess1on.tempEvent.getDate());
+            cbStart.setValue(tempCustom);
+            System.out.println(Sess1on.tempEvent.getDuration());
+            tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(Sess1on.tempEvent.getDuration()));
+            cbEnd.setValue(tempCustom);
+            dpDate.setValue(Sess1on.tempEvent.getDate().toLocalDate());
+        }
     }
 
     @FXML
-    public void createEvent(ActionEvent e)
-    {
-        String name=eventName.getText();
-        int duration = (int)ChronoUnit.MINUTES.between(cbStart.getValue().localDateTime, cbEnd.getValue().localDateTime);
-        int tp=cbPriority.getValue().priority;
-        String location="";
-        LocalDateTime dateOfEvent=dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
-        Sess1on.tempEvent.updateEvent(name,location,duration,dateOfEvent,tp);
+    public void createEvent(ActionEvent e) {
+        String name = eventName.getText();
+        int duration = (int) ChronoUnit.MINUTES.between(cbStart.getValue().localDateTime, cbEnd.getValue().localDateTime);
+        int tp = cbPriority.getValue().priority;
+        String location = "";
+        LocalDateTime dateOfEvent = dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
+        Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }

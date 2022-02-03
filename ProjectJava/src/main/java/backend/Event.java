@@ -21,7 +21,7 @@ public class Event {
         this.priority = priority;
     }
 
-    public Event() {}
+    public Event() {this.name="thisisdummyEvent";}
 
     public Event(Event event) {
         this.id = event.getID();

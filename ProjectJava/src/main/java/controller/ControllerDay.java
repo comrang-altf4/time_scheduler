@@ -1,9 +1,13 @@
 package controller;
 
+import backend.Event;
+import backend.Sess1on;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,13 +17,15 @@ import java.util.TimeZone;
 
 public class ControllerDay extends Controller {
     static Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    @FXML
+    FlowPane fpTodayEvent;
 
     void display_DayCalendar(int weekday, int day, int month, int year) {
         txtWeekday.setText(dayOfWeek[weekday - 1]);
         txtDay.setText(String.valueOf(day));
         txtMonth.setText(String.valueOf(month));
         txtYear.setText(String.valueOf(year));
-        currentDayMonth.setText(dayOfWeek[weekday-1]);
+        currentDayMonth.setText(dayOfWeek[weekday - 1]);
     }
 
     @FXML
@@ -29,6 +35,16 @@ public class ControllerDay extends Controller {
         int year = calendar.get(Calendar.YEAR);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         display_DayCalendar(dayOfWeek, day, month, year);
+        LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH));
+        for (Event e : Sess1on.eventList) {
+            if (e.getDate().toLocalDate().toString().equals(lDate.toString())) {
+                Label lb = new Label(e.getName());
+                lb.setMaxHeight(Double.MAX_VALUE);
+                lb.setMaxWidth(Double.MAX_VALUE);
+                lb.setStyle(e.priorityColor[e.getPriority()]);
+                fpTodayEvent.getChildren().add(lb);
+            }
+        }
     }
 
     public void ChangeView(ActionEvent e) throws IOException {
@@ -47,14 +63,13 @@ public class ControllerDay extends Controller {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         display_DayCalendar(dayOfWeek, day, month, year);
     }
-    public void switchWeekpage(ActionEvent e)
-    {
+
+    public void switchWeekpage(ActionEvent e) {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        Weekpage wp=new Weekpage(LocalDate.now());
-        scene = new Scene(wp,600,600);
+        Weekpage wp = new Weekpage(LocalDate.now());
+        scene = new Scene(wp, 600, 600);
         scene.getStylesheets().add(getClass().getResource("/calendar-view.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-
     }
 }

@@ -19,10 +19,8 @@ import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Weekpage extends VBox {
@@ -35,7 +33,6 @@ public class Weekpage extends VBox {
     private static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
     private final List<TimeSlot> timeSlots = new ArrayList<>();
     private List<customHbox> hboxes[] = new ArrayList[7];
-    ObjectProperty<TimeSlot> mouseAnchor = new SimpleObjectProperty<>();
 
     LocalDate today = LocalDate.now();
     LocalDate startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1);
@@ -126,13 +123,6 @@ public class Weekpage extends VBox {
             return selected;
         }
 
-        public final boolean isSelected() {
-            return selectedProperty().get();
-        }
-
-        public final void setSelected(boolean selected) {
-            selectedProperty().set(selected);
-        }
 
         public TimeSlot(LocalDateTime start, Duration duration) {
             this.start = start;
@@ -168,31 +158,6 @@ public class Weekpage extends VBox {
         }
     }
 
-    private void registerDragHandlers(TimeSlot timeSlot, ObjectProperty<TimeSlot> mouseAnchor) {
-        timeSlot.getView().setOnDragDetected(event -> {
-            mouseAnchor.set(timeSlot);
-            timeSlot.getView().startFullDrag();
-            timeSlots.forEach(slot -> slot.setSelected(slot == timeSlot));
-        });
-
-        timeSlot.getView().setOnMouseDragEntered(event -> {
-            TimeSlot startSlot = mouseAnchor.get();
-            timeSlots.forEach(slot -> slot.setSelected(isBetween(slot, startSlot, timeSlot)));
-        });
-
-        timeSlot.getView().setOnMouseReleased(event -> mouseAnchor.set(null));
-    }
-
-    private boolean isBetween(TimeSlot testSlot, TimeSlot startSlot, TimeSlot endSlot) {
-
-        boolean daysBetween = testSlot.getDayOfWeek().compareTo(startSlot.getDayOfWeek())
-                * endSlot.getDayOfWeek().compareTo(testSlot.getDayOfWeek()) >= 0;
-
-        boolean timesBetween = testSlot.getTime().compareTo(startSlot.getTime())
-                * endSlot.getTime().compareTo(testSlot.getTime()) >= 0;
-
-        return daysBetween && timesBetween;
-    };
     public void addEvent() {
         Event event = new Event(Sess1on.tempEvent);
         Sess1on.eventList.add(event);
@@ -208,8 +173,6 @@ public class Weekpage extends VBox {
 
                 TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
                 timeSlots.add(timeSlot);
-
-                registerDragHandlers(timeSlot, mouseAnchor);
 
                 calendarView.add(timeSlot.getView(), timeSlot.getDayOfWeek().getValue(), slotIndex);
                 slotIndex++;

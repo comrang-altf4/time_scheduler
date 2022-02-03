@@ -42,34 +42,15 @@ public class Controller {
     protected static final String[] dayOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
             "Saturday" };
 
-    @FXML
-
-    public void handleCloseButtonAction(ActionEvent event) {
-        Stage stage = (Stage) btnClose.getScene().getWindow();
-        stage.close();
-    }
 
     public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
         scene = new Scene(root);
-//        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
-//            if (paneOn == 1)
-//                paneOn = 2;
-//            else if (paneOn == 2) {
-//                paneOn = 0;
-//                ControllerMonth.popup2.hide();
-//            }
-//        });
+
 
         stage.setScene(scene);
         stage.show();
-        System.out.println("c");
-//		AnimationFX.transition(fxmlfile,(Node)e.getSource(),mainPane);
-    }
-
-    public void addEvent(ActionEvent e) {
-
-    }
+       }
 
 }

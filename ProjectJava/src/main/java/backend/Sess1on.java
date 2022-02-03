@@ -10,7 +10,6 @@ public class Sess1on {
     private String code = "";
     public static Event tempEvent=new Event();
     public static List<Event> eventList=new ArrayList<>();
-
     public void setUsername(String username) {
         // Set username
         this.username = username;
@@ -46,10 +45,14 @@ public class Sess1on {
         return this.code;
     }
 
-    public static Event findEvent(int id)
+    public static int findEvent(int id)
     {
-        for (Event e: eventList)if (e.getID()==id)return e;
-        return new Event();
+        int i=0;
+        for (Event e: eventList){
+            if (e.getID()==id)return i;
+            i++;
+        }
+        return -1;
     }
 
     public static List<Event> getEventList() {

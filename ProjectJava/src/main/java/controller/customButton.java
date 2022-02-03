@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class customButton extends Button {
     public Event event;
+    private double cellheight = 67.2 / 3;
     customButton()
     {
         super();
@@ -33,17 +34,22 @@ public class customButton extends Button {
         showPopUp();
     }
     public void editEvent() throws IOException {
+        Sess1on.tempEvent=new Event(event);
         showPopUp();
-        refreshEvent();
+        event=new Event(Sess1on.tempEvent);
+        updateEventlist();
         updateButtonContent();
     }
 
     private void updateButtonContent() {
+        int span = event.getDuration() / 15 + 1;
         this.setText(event.getName());
+        this.setMaxHeight(cellheight * span);
+        setColor();
     }
 
-    private void refreshEvent() {
-        event= Sess1on.findEvent(event.getID());
+    private void updateEventlist() {
+        Sess1on.eventList.set(Sess1on.findEvent(event.getID()),event);
     }
 
     private void showPopUp() throws IOException {
