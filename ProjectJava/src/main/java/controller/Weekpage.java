@@ -84,12 +84,18 @@ public class Weekpage extends VBox {
         customButton addEventBtn = new customButton();
         addEventBtn.setText("New Event");
         Button backBtn = new Button("Back");
+        Button pdfBtn = new Button("PDF");
         backBtn.setOnAction(e-> {
             try {
                 new ControllerMonth().ChangeView(e);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        });
+        pdfBtn.setOnAction(e->{
+            List<Event> listWeekEvent=new Sess1on().gettEventInWeek(today);
+            for (Event ev:listWeekEvent)
+                System.out.println(ev.getDate());
         });
         addEventBtn.setOnAction(e -> {
             try {
@@ -103,7 +109,7 @@ public class Weekpage extends VBox {
         fp.getChildren().add(group);
         scrollPane.setContent(fp);
         HBox hb=new HBox();
-        hb.getChildren().addAll(backBtn,addEventBtn);
+        hb.getChildren().addAll(backBtn,addEventBtn,pdfBtn);
         this.getChildren().addAll(hb, scrollPane);
         for (Event event:Sess1on.eventList)
         {
