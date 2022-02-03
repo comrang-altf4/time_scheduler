@@ -13,7 +13,7 @@
         <Button id="btn1" fx:id="btnPrevDay" layoutX="301.0" layoutY="46.0" mnemonicParsing="false" onAction="#changeviewmonth" prefHeight="26.0" prefWidth="36.0" text="&lt;" />
         <Button id="btn2" fx:id="btnChangeview" layoutX="645.0" layoutY="47.0" mnemonicParsing="false" onAction="#ChangeView" text="Change View" />
         <Button id="btn3" fx:id="btnNextDay" layoutX="517.0" layoutY="46.0" mnemonicParsing="false" onAction="#changeviewmonth" text="&gt;" />
-        <GridPane fx:id="gridpane_monthview" focusTraversable="true" gridLinesVisible="true" layoutX="105.0" layoutY="154.0" prefHeight="259.0" prefWidth="626.0">
+        <GridPane fx:id="gridpane_monthview" focusTraversable="true" gridLinesVisible="true" layoutX="54.0" layoutY="108.0" prefHeight="350.0" prefWidth="702.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />

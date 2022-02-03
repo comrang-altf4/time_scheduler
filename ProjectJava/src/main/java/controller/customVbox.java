@@ -14,4 +14,8 @@ public class customVbox extends VBox {
     {
         curDate=LocalDate.of(year,month,day);
     }
+    public LocalDate getCurDate()
+    {
+        return  curDate;
+    }
 }

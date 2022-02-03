@@ -63,7 +63,8 @@ public class ControllerMonth extends Controller {
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numColumns; j++) {
                 vBoxes[i * numColumns + j] = new customVbox();
-
+                vBoxes[i * numColumns + j].maxHeight(Double.MAX_VALUE);
+                vBoxes[i * numColumns + j].maxWidth(Double.MAX_VALUE);
                 gridpane_monthview.add(vBoxes[i * numColumns + j], j, i);
             }
         displayMonthCalendar();
@@ -109,16 +110,28 @@ public class ControllerMonth extends Controller {
         cal.add(Calendar.MONTH, 1);
         for (int i = 0; i < 42; i++) {
             vBoxes[i].getChildren().add(new Label(String.valueOf(dayOrder[i])));
+            vBoxes[i].setOnMouseClicked(e->{switchWeekpage(e,((customVbox)e.getSource()).curDate);});
             if (dayOrder[i] == 1) curMonth = (curMonth + 1) % 12;
             vBoxes[i].setCurDate(cal.get(Calendar.YEAR), curMonth + 1, dayOrder[i]);
             for (Event e : Sess1on.eventList) {
                 if (e.getDate().toLocalDate().toString().equals(vBoxes[i].curDate.toString())) {
                     Label lb = new Label(e.getName());
+                    lb.setMaxHeight(Double.MAX_VALUE);
+                    lb.setMaxWidth(Double.MAX_VALUE);
                     lb.setStyle(e.priorityColor[e.getPriority()]);
                     vBoxes[i].getChildren().add(lb);
                 }
             }
         }
         currentDayMonth.setText(String.valueOf(cal.get(Calendar.MONTH) + 1));
+    }
+    public void switchWeekpage(javafx.event.Event e, LocalDate lDate)
+    {
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        Weekpage wp=new Weekpage(lDate);
+        scene = new Scene(wp,600,600);
+        scene.getStylesheets().add(getClass().getResource("/calendar-view.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
     }
 }

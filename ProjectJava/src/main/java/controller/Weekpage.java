@@ -43,10 +43,13 @@ public class Weekpage extends VBox {
     GridPane calendarView = new GridPane();
     ScrollPane scrollPane = new ScrollPane();
 
-    public Weekpage() {
+    public Weekpage(LocalDate selectedDay) {
         super();
         for (int i = 0; i < 7; i++)
             hboxes[i] = new ArrayList<customHbox>();
+        today=selectedDay;
+        startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1);
+        endOfWeek = startOfWeek.plusDays(6);
         setScene();
     }
 
