@@ -15,12 +15,12 @@ public class Background implements Runnable {
                     LocalDateTime date = event.getDate();
                     LocalDateTime current = LocalDateTime.now();
                     List<String> participants = Database.getParticipants(event.getID());
-                    int time = (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
+                    int time = (date.getDayOfMonth() - current.getDayOfMonth()) * 24 * 60 + (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
                     for (String participant : participants) {
                         int notify = Database.getNotifyTime(event.getID(), participant);
-                        if(notify<=time) {
+                        if(notify<=time&&notify>=0) {
                             Email.sendReminder(participant, event, notify);
-                            Database.setNotifyTime(event.getID(), participant, 0);
+                            Database.setNotifyTime(event.getID(), participant, -1);
                         }
                     }
                 }
