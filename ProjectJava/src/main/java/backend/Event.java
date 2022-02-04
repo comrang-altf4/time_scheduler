@@ -1,4 +1,13 @@
-package backend;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+
+/**
+ *
+ * @author minhn
+ */
 
 import java.time.LocalDateTime;
 
@@ -20,8 +29,18 @@ public class Event {
         this.date = date;
         this.priority = priority;
     }
-
-    public Event() {this.name="thisisdummyEvent";}
+    public LocalDateTime getEndTime()
+    {
+        return date.plusMinutes(duration);
+    }
+    public Event() {
+        this.name="thisisdummyEvent";
+        this.id = 1;
+        this.location = "";
+        this.duration =10 ;
+        this.date = LocalDateTime.now();
+        this.priority = 1;
+    }
 
     public Event(Event event) {
         this.id = event.getID();
