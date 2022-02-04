@@ -5,6 +5,7 @@
 import wagu.Block;
 import wagu.Board;
 import wagu.Table;
+import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +53,7 @@ public class LinkDownloadController implements Initializable {
     @FXML
     private ComboBox<String> comBox;
     private String labItem;
+    
     /**
      * Initializes the controller class.
      */
@@ -57,8 +61,19 @@ public class LinkDownloadController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         comBox.setItems(FXCollections.observableArrayList("Save as PDF", "Save as Text"));
+        test();
     }    
-
+    void test()
+    {
+        Sess1on s=new Sess1on();
+        Sess1on.eventList.add(new Event());
+        System.out.print(LocalDate.now());
+        Sess1on.eventList.add(new Event());
+        Sess1on.eventList.add(new Event());
+        List<Event> temp=new Sess1on().gettEventInWeek(LocalDate.now());
+        for (Event e:temp)System.out.println(e.getDate());
+       
+    }
     @FXML
     private void openLink(ActionEvent event) throws URISyntaxException, IOException {
         System.out.println("Link clicked!");
@@ -69,6 +84,12 @@ public class LinkDownloadController implements Initializable {
     private void btnSaveClicked(ActionEvent event) {
         String link = tLink.getText();
         hpLink.setText(link);
+    }
+    
+    @FXML
+    void btnEditClicked(ActionEvent event) {
+        hpLink.setVisible(false);
+        tLink.setVisible(true);
     }
 
     @FXML
@@ -82,16 +103,15 @@ public class LinkDownloadController implements Initializable {
         System.out.println(labItem);
         if (labItem == "Save as PDF"){
             try {
-                Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0)); 
-                Font bf12 = new Font(FontFamily.TIMES_ROMAN, 12);
+                Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
+                Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
                 file_name += "Schedule.pdf";
                 Document document = new Document(PageSize.A4);
                 PdfWriter.getInstance(document, new FileOutputStream(file_name));
                 document.open();
-                float[] col = {1.25f, 1.75f, 1.75f, 2f, 1.75f, 1.75f, 1.75f, 1.75f};
+                float[] col = {1.75f, 1.75f, 2f, 1.75f, 1.75f, 1.75f, 1.75f};
                 PdfPTable table = new PdfPTable(col);
                 table.setWidthPercentage(90f);
-                insertCell(table, "Time", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Monday", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Tuesday", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Wednesday", Element.ALIGN_CENTER, 1, bfBold12);
@@ -100,10 +120,8 @@ public class LinkDownloadController implements Initializable {
                 insertCell(table, "Saturday", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Sunday", Element.ALIGN_CENTER, 1, bfBold12);
                 for (int i = 0; i < 24; i++){
-                    String time = String.valueOf(i) + ":00";
-                    insertCell(table, time, Element.ALIGN_CENTER, 1, bfBold12);
                     for (int j = 0; j < 7; j++){
-                        insertCell(table, "", Element.ALIGN_CENTER, 1, bfBold12);
+                        insertCellEvent(table, Sess1on.eventList.get(0), Element.ALIGN_CENTER, 1, bfBold12);
                     }
                 }
                 Paragraph para = new Paragraph();
@@ -135,13 +153,13 @@ public class LinkDownloadController implements Initializable {
             block6.setRightBlock(block7.setDataAlign(Block.DATA_CENTER));
             Block block8 = new Block(board, 30, 1, "Sunday");
             block7.setRightBlock(block8.setDataAlign(Block.DATA_CENTER));
-            makeCell(board, block2, 7);
-            makeCell(board, block3, 7);
-            makeCell(board, block4, 7);
-            makeCell(board, block5, 7);
-            makeCell(board, block6, 7);
-            makeCell(board, block7, 7);
-            makeCell(board, block8, 7);
+            makeCell(board, block2, Sess1on.eventList.get(0),7);
+            makeCell(board, block3, Sess1on.eventList.get(0),7);
+            makeCell(board, block4, Sess1on.eventList.get(0),7);
+            makeCell(board, block5, Sess1on.eventList.get(0),7);
+            makeCell(board, block6, Sess1on.eventList.get(0),7);
+            makeCell(board, block7, Sess1on.eventList.get(0),7);
+            makeCell(board, block8, Sess1on.eventList.get(0),7);
             document.write(board.invalidate().getPreview());
             document.close();
             System.out.println("Downloaded as Text!");
@@ -161,11 +179,36 @@ public class LinkDownloadController implements Initializable {
         //add the call to the table
         table.addCell(cell);
    }
-   public static void makeCell(Board board, Block block, int numCell)
+    public static String getText(Event event)
+    {
+        String text = event.getName();
+        LocalDateTime ee = event.getEndTime();
+        String hour = String.valueOf(event.getDate().getHour());
+        String minute = String.valueOf(event.getDate().getMinute());
+        String hee = String.valueOf(ee.getHour());
+        String mee = String.valueOf(ee.getMinute());
+        text = text + "\n" + hour + ":" + minute + " - " + hee + ":" + mee;
+        return text;
+    }
+     private void insertCellEvent(PdfPTable table, Event event, int align, int colspan, Font font){
+        //create a new cell with the specified Text and Font
+        PdfPCell cell = new PdfPCell(new Phrase(getText(event).trim(), font));
+        //set the cell alignment
+        cell.setHorizontalAlignment(align);
+        //set the cell column span in case you want to merge two or more cells
+        cell.setColspan(colspan);
+        //in case there is no text and you wan to create an empty row
+        if(getText(event).trim().equalsIgnoreCase("")){
+            cell.setMinimumHeight(10f);
+        }
+        //add the call to the table
+        table.addCell(cell);
+   }
+   public static void makeCell(Board board, Block block, Event event, int numCell)
     {
         Block tmp = block;
         for (int i = 0; i < numCell; i++){
-            Block bl = new Block(board, 30, 3, "");
+            Block bl = new Block(board, 30, 3, getText(event));
             tmp.setBelowBlock(bl.setDataAlign(Block.DATA_CENTER));
             tmp = bl;
         }
