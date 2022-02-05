@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +54,7 @@ public class LinkDownloadController implements Initializable {
     @FXML
     private ComboBox<String> comBox;
     private String labItem;
-    
+    private ArrayList<ArrayList<String> > listEventDay = new ArrayList<ArrayList<String> > (1000);
     /**
      * Initializes the controller class.
      */
@@ -65,9 +66,9 @@ public class LinkDownloadController implements Initializable {
     }    
     void test()
     {
-        Sess1on s=new Sess1on();
+        //Sess1on s=new Sess1on();
         Sess1on.eventList.add(new Event());
-        System.out.print(LocalDate.now());
+        //System.out.print(LocalDate.now());
         Sess1on.eventList.add(new Event());
         Sess1on.eventList.add(new Event());
         List<Event> temp=new Sess1on().gettEventInWeek(LocalDate.now());
@@ -100,7 +101,8 @@ public class LinkDownloadController implements Initializable {
     @FXML
     private void btnDownloadClicked(ActionEvent event) throws DocumentException, IOException {
         String file_name = System.getProperty("user.home") + "/Downloads/";
-        System.out.println(labItem);
+        //System.out.println(labItem);
+        getEventDay();
         if (labItem == "Save as PDF"){
             try {
                 Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
@@ -119,9 +121,9 @@ public class LinkDownloadController implements Initializable {
                 insertCell(table, "Friday", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Saturday", Element.ALIGN_CENTER, 1, bfBold12);
                 insertCell(table, "Sunday", Element.ALIGN_CENTER, 1, bfBold12);
-                for (int i = 0; i < 24; i++){
+                for (int i = 0; i < listEventDay.get(0).size(); i++){
                     for (int j = 0; j < 7; j++){
-                        insertCellEvent(table, Sess1on.eventList.get(0), Element.ALIGN_CENTER, 1, bfBold12);
+                        insertCell(table, listEventDay.get(j).get(i), Element.ALIGN_CENTER, 1, bfBold12);
                     }
                 }
                 Paragraph para = new Paragraph();
@@ -153,13 +155,13 @@ public class LinkDownloadController implements Initializable {
             block6.setRightBlock(block7.setDataAlign(Block.DATA_CENTER));
             Block block8 = new Block(board, 30, 1, "Sunday");
             block7.setRightBlock(block8.setDataAlign(Block.DATA_CENTER));
-            makeCell(board, block2, Sess1on.eventList.get(0),7);
-            makeCell(board, block3, Sess1on.eventList.get(0),7);
-            makeCell(board, block4, Sess1on.eventList.get(0),7);
-            makeCell(board, block5, Sess1on.eventList.get(0),7);
-            makeCell(board, block6, Sess1on.eventList.get(0),7);
-            makeCell(board, block7, Sess1on.eventList.get(0),7);
-            makeCell(board, block8, Sess1on.eventList.get(0),7);
+            makeCell(board, block2, listEventDay.get(0),listEventDay.get(0).size());
+            makeCell(board, block3, listEventDay.get(1),listEventDay.get(1).size());
+            makeCell(board, block4, listEventDay.get(2),listEventDay.get(2).size());
+            makeCell(board, block5, listEventDay.get(3),listEventDay.get(3).size());
+            makeCell(board, block6, listEventDay.get(4),listEventDay.get(4).size());
+            makeCell(board, block7, listEventDay.get(5),listEventDay.get(5).size());
+            makeCell(board, block8, listEventDay.get(6),listEventDay.get(6).size());
             document.write(board.invalidate().getPreview());
             document.close();
             System.out.println("Downloaded as Text!");
@@ -190,25 +192,33 @@ public class LinkDownloadController implements Initializable {
         text = text + "\n" + hour + ":" + minute + " - " + hee + ":" + mee;
         return text;
     }
-     private void insertCellEvent(PdfPTable table, Event event, int align, int colspan, Font font){
-        //create a new cell with the specified Text and Font
-        PdfPCell cell = new PdfPCell(new Phrase(getText(event).trim(), font));
-        //set the cell alignment
-        cell.setHorizontalAlignment(align);
-        //set the cell column span in case you want to merge two or more cells
-        cell.setColspan(colspan);
-        //in case there is no text and you wan to create an empty row
-        if(getText(event).trim().equalsIgnoreCase("")){
-            cell.setMinimumHeight(10f);
+    public void getEventDay()
+    {
+        List<Event> temp=new Sess1on().gettEventInWeek(LocalDate.now());
+        for (int i = 0; i < 7; i++){
+            listEventDay.add(new ArrayList<String> (1000));
         }
-        //add the call to the table
-        table.addCell(cell);
-   }
-   public static void makeCell(Board board, Block block, Event event, int numCell)
+        for (Event e:temp) {
+            listEventDay.get(e.getDate().getDayOfWeek().getValue()-1).add(getText(e));
+        }
+        int maxx = 0;
+        for (int i = 0; i < 7; i++){
+            maxx = Math.max(listEventDay.get(i).size(), maxx);
+        }
+        for (int i = 0; i < 7; i++) {
+            int len = listEventDay.get(i).size(); 
+            if (len < maxx){
+                for (int j = len; j < maxx; j++){               
+                    listEventDay.get(i).add(j, "");
+                }
+            }
+        }
+    }
+    public static void makeCell(Board board, Block block, ArrayList<String> list, int numCell)
     {
         Block tmp = block;
         for (int i = 0; i < numCell; i++){
-            Block bl = new Block(board, 30, 3, getText(event));
+            Block bl = new Block(board, 30, 3, list.get(i));
             tmp.setBelowBlock(bl.setDataAlign(Block.DATA_CENTER));
             tmp = bl;
         }
