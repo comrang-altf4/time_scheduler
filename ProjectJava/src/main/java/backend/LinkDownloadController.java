@@ -56,6 +56,7 @@ public class LinkDownloadController implements Initializable {
     private ComboBox<String> comBox;
     private String labItem;
     private ArrayList<ArrayList<String> > listEventDay = new ArrayList<ArrayList<String> > (1000);
+    private ArrayList<ArrayList<Integer> > listEventDayColor = new ArrayList<ArrayList<Integer> > (1000);
     /**
      * Initializes the controller class.
      */
@@ -101,19 +102,19 @@ public class LinkDownloadController implements Initializable {
                 Document document = new Document(PageSize.A4);
                 PdfWriter.getInstance(document, new FileOutputStream(file_name));
                 document.open();
-                float[] col = {1.75f, 1.75f, 2f, 1.75f, 1.75f, 1.75f, 1.75f};
+                float[] col = {2f, 2f, 2f, 2f, 2f, 2f, 2f};
                 PdfPTable table = new PdfPTable(col);
                 table.setWidthPercentage(90f);
-                insertCell(table, "Monday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Tuesday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Wednesday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Thursday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Friday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Saturday", Element.ALIGN_CENTER, 1, bfBold12);
-                insertCell(table, "Sunday", Element.ALIGN_CENTER, 1, bfBold12);
+                insertCell(table, "Monday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Tuesday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Wednesday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Thursday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Friday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Saturday", Element.ALIGN_CENTER, 3, bfBold12);
+                insertCell(table, "Sunday", Element.ALIGN_CENTER, 3, bfBold12);
                 for (int i = 0; i < listEventDay.get(0).size(); i++){
                     for (int j = 0; j < 7; j++){
-                        insertCell(table, listEventDay.get(j).get(i), Element.ALIGN_CENTER, 1, bfBold12);
+                        insertCell(table, listEventDay.get(j).get(i), Element.ALIGN_CENTER, listEventDayColor.get(j).get(i), bfBold12);
                     }
                 }
                 Paragraph para = new Paragraph();
@@ -157,13 +158,16 @@ public class LinkDownloadController implements Initializable {
             System.out.println("Downloaded as Text!");
         }
     }
-    private void insertCell(PdfPTable table, String text, int align, int colspan, Font font){
+    private void insertCell(PdfPTable table, String text, int align, int color, Font font){
         //create a new cell with the specified Text and Font
         PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
         //set the cell alignment
         cell.setHorizontalAlignment(align);
         //set the cell column span in case you want to merge two or more cells
-        cell.setColspan(colspan);
+        cell.setColspan(1);
+        if (color == 0) cell.setBackgroundColor(BaseColor.RED);
+        if (color == 1) cell.setBackgroundColor(BaseColor.YELLOW);
+        if (color == 2) cell.setBackgroundColor(BaseColor.GREEN);
         //in case there is no text and you wan to create an empty row
         if(text.trim().equalsIgnoreCase("")){
             cell.setMinimumHeight(10f);
@@ -187,9 +191,11 @@ public class LinkDownloadController implements Initializable {
         List<Event> temp=new Sess1on().gettEventInWeek(refDate);
         for (int i = 0; i < 7; i++){
             listEventDay.add(new ArrayList<String> (1000));
+            listEventDayColor.add(new ArrayList<Integer> (1000));
         }
         for (Event e:temp) {
             listEventDay.get(e.getDate().getDayOfWeek().getValue()-1).add(getText(e));
+            listEventDayColor.get(e.getDate().getDayOfWeek().getValue()-1).add(e.getPriority());
         }
         int maxx = 0;
         for (int i = 0; i < 7; i++){
@@ -200,6 +206,7 @@ public class LinkDownloadController implements Initializable {
             if (len < maxx){
                 for (int j = len; j < maxx; j++){               
                     listEventDay.get(i).add(j, "");
+                    listEventDayColor.get(i).add(3);
                 }
             }
         }
