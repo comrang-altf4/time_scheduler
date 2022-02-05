@@ -1,10 +1,11 @@
-/*
+package backend;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-import wagu.Block;
-import wagu.Board;
-import wagu.Table;
+import backend.Event;
+import backend.wagu.Block;
+import backend.wagu.Board;
+import backend.wagu.Table;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -62,18 +63,6 @@ public class LinkDownloadController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         comBox.setItems(FXCollections.observableArrayList("Save as PDF", "Save as Text"));
-        test();
-    }    
-    void test()
-    {
-        //Sess1on s=new Sess1on();
-        Sess1on.eventList.add(new Event());
-        //System.out.print(LocalDate.now());
-        Sess1on.eventList.add(new Event());
-        Sess1on.eventList.add(new Event());
-        List<Event> temp=new Sess1on().gettEventInWeek(LocalDate.now());
-        for (Event e:temp)System.out.println(e.getDate());
-       
     }
     @FXML
     private void openLink(ActionEvent event) throws URISyntaxException, IOException {
@@ -98,12 +87,13 @@ public class LinkDownloadController implements Initializable {
         labItem = comBox.getSelectionModel().getSelectedItem().toString();
     }
     
-    @FXML
-    private void btnDownloadClicked(ActionEvent event) throws DocumentException, IOException {
+//    @FXML
+    public void btnDownloadClicked(LocalDate refDate,String mode) throws DocumentException, IOException {
         String file_name = System.getProperty("user.home") + "/Downloads/";
         //System.out.println(labItem);
-        getEventDay();
-        if (labItem == "Save as PDF"){
+        getEventDay(refDate);
+        labItem=mode;
+        if (labItem == "PDF"){
             try {
                 Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
                 Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
@@ -135,7 +125,7 @@ public class LinkDownloadController implements Initializable {
                 Logger.getLogger(LinkDownloadController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (labItem == "Save as Text"){
+        if (labItem == "Text"){
             file_name += "Schedule.txt";
             FileWriter document = new FileWriter(file_name);
             Board board = new Board(600);
@@ -192,9 +182,9 @@ public class LinkDownloadController implements Initializable {
         text = text + "\n" + hour + ":" + minute + " - " + hee + ":" + mee;
         return text;
     }
-    public void getEventDay()
+    public void getEventDay(LocalDate refDate)
     {
-        List<Event> temp=new Sess1on().gettEventInWeek(LocalDate.now());
+        List<Event> temp=new Sess1on().gettEventInWeek(refDate);
         for (int i = 0; i < 7; i++){
             listEventDay.add(new ArrayList<String> (1000));
         }

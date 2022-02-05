@@ -13,6 +13,8 @@ module project.projectjava {
     requires jBCrypt;
     requires java.mail;
     requires mysql.connector.java;
+    requires itextpdf;
+    requires java.desktop;
 
     opens project to javafx.fxml;
     opens controller to javafx.fxml;

@@ -1,7 +1,9 @@
 package controller;
 
 import backend.Event;
+import backend.LinkDownloadController;
 import backend.Sess1on;
+import com.itextpdf.text.DocumentException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -85,6 +87,7 @@ public class Weekpage extends VBox {
         addEventBtn.setText("New Event");
         Button backBtn = new Button("Back");
         Button pdfBtn = new Button("PDF");
+        Button textBtn = new Button("Text");
         backBtn.setOnAction(e-> {
             try {
                 new ControllerMonth().ChangeView(e);
@@ -94,8 +97,23 @@ public class Weekpage extends VBox {
         });
         pdfBtn.setOnAction(e->{
             List<Event> listWeekEvent=new Sess1on().gettEventInWeek(today);
-            for (Event ev:listWeekEvent)
-                System.out.println(ev.getDate());
+            try {
+                new LinkDownloadController().btnDownloadClicked(today,pdfBtn.getText());
+            } catch (DocumentException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        textBtn.setOnAction(e->{
+            List<Event> listWeekEvent=new Sess1on().gettEventInWeek(today);
+            try {
+                new LinkDownloadController().btnDownloadClicked(today,textBtn.getText());
+            } catch (DocumentException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         addEventBtn.setOnAction(e -> {
             try {
@@ -109,7 +127,7 @@ public class Weekpage extends VBox {
         fp.getChildren().add(group);
         scrollPane.setContent(fp);
         HBox hb=new HBox();
-        hb.getChildren().addAll(backBtn,addEventBtn,pdfBtn);
+        hb.getChildren().addAll(backBtn,addEventBtn,pdfBtn,textBtn);
         this.getChildren().addAll(hb, scrollPane);
         for (Event event:Sess1on.eventList)
         {
