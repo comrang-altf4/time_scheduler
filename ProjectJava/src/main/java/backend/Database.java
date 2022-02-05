@@ -89,7 +89,8 @@ public class Database {
     }
 
     // Working
-    public static void addEvent(Event event, int time) throws SQLException, ClassNotFoundException {
+    // Boolean to check whether the user has the right to update event
+    public static boolean addEvent(Event event, int time) throws SQLException, ClassNotFoundException {
         connectDB();
         LocalDateTime date = event.getDate();
         if(event.getID()<1e6&&checkHost(event.getID(), Main.getSession().getUsername())) {
@@ -98,17 +99,25 @@ public class Database {
                     date.getMinute() + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + ";");
         }
         else {
-            statement.execute("INSERT INTO APPOINTMENTS(EUSERNAME, ENAME, ELOCATION, EDURATION, EDAY, EMONTH, EYEAR, EHOUR, EMINUTE, EPRIORITY)\n" + "VALUES('" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
+            if(checkHost(event.getID(), Main.getSession().getUsername())) {
+
+                statement.execute("INSERT INTO APPOINTMENTS(EUSERNAME, ENAME, ELOCATION, EDURATION, EDAY, EMONTH, EYEAR, EHOUR, EMINUTE, EPRIORITY)\n" + "VALUES('" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
                     event.getDuration() + ", " + date.getDayOfMonth() + ", " + date.getMonthValue() + ", " + date.getYear() + ", " + date.getHour() + ", " + date.getMinute() + ", " +
                     event.getPriority() + ");");
-            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(LAST_INSERT_ID(), '" + Main.getSession().getEmail() + "', " + time + ");");
+
+                statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(LAST_INSERT_ID(), '" + Main.getSession().getEmail() + "', " + time + ");");
+            }
+            else
+                return false;
         }
+        return true;
     }
 
     // Working
+    // Get list events of a user
     public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
         connectDB();
-        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EUSERNAME = '" + Main.getSession().getUsername() + "';");
+        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "';");
         List<Event> eventList = new ArrayList<>();
         LocalDateTime localDateTime = LocalDateTime.now();
         while (result.next()) {
@@ -120,6 +129,7 @@ public class Database {
     }
 
     // Working
+    // Get list of all events in one day for the system
     public static List<Event> getDayEvents() throws SQLException, ClassNotFoundException {
         connectDB();
         LocalDateTime localDateTime = LocalDateTime.now();
