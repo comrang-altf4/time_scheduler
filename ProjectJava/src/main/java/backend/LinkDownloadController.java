@@ -93,6 +93,12 @@ public class LinkDownloadController implements Initializable {
         String file_name = System.getProperty("user.home") + "/Downloads/";
         //System.out.println(labItem);
         getEventDay(refDate);
+        LocalDate startOfWeek = refWeek.minusDays(refWeek.getDayOfWeek().getValue() - 1);
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+        String title = "Time table";
+        String start = String.valueOf(startOfWeek.getDayOfMonth()) + "." + String.valueOf(startOfWeek.getMonthValue()) + "." + String.valueOf(startOfWeek.getYear());
+        String end = String.valueOf(endOfWeek.getDayOfMonth()) + "." + String.valueOf(endOfWeek.getMonthValue() + "." + String.valueOf(endOfWeek.getYear()));
+        title = title + "\n" + start + " - " + end;
         labItem=mode;
         if (labItem == "PDF"){
             try {
@@ -105,6 +111,7 @@ public class LinkDownloadController implements Initializable {
                 float[] col = {2f, 2f, 2f, 2f, 2f, 2f, 2f};
                 PdfPTable table = new PdfPTable(col);
                 table.setWidthPercentage(90f);
+                insertCell(table, title, Element.ALIGN_CENTER, 7, bfBold12);
                 insertCell(table, "Monday", Element.ALIGN_CENTER, 3, bfBold12);
                 insertCell(table, "Tuesday", Element.ALIGN_CENTER, 3, bfBold12);
                 insertCell(table, "Wednesday", Element.ALIGN_CENTER, 3, bfBold12);
@@ -129,8 +136,8 @@ public class LinkDownloadController implements Initializable {
         if (labItem == "Text"){
             file_name += "Schedule.txt";
             FileWriter document = new FileWriter(file_name);
-            Board board = new Board(600);
-            Block bigblock = new Block(board, 216, 1, "Time Table");
+            Board board = new Board(650);
+            Block bigblock = new Block(board, 216, 2, title);
             board.setInitialBlock(bigblock.setDataAlign(Block.DATA_CENTER));
             Block block2 = new Block(board, 30, 1, "Monday");
             bigblock.setBelowBlock(block2.setDataAlign(Block.DATA_CENTER));
@@ -164,7 +171,8 @@ public class LinkDownloadController implements Initializable {
         //set the cell alignment
         cell.setHorizontalAlignment(align);
         //set the cell column span in case you want to merge two or more cells
-        cell.setColspan(1);
+        if (color != 7) cell.setColspan(1);
+        else cell.setColspan(7);
         if (color == 0) cell.setBackgroundColor(BaseColor.RED);
         if (color == 1) cell.setBackgroundColor(BaseColor.YELLOW);
         if (color == 2) cell.setBackgroundColor(BaseColor.GREEN);
@@ -215,7 +223,7 @@ public class LinkDownloadController implements Initializable {
     {
         Block tmp = block;
         for (int i = 0; i < numCell; i++){
-            Block bl = new Block(board, 30, 3, list.get(i));
+            Block bl = new Block(board, 30, 2, list.get(i));
             tmp.setBelowBlock(bl.setDataAlign(Block.DATA_CENTER));
             tmp = bl;
         }
