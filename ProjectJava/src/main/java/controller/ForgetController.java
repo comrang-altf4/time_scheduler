@@ -4,9 +4,10 @@ import backend.Database;
 import backend.Email;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import project.Main;
 import transition.AnimationFX;
 
@@ -18,8 +19,8 @@ import java.util.regex.Pattern;
 
 public class ForgetController {
     @FXML private AnchorPane anchorPane;
-    @FXML private Hyperlink sendCode;
     @FXML private TextField email;
+    @FXML private Label emailMessage;
 
     public static final Pattern validateEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -31,7 +32,8 @@ public class ForgetController {
         Matcher matcher = validateEmail.matcher(email.getText());
         if(!matcher.find()||!Database.checkEmail(email.getText())) {
             // Email is not correct
-            System.out.println("Email is not valid/existed!!!");
+            emailMessage.setText("Your entry was partially incomplete or invalid!");
+            emailMessage.setTextFill(Color.rgb(210, 39, 30));
         }
         else {
             Main.getSession().setEmail(email.getText());
