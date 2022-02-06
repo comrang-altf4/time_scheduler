@@ -1,37 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VerifyEmailController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VerifyEmailController">
     <children>
-        <ImageView fitHeight="262.0" fitWidth="298.0" layoutX="169.0" layoutY="-43.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@Logo.png"/>
-        </ImageView>
-        <Label layoutX="87.0" layoutY="167.0" text="A verification code has been sent to your email!!" textFill="#c1802b">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Label>
-        <TextField fx:id="code" alignment="CENTER" layoutX="202.0" layoutY="219.0" prefHeight="26.0" prefWidth="195.0" promptText="Enter your verification code" />
-        <Button layoutX="274.0" layoutY="258.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="51.0" text="Verify" onAction="#onVerify"/>
-        <Hyperlink layoutX="219.0" layoutY="293.0" text="Resend verification code" onAction="#onResendCode">
-            <font>
-                <Font size="14.0" />
-            </font></Hyperlink>
-        <Hyperlink layoutX="281.0" layoutY="319.0" text="Back" onAction="#onBack">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Hyperlink>
-        <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="42.0" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="home-button" stylesheets="@home-button.css" onAction="#onHomeAction"/>
+      <Pane prefHeight="400.0" prefWidth="250.0" style="-fx-background-color: #313131;">
+         <children>
+            <ImageView fitHeight="160.0" fitWidth="170.0" layoutX="45.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Kalendar.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="250.0" prefHeight="400.0" prefWidth="350.0">
+         <children>
+            <Label layoutX="75.0" layoutY="126.0" prefHeight="40.0" prefWidth="213.0" text="Please enter the verification code we sent to your email address" textAlignment="CENTER" textFill="#313131" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="130.0" layoutY="60.0" text="Sign Up" textFill="#313131">
+               <font>
+                  <Font name="Cambria Bold" size="30.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="code" focusColor="#009fff" layoutX="75.0" layoutY="200.0" prefHeight="25.0" prefWidth="213.0" promptText="Enter your verification code" unFocusColor="#313131" />
+            <JFXButton buttonType="RAISED" layoutX="74.0" layoutY="265.0" onAction="#onVerify" prefHeight="40.0" prefWidth="213.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Verify" textFill="#313131">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </JFXButton>
+              <Hyperlink layoutX="101.0" layoutY="319.0" onAction="#onResendCode" text="Resend verification code" textFill="#313131">
+                  <font>
+                      <Font size="14.0" />
+                  </font>
+            </Hyperlink>
+              <Hyperlink layoutX="160.0" layoutY="345.0" onAction="#onBack" text="Back" textFill="#313131">
+                  <font>
+                      <Font size="14.0" />
+                  </font>
+              </Hyperlink>
+              <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="23.0" layoutY="26.0" maxHeight="45.0" maxWidth="45.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onHomeAction" prefHeight="20.0" prefWidth="20.0" styleClass="home-button" stylesheets="@home-button.css" />
+            <Label fx:id="verifyMessage" layoutX="74.0" layoutY="227.0" prefHeight="17.0" prefWidth="213.0" textFill="RED">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>
