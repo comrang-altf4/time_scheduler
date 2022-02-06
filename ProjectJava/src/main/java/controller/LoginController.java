@@ -19,7 +19,7 @@ public class LoginController {
     @FXML private PasswordField password;
     @FXML private AnchorPane anchorPane;
     @FXML private Label incorrectInformationMessage;
-    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException, InterruptedException {
+    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException, InterruptedException, IOException {
         if(username.getText()==null||username.getText().isEmpty()||password.getText()==null||password.getText().isEmpty()) {
             incorrectInformationMessage.setText("Username or Password is incorrect!");
             incorrectInformationMessage.setTextFill(Color.rgb(210, 39, 30));
@@ -32,8 +32,7 @@ public class LoginController {
                 Main.getSession().setPassword(password.getText());
                 Main.getSession().setEmail(Database.getEmail(username.getText()));
 
-                incorrectInformationMessage.setText("Welcome!");
-                incorrectInformationMessage.setTextFill(Color.GREEN);
+                new Controller().doChangeview(event,"/design.fxml");
             }
             else {
                 incorrectInformationMessage.setText("Username or Password is incorrect!");
