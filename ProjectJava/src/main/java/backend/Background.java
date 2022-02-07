@@ -5,9 +5,16 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static backend.Database.connectDB;
+
 public class Background implements Runnable {
     private Thread thread;
     public void run() {
+        try {
+            Database.connectDB();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
         while (true) {
             try {
                 List<Event> eventList = Database.getDayEvents();
