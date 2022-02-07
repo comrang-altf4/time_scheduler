@@ -2,10 +2,9 @@ package backend;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-import backend.Event;
-import backend.wagu.Block;
-import backend.wagu.Board;
-import backend.wagu.Table;
+import wagu.Block;
+import wagu.Board;
+import wagu.Table;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -20,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -93,7 +93,7 @@ public class LinkDownloadController implements Initializable {
         String file_name = System.getProperty("user.home") + "/Downloads/";
         //System.out.println(labItem);
         getEventDay(refDate);
-        LocalDate startOfWeek = refWeek.minusDays(refWeek.getDayOfWeek().getValue() - 1);
+        LocalDate startOfWeek = refDate.minusDays(refDate.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(6);
         String title = "Time table";
         String start = String.valueOf(startOfWeek.getDayOfMonth()) + "." + String.valueOf(startOfWeek.getMonthValue()) + "." + String.valueOf(startOfWeek.getYear());
