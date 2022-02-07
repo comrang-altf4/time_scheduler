@@ -104,7 +104,10 @@ public class LinkDownloadController implements Initializable {
             try {
                 Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
                 Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
-                file_name += "Schedule.pdf";
+                int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".pdf");
+                if (number != 0)
+                    file_name += "Schedule" + "_" + start + "-" + end + "(" + String.valueOf(number) + ")" + ".pdf";
+                else file_name += "Schedule" + "_" + start + "-" + end + ".pdf";
                 Document document = new Document(PageSize.A4);
                 PdfWriter.getInstance(document, new FileOutputStream(file_name));
                 document.open();
@@ -134,7 +137,10 @@ public class LinkDownloadController implements Initializable {
             }
         }
         if (labItem == "Text"){
-            file_name += "Schedule.txt";
+            int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".txt");
+            if (number != 0)
+                file_name += "Schedule" + "_" + start + "-" + end + "(" + String.valueOf(number) + ")" + ".txt";
+            else file_name += "Schedule" + "_" + start + "-" + end + ".txt";
             FileWriter document = new FileWriter(file_name);
             Board board = new Board(650);
             Block bigblock = new Block(board, 216, 2, title);
@@ -227,5 +233,24 @@ public class LinkDownloadController implements Initializable {
             tmp.setBelowBlock(bl.setDataAlign(Block.DATA_CENTER));
             tmp = bl;
         }
+    }
+    public static int getFileName(String path, String fileName, String extension)
+    {
+        int number = 0;
+        int idxEnd = fileName.length();
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();        
+        for (int i = 0; i < listOfFiles.length; i++) {
+          if (listOfFiles[i].isFile()) {
+              String filee = listOfFiles[i].getName();
+              
+              if (filee.length() > fileName.length()){
+                  String len = filee.substring(0, idxEnd);
+                if (len.equals(fileName.substring(0, idxEnd))  && filee.substring(filee.length()-4, filee.length()).equals(extension))
+                    number++;
+              }
+          } 
+        }
+        return number;
     }
 }
