@@ -2,9 +2,9 @@ package backend;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-import wagu.Block;
-import wagu.Board;
-import wagu.Table;
+import backend.wagu.Block;
+import backend.wagu.Board;
+import backend.wagu.Table;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -106,7 +106,7 @@ public class LinkDownloadController implements Initializable {
                 Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
                 int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".pdf");
                 if (number != 0)
-                    file_name += "Schedule" + "_" + start + "-" + end + "(" + String.valueOf(number) + ")" + ".pdf";
+                    file_name += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".pdf";
                 else file_name += "Schedule" + "_" + start + "-" + end + ".pdf";
                 Document document = new Document(PageSize.A4);
                 PdfWriter.getInstance(document, new FileOutputStream(file_name));
@@ -139,7 +139,7 @@ public class LinkDownloadController implements Initializable {
         if (labItem == "Text"){
             int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".txt");
             if (number != 0)
-                file_name += "Schedule" + "_" + start + "-" + end + "(" + String.valueOf(number) + ")" + ".txt";
+                file_name += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".txt";
             else file_name += "Schedule" + "_" + start + "-" + end + ".txt";
             FileWriter document = new FileWriter(file_name);
             Board board = new Board(650);
