@@ -1,5 +1,6 @@
 package project;
 
+import backend.Background;
 import backend.Sess1on;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +42,10 @@ public class Main extends Application {
     public static void main(String[] args) {
         // Set system property to start preloader first
         System.setProperty("javafx.preloader", Preloading.class.getCanonicalName());
+
+        // Set background running to send email
+        Background background = new Background();
+        background.start();
 
         // Start the application
         launch(Main.class, args);
