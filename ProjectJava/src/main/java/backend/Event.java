@@ -1,4 +1,6 @@
 package backend;
+import project.Main;
+
 import java.time.LocalDateTime;
 
 public class Event {
@@ -10,8 +12,13 @@ public class Event {
     private int priority;
     public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color: #f57b42;","-fx-background-color: #8df542;"};
     private String username;
-
+    private int time=30;
+    public int getTime()
+    {
+        return time;
+    }
     public Event(int id, String name, String location, int duration, LocalDateTime date, int priority) {
+        this.username= Main.getSession().getUsername();
         this.id = id;
         this.name = name;
         this.location = location;
@@ -25,7 +32,7 @@ public class Event {
     }
     public Event() {
         this.name="thisisdummyEvent";
-        this.id = 1;
+        this.id = (int)1e6;
         this.location = "";
         this.duration =10 ;
         this.date = LocalDateTime.now();
@@ -92,6 +99,7 @@ public class Event {
     }
 
     public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority) {
+//        this.id=ID_management.getID();
         this.name = name;
         this.location = location;
         this.duration = duration;
