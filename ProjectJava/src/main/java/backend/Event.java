@@ -18,13 +18,17 @@ public class Event {
     private int priority;
     public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color: #f57b42;","-fx-background-color: #8df542;"};
     private String username;
-    private int time=30;
+    private int time=10;
+    private int timeID=1;
     private List<String> listParticipants=new ArrayList<>();
-
     /**
      * Get the starting time of an event
      * @return <code>LocalDateTime</code>
      */
+    public int getTimeID()
+    {
+        return timeID;
+    }
     public int getTime()
     {
         return time;
@@ -69,6 +73,7 @@ public class Event {
         this.duration = event.getDuration();
         this.meetinglink = event.meetinglink;
         this.listParticipants= new ArrayList<>(event.listParticipants);
+        this.time=event.time;
     }
 
     public String getName() {
@@ -124,8 +129,9 @@ public class Event {
     {
         return  listParticipants;
     }
-    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority,String meetinglink,List<String>listParticipants) {
+    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority,String meetinglink,List<String>listParticipants,int time) {
 //        this.id=ID_management.getID();
+        this.time=time;
         this.listParticipants= new ArrayList<>(listParticipants);
         this.meetinglink=meetinglink;
         this.name = name;

@@ -5,6 +5,8 @@ package backend;/*
 import backend.wagu.Block;
 import backend.wagu.Board;
 import backend.wagu.Table;
+
+import java.util.Collections;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -57,6 +59,7 @@ public class LinkDownloadController implements Initializable {
     private String labItem;
     private ArrayList<ArrayList<String> > listEventDay = new ArrayList<ArrayList<String> > (1000);
     private ArrayList<ArrayList<Integer> > listEventDayColor = new ArrayList<ArrayList<Integer> > (1000);
+    private ArrayList<Integer> fileAppearance = new ArrayList<Integer> (1000);
     /**
      * Initializes the controller class.
      */
@@ -76,7 +79,7 @@ public class LinkDownloadController implements Initializable {
         String link = tLink.getText();
         hpLink.setText(link);
     }
-    
+
     @FXML
     void btnEditClicked(ActionEvent event) {
         hpLink.setVisible(false);
@@ -87,13 +90,13 @@ public class LinkDownloadController implements Initializable {
     private void selectItem(ActionEvent event) {
         labItem = comBox.getSelectionModel().getSelectedItem().toString();
     }
-    
+
     /**
-     * 
+     *
      * @param refdate Gets the information of an object from class LocalDate.
      * @param mode Gets the option PDF or TXT.
      * @throws DocumentException Signals that an error has occurred in a Document.
-     * @throws IOException Signals that an I/O exception of some sort has occurred. 
+     * @throws IOException Signals that an I/O exception of some sort has occurred.
      * @return Creating file with chosen extension in the Downloads directory.
      */
 //    @FXML
@@ -110,7 +113,7 @@ public class LinkDownloadController implements Initializable {
         labItem=mode;
         if (labItem == "PDF"){
             try {
-                Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
+                Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0));
                 Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
                 int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".pdf");
                 if (number != 0)
@@ -180,7 +183,7 @@ public class LinkDownloadController implements Initializable {
         }
     }
     /**
-     * 
+     *
      * @param table The table with defined number of columns.
      * @param text The content in each cell.
      * @param align Sets the position of content.
@@ -205,10 +208,10 @@ public class LinkDownloadController implements Initializable {
         }
         //add the call to the table
         table.addCell(cell);
-   }
+    }
     /**
-     * 
-     * @param event Gets information of an event. 
+     *
+     * @param event Gets information of an event.
      * @return The time of the event in string.
      */
     public static String getText(Event event)
@@ -223,7 +226,7 @@ public class LinkDownloadController implements Initializable {
         return text;
     }
     /**
-     *Get all name and priority (color) of events in each date (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).  
+     *Get all name and priority (color) of events in each date (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
      */
     public void getEventDay(LocalDate refDate)
     {
@@ -241,9 +244,9 @@ public class LinkDownloadController implements Initializable {
             maxx = Math.max(listEventDay.get(i).size(), maxx);
         }
         for (int i = 0; i < 7; i++) {
-            int len = listEventDay.get(i).size(); 
+            int len = listEventDay.get(i).size();
             if (len < maxx){
-                for (int j = len; j < maxx; j++){               
+                for (int j = len; j < maxx; j++){
                     listEventDay.get(i).add(j, "");
                     listEventDayColor.get(i).add(3);
                 }
@@ -251,7 +254,7 @@ public class LinkDownloadController implements Initializable {
         }
     }
     /**
-     * 
+     *
      * @param board A defined board is the base to create cells.
      * @param block Block (cells) in a timetable.
      * @param list The information of all events in a date.
@@ -268,29 +271,36 @@ public class LinkDownloadController implements Initializable {
         }
     }
     /**
-     * 
+     *
      * @param path Gets the directory which files are downloaded.
      * @param fileName The file name which is checked how many files in the directory have the same name with it.
      * @param extension The extension PDF or TXT.
-     * @return The number appearance of the new file will be in the directory. 
+     * @return The number appearance of the new file will be in the directory.
      */
     public int getFileName(String path, String fileName, String extension)
     {
         int number = 0;
         int idxEnd = fileName.length();
         File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();        
+        File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
-          if (listOfFiles[i].isFile()) {
-              String filee = listOfFiles[i].getName();
-              
-              if (filee.length() > fileName.length()){
-                  String len = filee.substring(0, idxEnd);
-                if (len.equals(fileName.substring(0, idxEnd))  && filee.substring(filee.length()-4, filee.length()).equals(extension))
-                    number++;
-              }
-          } 
+            if (listOfFiles[i].isFile()) {
+                String filee = listOfFiles[i].getName();
+                if (filee.length() > fileName.length()){
+                    String len = filee.substring(0, idxEnd);
+                    if (len.equals(fileName.substring(0, idxEnd))  && filee.substring(filee.length()-4, filee.length()).equals(extension))
+                    {
+                        if (idxEnd+1 < filee.length()-5)
+                            fileAppearance.add(Integer.valueOf(filee.substring(idxEnd+1, filee.length()-5)));
+                        else fileAppearance.add(0);
+                    }
+
+                }
+            }
         }
-        return number;
-    }
+        Collections.sort(fileAppearance);
+        if (fileAppearance.size() > 0)
+            number = fileAppearance.get(fileAppearance.size()-1)+1;
+        else number = 0;
+        return number;    }
 }

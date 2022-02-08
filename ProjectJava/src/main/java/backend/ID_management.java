@@ -33,9 +33,9 @@ public class ID_management {
 				curMaxID+=1;
 				Sess1on.eventList.get(i).setId(curMaxID);
 				System.out.println("Aaaa");
-//				Database.addEvent(Sess1on.eventList.get(i));
+				Database.addEvent(Sess1on.eventList.get(i));
 			}
-//			else Database.updateEvent(Sess1on.eventList.get(i));
+			else Database.updateEvent(Sess1on.eventList.get(i));
 			System.out.println(Sess1on.eventList.get(i).getID());
 		};
 		System.out.println(available_id);

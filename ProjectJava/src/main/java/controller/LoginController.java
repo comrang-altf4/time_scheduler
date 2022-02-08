@@ -1,6 +1,7 @@
 package controller;
 
 import backend.Database;
+import backend.Sess1on;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -31,7 +32,7 @@ public class LoginController {
                 Main.getSession().setUsername(username.getText());
                 Main.getSession().setPassword(password.getText());
                 Main.getSession().setEmail(Database.getEmail(username.getText()));
-
+                Sess1on.eventList=Database.getEvents();
                 new Controller().doChangeview(event,"/design.fxml");
             }
             else {

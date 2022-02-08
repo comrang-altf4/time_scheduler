@@ -45,6 +45,8 @@ public class AddEventController {
     @FXML
     Button btnDelete=new Button();
     @FXML
+    ComboBox<RemindTime> cbRemind=new ComboBox<RemindTime>();
+    @FXML
     void initialize() {
         if (Sess1on.isCreatingEvent)
         {
@@ -87,14 +89,17 @@ public class AddEventController {
         });
         LocalDate today = LocalDate.now();
         ObservableList<customLocalDateTime> timeslot = FXCollections.observableArrayList();
+        ObservableList<RemindTime> remindTimes = FXCollections.observableArrayList();
         ObservableList<customPriority> priority = FXCollections.observableArrayList();
         for (LocalDateTime startTime = today.atTime(firstSlotStart); !startTime
                 .isAfter(today.atTime(lastSlotStart)); startTime = startTime.plus(slotLength)) {
             timeslot.add(new customLocalDateTime(startTime));
         }
+        for (int i=0;i<4;i++)remindTimes.add(new RemindTime(i));
         cbStart.setItems(timeslot);
         cbEnd.setItems(timeslot);
         cbPriority.setItems(priority);
+        cbRemind.setItems(remindTimes);
         for (int i = 0; i < 3; i++) priority.add(new customPriority(i));
         if (Sess1on.tempEvent.getName().equals("thisisdummyEvent")) {
             cbPriority.setValue(priority.get(0));
@@ -102,6 +107,7 @@ public class AddEventController {
             cbEnd.setValue(timeslot.get(1));
             dpDate.setValue(today);
             eventName.setText("Untitled");
+            cbRemind.setValue(remindTimes.get(0));
         }
         else
         {
@@ -115,6 +121,7 @@ public class AddEventController {
             dpDate.setValue(Sess1on.tempEvent.getDate().toLocalDate());
             txtLink.setText(Sess1on.tempEvent.getMeetinglink());
             hpLink.setText(Sess1on.tempEvent.getMeetinglink());
+            cbRemind.setValue(new RemindTime(Sess1on.tempEvent.getTimeID()));
         }
     }
 
@@ -134,6 +141,7 @@ public class AddEventController {
         String name = eventName.getText();
         int duration = (int) ChronoUnit.MINUTES.between(cbStart.getValue().localDateTime, cbEnd.getValue().localDateTime);
         int tp = cbPriority.getValue().priority;
+        int time = cbRemind.getValue().getTime();
         String location = "";
         LocalDateTime dateOfEvent = dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
         String meettingLink=txtLink.getText();
@@ -144,7 +152,7 @@ public class AddEventController {
             listParticipants.add(x);
         }
         System.out.println(listParticipants);
-        Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp,meettingLink,listParticipants);
+        Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp,meettingLink,listParticipants,time);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
