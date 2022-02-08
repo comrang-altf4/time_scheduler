@@ -1,11 +1,13 @@
 package controller;
 
+import backend.ID_management;
 import backend.Sess1on;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -30,9 +32,12 @@ public class AddEventController {
     ComboBox<customPriority> cbPriority = new ComboBox<customPriority>();
     @FXML
     DatePicker dpDate;
-
+    @FXML
+    Button btnDelete=new Button();
     @FXML
     void initialize() {
+        if (Sess1on.isCreatingEvent)btnDelete.setVisible(false);
+        else btnDelete.setVisible(true);
         LocalDate today = LocalDate.now();
         ObservableList<customLocalDateTime> timeslot = FXCollections.observableArrayList();
         ObservableList<customPriority> priority = FXCollections.observableArrayList();
@@ -72,6 +77,14 @@ public class AddEventController {
         String location = "";
         LocalDateTime dateOfEvent = dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
         Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp);
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.close();
+    }
+    @FXML
+    public void deleteEvent(ActionEvent e)
+    {
+        Sess1on.deleteEvent=true;
+        ID_management.deleteID(Sess1on.tempEvent.getID());
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }

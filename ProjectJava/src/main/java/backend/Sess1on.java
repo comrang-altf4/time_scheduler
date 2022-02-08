@@ -10,6 +10,8 @@ public class Sess1on {
     private String password = "";
     private String email = "";
     private String code = "";
+    public static Boolean isCreatingEvent=false;
+    public static Boolean deleteEvent=false;
     public static Event tempEvent = new Event();
     public static List<Event> eventList = new ArrayList<>();
 
@@ -66,7 +68,12 @@ public class Sess1on {
         }
         return listWeekEvent;
     }
-
+    public static int getCurMaxID()
+    {
+        int maxID=0;
+        for (Event e:eventList)if(e.getID()<(int)1e6)maxID=Math.max(maxID,e.getID());
+        return maxID;
+    }
     public static int findEvent(int id) {
         int i = 0;
         for (Event e : eventList) {

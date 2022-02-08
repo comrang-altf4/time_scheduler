@@ -39,8 +39,13 @@ public class Event {
         this.priority = 1;
     }
 
-    public Event(Event event) {
-        this.id = event.getID();
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Event(Event event, Object... mode) {
+        if (mode.length==0)this.id = event.getID();
+        else this.id=ID_management.getID();
         this.name = event.getName();
         this.location = event.getLocation();
         this.date = event.getDate();

@@ -1,6 +1,7 @@
 package controller;
 
 import backend.Event;
+import backend.ID_management;
 import backend.LinkDownloadController;
 import backend.Sess1on;
 import com.itextpdf.text.DocumentException;
@@ -20,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class Weekpage extends VBox {
         super();
         for (int i = 0; i < 7; i++)
             hboxes[i] = new ArrayList<customHbox>();
-        today=selectedDay;
+        today = selectedDay;
         startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1);
         endOfWeek = startOfWeek.plusDays(6);
         setScene();
@@ -88,27 +90,32 @@ public class Weekpage extends VBox {
         Button backBtn = new Button("Back");
         Button pdfBtn = new Button("PDF");
         Button textBtn = new Button("Text");
-        backBtn.setOnAction(e-> {
+        backBtn.setOnAction(e -> {
             try {
+                ID_management.updateToDB();
                 new ControllerMonth().ChangeView(e);
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
         });
-        pdfBtn.setOnAction(e->{
-            List<Event> listWeekEvent=new Sess1on().gettEventInWeek(today);
+        pdfBtn.setOnAction(e -> {
+            List<Event> listWeekEvent = new Sess1on().gettEventInWeek(today);
             try {
-                new LinkDownloadController().btnDownloadClicked(today,pdfBtn.getText());
+                new LinkDownloadController().btnDownloadClicked(today, pdfBtn.getText());
             } catch (DocumentException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
-        textBtn.setOnAction(e->{
-            List<Event> listWeekEvent=new Sess1on().gettEventInWeek(today);
+        textBtn.setOnAction(e -> {
+            List<Event> listWeekEvent = new Sess1on().gettEventInWeek(today);
             try {
-                new LinkDownloadController().btnDownloadClicked(today,textBtn.getText());
+                new LinkDownloadController().btnDownloadClicked(today, textBtn.getText());
             } catch (DocumentException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -117,6 +124,7 @@ public class Weekpage extends VBox {
         });
         addEventBtn.setOnAction(e -> {
             try {
+                Sess1on.isCreatingEvent = true;
                 addEventBtn.addEvent();
                 addEvent();
 
@@ -126,11 +134,10 @@ public class Weekpage extends VBox {
         });
         fp.getChildren().add(group);
         scrollPane.setContent(fp);
-        HBox hb=new HBox();
-        hb.getChildren().addAll(backBtn,addEventBtn,pdfBtn,textBtn);
+        HBox hb = new HBox();
+        hb.getChildren().addAll(backBtn, addEventBtn, pdfBtn, textBtn);
         this.getChildren().addAll(hb, scrollPane);
-        for (Event event:Sess1on.eventList)
-        {
+        for (Event event : Sess1on.eventList) {
             addEventToGrid(event);
         }
     }
@@ -183,7 +190,7 @@ public class Weekpage extends VBox {
     }
 
     public void addEvent() {
-        Event event = new Event(Sess1on.tempEvent);
+        Event event = new Event(Sess1on.tempEvent, 1);
         Sess1on.eventList.add(event);
         addEventToGrid(event);
     }
@@ -205,19 +212,23 @@ public class Weekpage extends VBox {
     }
 
     public void addEventToGrid(Event event) {
-        LocalDate temp=event.getDate().toLocalDate();
-        if ((temp.isAfter(startOfWeek)|| temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek)||temp.isEqual(endOfWeek))) {
+        LocalDate temp = event.getDate().toLocalDate();
+        if ((temp.isAfter(startOfWeek) || temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek) || temp.isEqual(endOfWeek))) {
             int colId, rowId, span;
-            colId = event.getDate().getDayOfWeek().getValue()-1;
+            colId = event.getDate().getDayOfWeek().getValue() - 1;
             rowId = event.getDate().getHour();
             rowId += rowId * 4 + event.getDate().getMinute() / 15;
             span = event.getDuration() / 15 + 1;
             customButton btn = new customButton(event);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(cellheight * span);
-            btn.setOnAction(e->{
+            btn.setOnAction(e -> {
                 try {
+                    Sess1on.isCreatingEvent = false;
+                    Sess1on.deleteEvent = false;
                     btn.editEvent();
+                    refreshAgenda();
+                    Sess1on.eventList.forEach((x)->addEventToGrid(x));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -244,8 +255,8 @@ public class Weekpage extends VBox {
                 hb.getChildren().addAll(btn);
 
                 GridPane.setRowSpan(hb, span);
-                GridPane.setColumnIndex(hb, colId+1);
-                GridPane.setRowIndex(hb, rowId+1);
+                GridPane.setColumnIndex(hb, colId + 1);
+                GridPane.setRowIndex(hb, rowId + 1);
 
                 hb.setFirstRow(rowId);
                 hb.setLastRow(rowId + span - 1);

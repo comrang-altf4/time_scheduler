@@ -36,9 +36,11 @@ public class customButton extends Button {
     public void editEvent() throws IOException {
         Sess1on.tempEvent=new Event(event);
         showPopUp();
-        event=new Event(Sess1on.tempEvent);
-        updateEventlist();
-        updateButtonContent();
+        if (Sess1on.deleteEvent==false) {
+            event = new Event(Sess1on.tempEvent);
+            updateEventlist();
+            updateButtonContent();
+        }
     }
 
     private void updateButtonContent() {

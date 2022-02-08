@@ -52,7 +52,7 @@
          </font>
       </Text>
       <ComboBox layoutX="230.0" layoutY="175.0" prefWidth="150.0" style="-fx-background-color: lightgrey;" />
-      <Button layoutX="326.0" layoutY="369.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" text="More details">
+      <Button fx:id="btnDelete" onAction="#deleteEvent" layoutX="326.0" layoutY="369.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" text="Delete">
          <font>
             <Font size="15.0" />
          </font>
