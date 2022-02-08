@@ -2,21 +2,34 @@ package backend;
 import project.Main;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Event is a class contains all information and  about an event
+ */
 public class Event {
     private int id;
     private int duration;
     private String name;
     private String location;
+    private String meetinglink="";
     private LocalDateTime date;
     private int priority;
     public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color: #f57b42;","-fx-background-color: #8df542;"};
     private String username;
     private int time=30;
+    private List<String> listParticipants=new ArrayList<>();
+
+    /**
+     * Get the starting time of an event
+     * @return <code>LocalDateTime</code>
+     */
     public int getTime()
     {
         return time;
     }
+
     public Event(int id, String name, String location, int duration, LocalDateTime date, int priority) {
         this.username= Main.getSession().getUsername();
         this.id = id;
@@ -42,7 +55,10 @@ public class Event {
     public void setId(int id) {
         this.id = id;
     }
-
+    public String getMeetinglink()
+    {
+        return meetinglink;
+    }
     public Event(Event event, Object... mode) {
         if (mode.length==0)this.id = event.getID();
         else this.id=ID_management.getID();
@@ -51,6 +67,8 @@ public class Event {
         this.date = event.getDate();
         this.priority = event.getPriority();
         this.duration = event.getDuration();
+        this.meetinglink = event.meetinglink;
+        this.listParticipants= new ArrayList<>(event.listParticipants);
     }
 
     public String getName() {
@@ -102,9 +120,14 @@ public class Event {
         // Set event's host
         this.username = username;
     }
-
-    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority) {
+    public List<String> getListParticipants()
+    {
+        return  listParticipants;
+    }
+    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority,String meetinglink,List<String>listParticipants) {
 //        this.id=ID_management.getID();
+        this.listParticipants= new ArrayList<>(listParticipants);
+        this.meetinglink=meetinglink;
         this.name = name;
         this.location = location;
         this.duration = duration;

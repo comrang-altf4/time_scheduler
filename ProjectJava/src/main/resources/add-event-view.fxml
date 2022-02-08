@@ -52,7 +52,7 @@
          </font>
       </Text>
       <ComboBox layoutX="230.0" layoutY="175.0" prefWidth="150.0" style="-fx-background-color: lightgrey;" />
-      <Button fx:id="btnDelete" onAction="#deleteEvent" layoutX="326.0" layoutY="369.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" text="Delete">
+      <Button fx:id="btnDelete" layoutX="326.0" layoutY="369.0" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="38.0" prefWidth="106.0" style="-fx-background-color: lightgrey;" text="Delete">
          <font>
             <Font size="15.0" />
          </font>
@@ -68,7 +68,7 @@
          </image>
       </ImageView>
       <DatePicker fx:id="dpDate" layoutX="142.0" layoutY="96.0" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: lightgrey;" />
-      <Hyperlink layoutX="138.0" layoutY="260.0" text="Meeting link">
+      <Hyperlink fx:id="hpLink" layoutX="143.0" layoutY="260.0" text="Meeting link">
          <font>
             <Font size="14.0" />
          </font>
@@ -83,6 +83,7 @@
             <Image url="@pencil.png" />
          </image>
       </ImageView>
-      <TextField layoutX="142.0" layoutY="299.0" prefHeight="26.0" prefWidth="342.0" promptText="Description" />
+      <TextField fx:id="txtParticipants" layoutX="142.0" layoutY="299.0" prefHeight="26.0" prefWidth="342.0" promptText="Description" />
+      <TextField fx:id="txtLink" layoutX="141.0" layoutY="260.0" prefHeight="26.0" prefWidth="342.0" promptText="Description" />
    </children>
 </AnchorPane>

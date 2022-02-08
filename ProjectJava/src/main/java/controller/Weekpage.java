@@ -227,8 +227,8 @@ public class Weekpage extends VBox {
                     Sess1on.isCreatingEvent = false;
                     Sess1on.deleteEvent = false;
                     btn.editEvent();
-                    refreshAgenda();
-                    Sess1on.eventList.forEach((x)->addEventToGrid(x));
+//                    refreshAgenda();
+//                    Sess1on.eventList.forEach((x)->addEventToGrid(x));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
