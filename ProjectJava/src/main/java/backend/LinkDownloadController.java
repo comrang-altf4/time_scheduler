@@ -234,7 +234,7 @@ public class LinkDownloadController implements Initializable {
             tmp = bl;
         }
     }
-    public static int getFileName(String path, String fileName, String extension)
+    public int getFileName(String path, String fileName, String extension)
     {
         int number = 0;
         int idxEnd = fileName.length();
