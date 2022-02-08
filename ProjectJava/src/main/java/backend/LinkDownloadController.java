@@ -57,6 +57,7 @@ public class LinkDownloadController implements Initializable {
     private String labItem;
     private ArrayList<ArrayList<String> > listEventDay = new ArrayList<ArrayList<String> > (1000);
     private ArrayList<ArrayList<Integer> > listEventDayColor = new ArrayList<ArrayList<Integer> > (1000);
+    private ArrayList<Integer> fileAppearance = new ArrayList<Integer> (1000);
     /**
      * Initializes the controller class.
      */
@@ -282,15 +283,22 @@ public class LinkDownloadController implements Initializable {
         File[] listOfFiles = folder.listFiles();        
         for (int i = 0; i < listOfFiles.length; i++) {
           if (listOfFiles[i].isFile()) {
-              String filee = listOfFiles[i].getName();
-              
+              String filee = listOfFiles[i].getName();              
               if (filee.length() > fileName.length()){
                   String len = filee.substring(0, idxEnd);
                 if (len.equals(fileName.substring(0, idxEnd))  && filee.substring(filee.length()-4, filee.length()).equals(extension))
-                    number++;
+                {
+                    if (idxEnd+1 < filee.length()-5)
+                        fileAppearance.add(Integer.valueOf(filee.substring(idxEnd+1, filee.length()-5)));
+                    else fileAppearance.add(0);
+                }
+                    
               }
           } 
         }
-        return number;
-    }
+        Collections.sort(fileAppearance);  
+        if (fileAppearance.size() > 0)
+            number = fileAppearance.get(fileAppearance.size()-1)+1;
+        else number = 0;
+        return number;    }
 }
