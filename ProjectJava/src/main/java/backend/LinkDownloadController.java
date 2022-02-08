@@ -88,6 +88,14 @@ public class LinkDownloadController implements Initializable {
         labItem = comBox.getSelectionModel().getSelectedItem().toString();
     }
     
+    /**
+     * 
+     * @param refdate Gets the information of an object from class LocalDate.
+     * @param mode Gets the option PDF or TXT.
+     * @throws DocumentException Signals that an error has occurred in a Document.
+     * @throws IOException Signals that an I/O exception of some sort has occurred. 
+     * @return Creating file with chosen extension in the Downloads directory.
+     */
 //    @FXML
     public void btnDownloadClicked(LocalDate refDate,String mode) throws DocumentException, IOException {
         String file_name = System.getProperty("user.home") + "/Downloads/";
@@ -171,6 +179,15 @@ public class LinkDownloadController implements Initializable {
             System.out.println("Downloaded as Text!");
         }
     }
+    /**
+     * 
+     * @param table The table with defined number of columns.
+     * @param text The content in each cell.
+     * @param align Sets the position of content.
+     * @param color color with value 0, 1, 2, or 3 is the priority of an event for red, yellow, green, or white color, respectively; with value 7 is merging 7 columns for 1 cell.
+     * @param font defined font.
+     * @return the timetable with content.
+     */
     private void insertCell(PdfPTable table, String text, int align, int color, Font font){
         //create a new cell with the specified Text and Font
         PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
@@ -189,6 +206,11 @@ public class LinkDownloadController implements Initializable {
         //add the call to the table
         table.addCell(cell);
    }
+    /**
+     * 
+     * @param event Gets information of an event. 
+     * @return The time of the event in string.
+     */
     public static String getText(Event event)
     {
         String text = event.getName();
@@ -200,6 +222,9 @@ public class LinkDownloadController implements Initializable {
         text = text + "\n" + hour + ":" + minute + " - " + hee + ":" + mee;
         return text;
     }
+    /**
+     *Get all name and priority (color) of events in each date (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).  
+     */
     public void getEventDay(LocalDate refDate)
     {
         List<Event> temp=new Sess1on().gettEventInWeek(refDate);
@@ -225,6 +250,14 @@ public class LinkDownloadController implements Initializable {
             }
         }
     }
+    /**
+     * 
+     * @param board A defined board is the base to create cells.
+     * @param block Block (cells) in a timetable.
+     * @param list The information of all events in a date.
+     * @param numCell The maximum number of rows in the timetable.
+     * Create all blocks for a date in timetable.
+     */
     public static void makeCell(Board board, Block block, ArrayList<String> list, int numCell)
     {
         Block tmp = block;
@@ -234,6 +267,13 @@ public class LinkDownloadController implements Initializable {
             tmp = bl;
         }
     }
+    /**
+     * 
+     * @param path Gets the directory which files are downloaded.
+     * @param fileName The file name which is checked how many files in the directory have the same name with it.
+     * @param extension The extension PDF or TXT.
+     * @return The number appearance of the new file will be in the directory. 
+     */
     public int getFileName(String path, String fileName, String extension)
     {
         int number = 0;
