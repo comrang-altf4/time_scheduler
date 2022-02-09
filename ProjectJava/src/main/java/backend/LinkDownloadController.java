@@ -288,8 +288,8 @@ public class LinkDownloadController implements Initializable {
                   String len = filee.substring(0, idxEnd);
                 if (len.equals(fileName.substring(0, idxEnd))  && filee.substring(filee.length()-4, filee.length()).equals(extension))
                 {
-                    if (idxEnd+1 < filee.length()-5)
-                        fileAppearance.add(Integer.valueOf(filee.substring(idxEnd+1, filee.length()-5)));
+                    if (idxEnd+2 < filee.length()-5)
+                        fileAppearance.add(Integer.valueOf(filee.substring(idxEnd+2, filee.length()-5)));
                     else fileAppearance.add(0);
                 }
                     
