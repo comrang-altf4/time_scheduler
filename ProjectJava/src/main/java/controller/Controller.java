@@ -56,8 +56,6 @@ public class Controller {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
         scene = new Scene(root);
-
-
         stage.setScene(scene);
         stage.show();
        }

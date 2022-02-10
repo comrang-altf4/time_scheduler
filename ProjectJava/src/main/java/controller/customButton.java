@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static backend.Sess1on.tempEvent;
+
 public class customButton extends Button {
     public Event event;
     private double cellheight = 67.2 / 3;
@@ -34,10 +36,10 @@ public class customButton extends Button {
         showPopUp();
     }
     public void editEvent() throws IOException {
-        Sess1on.tempEvent=new Event(event);
+        tempEvent=new Event(event);
         showPopUp();
         if (Sess1on.deleteEvent==false) {
-            event = new Event(Sess1on.tempEvent);
+            event = new Event(tempEvent);
             updateEventlist();
             updateButtonContent();
         }

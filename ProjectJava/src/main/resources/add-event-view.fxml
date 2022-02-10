@@ -88,6 +88,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXTextField focusColor="#46b8ff" layoutX="180.0" layoutY="269.0" prefHeight="26.0" prefWidth="378.0" promptText="Participants" />
+      <JFXTextField focusColor="#46b8ff" fx:id="txtParticipants" layoutX="180.0" layoutY="269.0" prefHeight="26.0" prefWidth="378.0" promptText="Participants" />
    </children>
 </AnchorPane>

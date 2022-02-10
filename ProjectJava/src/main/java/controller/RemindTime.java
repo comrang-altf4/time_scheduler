@@ -9,7 +9,7 @@ public class RemindTime {
         put(10*6*24*3,"3 days");
         put(10*6*24*7,"1 week");
     }};
-    public int[] remindInt={10,10*6,10*6*24*3,10*6*24*7};
+    static public int[] remindInt={10,10*6,10*6*24*3,10*6*24*7};
     int id;
     public RemindTime(int x)
     {

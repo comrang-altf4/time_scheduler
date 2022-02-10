@@ -2,6 +2,7 @@ package backend;
 import project.Main;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class Event {
         this.location = location;
         this.duration = duration;
         this.date = date;
+        this.date.truncatedTo(ChronoUnit.SECONDS);
         this.priority = priority;
         this.meetinglink = hyperlink;
     }
@@ -157,5 +159,9 @@ public class Event {
         this.duration = duration;
         this.date = date;
         this.priority = priority;
+    }
+    public void setListParticipants(List<String>participants)
+    {
+        this.listParticipants.addAll(participants);
     }
 }

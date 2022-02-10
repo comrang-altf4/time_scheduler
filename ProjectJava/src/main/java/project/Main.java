@@ -1,18 +1,21 @@
 package project;
 
 import backend.Background;
+import backend.Database;
 import backend.Sess1on;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Main extends Application {
     protected static Sess1on session = new Sess1on();
@@ -39,14 +42,15 @@ public class Main extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         // Set system property to start preloader first
         System.setProperty("javafx.preloader", Preloading.class.getCanonicalName());
 
         // Set background running to send email
         Background background = new Background();
-        background.start();
-
+//        background.start();
+        Database.connectDB();
+        System.out.println(Database.getEvents());
         // Start the application
         launch(Main.class, args);
     }

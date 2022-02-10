@@ -5,11 +5,12 @@ import project.Main;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static Statement statement;
+    private static Statement statement,tStatement;
     private final static String JDBC_URL = "jdbc:oracle:thin:@db1.fb2.frankfurt-university.de:1521:info01";
     private final static String JDBC_User = "S1_student2_18";
     private final static String JDBC_Password = "Ora2221";
@@ -20,6 +21,7 @@ public class Database {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_User, JDBC_Password);
         statement = connection.createStatement();
+        tStatement = connection.createStatement();
     }
 
     // Working
@@ -84,22 +86,23 @@ public class Database {
     // Working
     public static void addEvent(Event event) throws SQLException {
         LocalDateTime date = event.getDate();
-        statement.execute("INSERT INTO APPOINTMENTS\n" + "VALUES(" + event.getID() + ", '" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
+        statement.execute("INSERT INTO APPOINTMENTS\n" + "VALUES(" + event.getID() + ", '" + Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
                 event.getDuration() + ", " + date.getDayOfMonth() + ", " + date.getMonthValue() + ", " + date.getYear() + ", " + date.getHour() + ", " + date.getMinute() + ", " +
                 event.getPriority() + ", '" + event.getMeetinglink() + "')");
-
         statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + Main.getSession().getEmail() + "', " + event.getTime() + ")");
         statement.execute("COMMIT");
+        addParticipants(event.getID(), event.getListParticipants());
     }
 
     // Working
     // Not host cannot update event
-    public static boolean updateEvent(Event event) throws SQLException {
+    public static boolean updateEvent(Event event) throws SQLException, ClassNotFoundException {
         LocalDateTime date = event.getDate();
         if (checkHost(event.getID(), Main.getSession().getUsername())) {
             statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
                     date.getDayOfMonth() + ", EMONTH = " + date.getMonthValue() + ", EYEAR = " + date.getYear() + ", EHOUR = " + date.getHour() + ", EMINUTE = " +
                     date.getMinute() + ", EPRIORITY = " + event.getPriority() + ", EHYPERLINK = '" + event.getMeetinglink() + "'\n" + "WHERE EID = " + event.getID() + "");
+            updateParticipants(event);
             statement.execute("COMMIT");
             return true;
         }
@@ -109,13 +112,14 @@ public class Database {
 
     // Working
     // Get list events of a user
-    public static List<Event> getEvents() throws SQLException {
-        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "'");
+    public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
+        ResultSet result = tStatement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "'");
         List<Event> eventList = new ArrayList<>();
         LocalDateTime localDateTime = LocalDateTime.now();
         while (result.next()) {
-            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
+            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10)).withSecond(0).withNano(0);
             Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
+            event.setListParticipants(getParticipants(event.getID()));
             eventList.add(event);
         }
         return eventList;
@@ -140,7 +144,7 @@ public class Database {
     // Working
     public static void deleteEvents(List<Integer> ids) throws SQLException {
         for (Integer id : ids) {
-            if(checkHost(id, Main.getSession().getUsername()))
+            if (checkHost(id, Main.getSession().getUsername()))
                 statement.execute("DELETE FROM APPOINTMENTS\n" + "WHERE EID = " + id);
         }
         statement.execute("COMMIT");
@@ -148,8 +152,10 @@ public class Database {
 
     // Working
     public static void addParticipants(int id, List<String> emails) throws SQLException {
+        if(emails.size()==0)
+            return;
         for (String email : emails) {
-            if(checkHost(id, Main.getSession().getUsername()))
+            if (checkHost(id, Main.getSession().getUsername()))
                 statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + id + ", '" + email + "', 30)");
         }
         statement.execute("COMMIT");
@@ -159,18 +165,38 @@ public class Database {
     public static List<String> getParticipants(int id) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PEMAIL\n" + "FROM PARTICIPANTS\n" + "WHERE PID = " + id);
         List<String> emails = new ArrayList<>();
+        boolean flag = true;
         while(result.next()) {
             // Add participant's email to list
             emails.add(result.getString(1));
+            if(emails.size()==1&&flag) {
+                emails.remove(0);
+                flag = false;
+            }
         }
         return emails;
     }
 
     // Working
+    public static void updateParticipants(Event event) throws SQLException, ClassNotFoundException {
+        List<String> old = getParticipants(event.getID());
+        for(String email: old) {
+            statement.execute("DELETE FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + event.getID());
+        }
+        if(event.getListParticipants().size()==0) {
+            statement.execute("COMMIT");
+            return;
+        }
+        for(String email: event.getListParticipants()) {
+            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + email + "', 30)");
+        }
+        statement.execute("COMMIT");
+    }
+
+    // Working
     public static int getNotifyTime(int id, String email) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PTIME\n" + "FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + id);
-        if(result.isBeforeFirst())
-        {
+        if (result.isBeforeFirst()) {
             result.next();
             return result.getInt(1);
         }
@@ -186,11 +212,9 @@ public class Database {
     // Working
     public static int getLastInsertID() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT MAX(EID)\n" + "FROM APPOINTMENTS");
-        if (result.isBeforeFirst()){
+        if (result.isBeforeFirst()) {
             result.next();
             return result.getInt(1);
-        }
-        else return 0;
-//        return result.isBeforeFirst()?result.getInt(1):0;
+        } else return 0;
     }
 }

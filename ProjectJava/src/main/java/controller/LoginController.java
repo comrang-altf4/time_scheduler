@@ -32,7 +32,7 @@ public class LoginController {
                 Main.getSession().setUsername(username.getText());
                 Main.getSession().setPassword(password.getText());
                 Main.getSession().setEmail(Database.getEmail(username.getText()));
-                Sess1on.eventList=Database.getEvents();
+                Sess1on.eventList = Database.getEvents();
                 new Controller().doChangeview(event,"/design.fxml");
             }
             else {

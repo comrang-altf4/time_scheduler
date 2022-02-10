@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,6 +22,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static backend.Sess1on.tempEvent;
 
 public class AddEventController {
     private final LocalTime firstSlotStart = LocalTime.of(0, 0);
@@ -104,26 +107,44 @@ public class AddEventController {
         }
         else
         {
-            eventName.setText(Sess1on.tempEvent.getName());
-            cbPriority.setValue(new customPriority(Sess1on.tempEvent.getPriority()));
-            customLocalDateTime tempCustom=new customLocalDateTime(Sess1on.tempEvent.getDate());
+//            System.out.println(tempEvent.getDate());
+//            System.out.println(tempEvent.getPriority());
+//            System.out.println(tempEvent.getTime());
+            eventName.setText(tempEvent.getName());
+            for (int i=0;i<priority.size();i++) if (priority.get(i).priority==tempEvent.getPriority())
+            {
+                System.out.println(timeslot.size());
+                cbPriority.setValue(priority.get(i));
+                break;
+            }
+            customLocalDateTime tempCustom=new customLocalDateTime(tempEvent.getDate());
             for (int i=0;i<timeslot.size();i++)if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
             {
+                System.out.println("Start time");
                 cbStart.setValue(timeslot.get(i));
                 break;
             }
-            System.out.println(Sess1on.tempEvent.getDuration());
-            tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(Sess1on.tempEvent.getDuration()));
-            for (int i=0;i<timeslot.size();i++)if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
+            System.out.println(tempEvent.getDuration());
+            tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(tempEvent.getDuration()));
+            for (int i=0;i<timeslot.size();i++)
             {
-                cbEnd.setValue(timeslot.get(i));
-                break;
+                if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
+                {
+                    System.out.println("End time");
+                    cbEnd.setValue(timeslot.get(i));
+                    break;
+                }
             }
             dpDate.setValue(Sess1on.tempEvent.getDate().toLocalDate());
             txtLink.setText(Sess1on.tempEvent.getMeetinglink());
             hpLink.setText(Sess1on.tempEvent.getMeetinglink());
-            cbRemind.setValue(new RemindTime(Sess1on.tempEvent.getTimeID()));
-
+            for (int i=0;i<remindTimes.size();i++)
+                if (remindTimes.get(i).id==Sess1on.tempEvent.getTimeID())
+                {
+                    System.out.println("remind time");
+                    cbRemind.setValue(remindTimes.get(i));
+                    break;
+                }
         }
     }
 
@@ -153,6 +174,7 @@ public class AddEventController {
         {
             listParticipants.add(x);
         }
+        System.out.println(listParticipants);
         Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp,meettingLink,listParticipants,time);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
