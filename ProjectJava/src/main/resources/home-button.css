@@ -1,7 +1,0 @@
-.home-button {
-    -fx-background-image: url("home.png");
-	-fx-background-radius: 1em;
-	-fx-background-repeat: no-repeat;
-	-fx-background-size: 20px;
-    -fx-background-color: transparent;
-}
