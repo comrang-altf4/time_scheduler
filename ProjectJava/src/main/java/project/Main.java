@@ -48,9 +48,8 @@ public class Main extends Application {
 
         // Set background running to send email
         Background background = new Background();
-//        background.start();
-        Database.connectDB();
-        System.out.println(Database.getEvents());
+        background.start();
+
         // Start the application
         launch(Main.class, args);
     }
