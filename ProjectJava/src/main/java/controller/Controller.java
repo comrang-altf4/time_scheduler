@@ -2,6 +2,7 @@ package controller;
 
 import backend.IdentityManagement;
 import backend.Sess1on;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -63,6 +64,6 @@ public class Controller {
    public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
        IdentityManagement.updateToDB();
        new Sess1on().release();
-       AnimationFX.transitionBackward("/login-view.fxml",(Parent) event.getSource());
+       doChangeview(event,"/login-view.fxml");
    }
 }
