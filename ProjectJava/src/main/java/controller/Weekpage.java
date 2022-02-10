@@ -197,6 +197,8 @@ public class Weekpage extends VBox {
     }
 
     public void refreshAgenda() {
+        for (int i = 0; i < 7; i++)
+            hboxes[i] = new ArrayList<customHbox>();
         for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
             int slotIndex = 1;
 
@@ -225,11 +227,12 @@ public class Weekpage extends VBox {
             btn.setMaxHeight(cellheight * span);
             btn.setOnAction(e -> {
                 try {
+                    Sess1on.tempEvent=new Event();
                     Sess1on.isCreatingEvent = false;
                     Sess1on.deleteEvent = false;
                     btn.editEvent();
-//                    refreshAgenda();
-//                    Sess1on.eventList.forEach((x)->addEventToGrid(x));
+                    refreshAgenda();
+                    Sess1on.eventList.forEach((x)->addEventToGrid(x));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
