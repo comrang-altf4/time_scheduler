@@ -1,6 +1,6 @@
 package backend;
-import wagu.Block;
-import wagu.Board;
+import backend.wagu.Block;
+import backend.wagu.Board;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -14,35 +14,24 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
-import javafx.stage.DirectoryChooser;/**
- * FXML Controller class
- *
- * @author minhn
- */
-public class LinkDownloadController implements Initializable {
+import javafx.stage.DirectoryChooser;
+
+public class LinkDownloadController {
     @FXML
     private Hyperlink hpLink;
     @FXML
@@ -53,37 +42,7 @@ public class LinkDownloadController implements Initializable {
     private ArrayList<ArrayList<String> > listEventDay = new ArrayList<ArrayList<String> > (1000);
     private ArrayList<ArrayList<Integer> > listEventDayColor = new ArrayList<ArrayList<Integer> > (1000);
     private ArrayList<Integer> fileAppearance = new ArrayList<Integer> (1000);
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        comBox.setItems(FXCollections.observableArrayList("Save as PDF", "Save as Text"));
-    }
-    @FXML
-    private void openLink(ActionEvent event) throws URISyntaxException, IOException {
-        System.out.println("Link clicked!");
-        Desktop.getDesktop().browse(new URI(hpLink.getText()));
-    }
 
-    @FXML
-    private void btnSaveClicked(ActionEvent event) {
-        String link = tLink.getText();
-        hpLink.setText(link);
-    }
-    
-    @FXML
-    void btnEditClicked(ActionEvent event) {
-        hpLink.setVisible(false);
-        tLink.setVisible(true);
-    }
-
-    @FXML
-    private void selectItem(ActionEvent event) {
-        labItem = comBox.getSelectionModel().getSelectedItem().toString();
-    }
-    
     /**
      * 
      * @param refdate Gets the information of an object from class LocalDate.
