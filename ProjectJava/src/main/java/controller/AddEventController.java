@@ -1,6 +1,6 @@
 package controller;
 
-import backend.ID_management;
+import backend.IdentityManagement;
 import backend.Sess1on;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,13 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
-import project.Main;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -167,7 +161,7 @@ public class AddEventController {
     public void deleteEvent(ActionEvent e)
     {
         Sess1on.deleteEvent=true;
-        ID_management.deleteID(Sess1on.tempEvent.getID());
+        IdentityManagement.deleteID(Sess1on.tempEvent.getID());
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }

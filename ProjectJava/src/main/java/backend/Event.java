@@ -65,7 +65,7 @@ public class Event {
     }
     public Event(Event event, Object... mode) {
         if (mode.length==0)this.id = event.getID();
-        else this.id=ID_management.getID();
+        else this.id= IdentityManagement.getID();
         this.name = event.getName();
         this.location = event.getLocation();
         this.date = event.getDate();

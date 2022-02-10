@@ -1,14 +1,12 @@
 package controller;
 
 import backend.Event;
-import backend.ID_management;
+import backend.IdentityManagement;
 import backend.LinkDownloadController;
 import backend.Sess1on;
 import com.itextpdf.text.DocumentException;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -92,7 +90,7 @@ public class Weekpage extends VBox {
         Button textBtn = new Button("Text");
         backBtn.setOnAction(e -> {
             try {
-                ID_management.updateToDB();
+                IdentityManagement.updateToDB();
                 new ControllerMonth().ChangeView(e);
             } catch (IOException ex) {
                 ex.printStackTrace();
