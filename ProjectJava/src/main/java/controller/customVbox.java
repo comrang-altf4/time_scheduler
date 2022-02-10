@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class customVbox extends VBox {
     public LocalDate curDate;
+    public int totalChildren=0;
     customVbox()
     {
         super();

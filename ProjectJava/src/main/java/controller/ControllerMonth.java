@@ -120,7 +120,12 @@ public class ControllerMonth extends Controller {
                     lb.setMaxHeight(Double.MAX_VALUE);
                     lb.setMaxWidth(Double.MAX_VALUE);
                     lb.setStyle(e.priorityColor[e.getPriority()]);
-                    vBoxes[i].getChildren().add(lb);
+                    vBoxes[i].totalChildren+=1;
+                    if (vBoxes[i].totalChildren>=4)
+                    {
+                        vBoxes[i].getChildren().set(3,new Label(String.format("and %d more",vBoxes[i].totalChildren-2)));
+                    }
+                    else vBoxes[i].getChildren().add(lb);
                 }
             }
         }
