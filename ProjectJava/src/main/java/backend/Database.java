@@ -5,7 +5,6 @@ import project.Main;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +71,6 @@ public class Database {
     }
 
     // Working
-    public static boolean checkID(int id) throws SQLException {
-        ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EID = " + id);
-        return result.isBeforeFirst();
-    }
-
-    // Working
     public static boolean checkHost(int id, String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EUSERNAME\n" + "FROM APPOINTMENTS\n" + "WHERE EID = " + id + " AND EUSERNAME = '" + username + "'");
         return result.isBeforeFirst();
@@ -96,7 +89,7 @@ public class Database {
 
     // Working
     // Not host cannot update event
-    public static boolean updateEvent(Event event) throws SQLException, ClassNotFoundException {
+    public static void updateEvent(Event event) throws SQLException, ClassNotFoundException {
         LocalDateTime date = event.getDate();
         if (checkHost(event.getID(), Main.getSession().getUsername())) {
             statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
@@ -104,9 +97,7 @@ public class Database {
                     date.getMinute() + ", EPRIORITY = " + event.getPriority() + ", EHYPERLINK = '" + event.getMeetinglink() + "'\n" + "WHERE EID = " + event.getID() + "");
             updateParticipants(event);
             statement.execute("COMMIT");
-            return true;
         }
-        return false;
     }
 
 
@@ -152,8 +143,6 @@ public class Database {
 
     // Working
     public static void addParticipants(int id, List<String> emails) throws SQLException {
-        if(emails.size()==0)
-            return;
         for (String email : emails) {
             if (checkHost(id, Main.getSession().getUsername()))
                 statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + id + ", '" + email + "', 30)");
@@ -182,13 +171,12 @@ public class Database {
         List<String> old = getParticipants(event.getID());
         for(String email: old) {
             statement.execute("DELETE FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + event.getID());
-        }
-        if(event.getListParticipants().size()==0) {
             statement.execute("COMMIT");
-            return;
         }
-        for(String email: event.getListParticipants()) {
-            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + email + "', 30)");
+        for(String participant: event.getListParticipants()) {
+            if(participant.isEmpty())
+                continue;
+            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + participant + "', 30)");
         }
         statement.execute("COMMIT");
     }

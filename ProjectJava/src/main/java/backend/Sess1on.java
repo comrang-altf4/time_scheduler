@@ -8,7 +8,7 @@ import java.util.List;
 public class Sess1on {
     private String username = "";
     private String password = "";
-    private String email = "howardsu08@gmail.com";
+    private String email = "";
     private String code = "";
     public static Boolean isCreatingEvent=false;
     public static Boolean deleteEvent=false;
