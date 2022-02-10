@@ -12,7 +12,6 @@ module project.projectjava {
     requires java.sql;
     requires jBCrypt;
     requires java.mail;
-    requires mysql.connector.java;
     requires itextpdf;
     requires java.desktop;
 
