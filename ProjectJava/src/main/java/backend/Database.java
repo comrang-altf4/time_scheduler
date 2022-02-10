@@ -144,7 +144,7 @@ public class Database {
     // Working
     public static void addParticipants(int id, List<String> emails) throws SQLException {
         for (String email : emails) {
-            if (checkHost(id, Main.getSession().getUsername()))
+            if (checkHost(id, Main.getSession().getUsername())&&!email.isEmpty())
                 statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + id + ", '" + email + "', 30)");
         }
         statement.execute("COMMIT");

@@ -27,6 +27,7 @@ public class ControllerDay extends Controller {
         txtDayAndMonth.setText(day + " " + monthOfYear[month - 1]);
         txtYear.setText(String.valueOf(year));
         currentDayMonth.setText(dayOfWeek[weekday - 1]);
+        updateFlowPane();
     }
 
     @FXML
@@ -36,7 +37,22 @@ public class ControllerDay extends Controller {
         int year = calendar.get(Calendar.YEAR);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         display_DayCalendar(dayOfWeek, day, month, year);
-        LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH));
+//        LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH));
+//        for (Event e : Sess1on.eventList) {
+//            if (e.getDate().toLocalDate().toString().equals(lDate.toString())) {
+//                Label lb = new Label(e.getName());
+//                lb.setPrefHeight(80);
+//                lb.setPrefWidth(580);
+//                lb.setStyle(e.priorityColor[e.getPriority()]);
+//                fpTodayEvent.getChildren().add(lb);
+//            }
+//        }
+        updateFlowPane();
+    }
+
+    void updateFlowPane() {
+        fpTodayEvent.getChildren().clear();
+        LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         for (Event e : Sess1on.eventList) {
             if (e.getDate().toLocalDate().toString().equals(lDate.toString())) {
                 Label lb = new Label(e.getName());
