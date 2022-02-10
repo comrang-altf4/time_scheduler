@@ -86,7 +86,7 @@ public class Database {
         LocalDateTime date = event.getDate();
         statement.execute("INSERT INTO APPOINTMENTS\n" + "VALUES(" + event.getID() + ", '" +  Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
                 event.getDuration() + ", " + date.getDayOfMonth() + ", " + date.getMonthValue() + ", " + date.getYear() + ", " + date.getHour() + ", " + date.getMinute() + ", " +
-                event.getPriority() + ")");
+                event.getPriority() + ", '" + event.getMeetinglink() + "')");
 
         statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + Main.getSession().getEmail() + "', " + event.getTime() + ")");
         statement.execute("COMMIT");
@@ -98,8 +98,8 @@ public class Database {
         LocalDateTime date = event.getDate();
         if (checkHost(event.getID(), Main.getSession().getUsername())) {
             statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
-                date.getDayOfMonth() + ", EMONTH = " + date.getMonthValue() + ", EYEAR = " + date.getYear() + ", EHOUR = " + date.getHour() + ", EMINUTE = " +
-                date.getMinute() + ", EPRIORITY = " + event.getPriority() + "\n" + "WHERE EID = " + event.getID() + "");
+                    date.getDayOfMonth() + ", EMONTH = " + date.getMonthValue() + ", EYEAR = " + date.getYear() + ", EHOUR = " + date.getHour() + ", EMINUTE = " +
+                    date.getMinute() + ", EPRIORITY = " + event.getPriority() + ", EHYPERLINK = '" + event.getMeetinglink() + "'\n" + "WHERE EID = " + event.getID() + "");
             statement.execute("COMMIT");
             return true;
         }
@@ -115,7 +115,7 @@ public class Database {
         LocalDateTime localDateTime = LocalDateTime.now();
         while (result.next()) {
             LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11));
+            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
             eventList.add(event);
         }
         return eventList;
@@ -131,7 +131,7 @@ public class Database {
 
         while (result.next()) {
             LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11));
+            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
             eventList.add(event);
         }
         return eventList;
@@ -181,5 +181,11 @@ public class Database {
     public static void setNotifyTime(int id, String email, int time) throws SQLException, ClassNotFoundException {
         statement.execute("UPDATE PARTICIPANTS\n" + "SET PTIME = " + time + "\nWHERE PID = " + id + " AND PEMAIL = '" + email + "'");
         statement.execute("COMMIT");
+    }
+
+    // Working
+    public static int getLastInsertID() throws SQLException {
+        ResultSet result = statement.executeQuery("SELECT MAX(EID)\n" + "FROM APPOINTMENTS");
+        return result.getInt(1);
     }
 }

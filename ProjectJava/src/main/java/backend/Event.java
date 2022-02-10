@@ -43,10 +43,23 @@ public class Event {
         this.date = date;
         this.priority = priority;
     }
+
+    public Event(int id, String name, String location, int duration, LocalDateTime date, int priority, String hyperlink) {
+        this.username= Main.getSession().getUsername();
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.duration = duration;
+        this.date = date;
+        this.priority = priority;
+        this.meetinglink = hyperlink;
+    }
+
     public LocalDateTime getEndTime()
     {
         return date.plusMinutes(duration);
     }
+
     public Event() {
         this.name="thisisdummyEvent";
         this.id = (int)1e6;
@@ -65,7 +78,7 @@ public class Event {
     }
     public Event(Event event, Object... mode) {
         if (mode.length==0)this.id = event.getID();
-        else this.id= IdentityManagement.getID();
+        else this.id=ID_management.getID();
         this.name = event.getName();
         this.location = event.getLocation();
         this.date = event.getDate();
@@ -84,6 +97,11 @@ public class Event {
     public String getLocation() {
         // Get location
         return this.location;
+    }
+
+    public String getUsername() {
+        // Get host of event
+        return this.username;
     }
 
     public int getID() {
