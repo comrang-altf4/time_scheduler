@@ -1,7 +1,4 @@
-package backend;/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+package backend;
 import backend.wagu.Block;
 import backend.wagu.Board;
 import backend.wagu.Table;
@@ -42,6 +39,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
+import javafx.stage.DirectoryChooser;
 /**
  * FXML Controller class
  *
@@ -99,8 +97,13 @@ public class LinkDownloadController implements Initializable {
      */
 //    @FXML
     public void btnDownloadClicked(LocalDate refDate,String mode) throws DocumentException, IOException {
-        String file_name = System.getProperty("user.home") + "/Downloads/";
-        //System.out.println(labItem);
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(null);
+        String file_path = null;
+        if(selectedDirectory != null){
+            file_path = selectedDirectory.getAbsolutePath()+"/";
+        }
+        else file_path = System.getProperty("user.home") + "/Downloads/";
         getEventDay(refDate);
         LocalDate startOfWeek = refDate.minusDays(refDate.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(6);
@@ -113,12 +116,12 @@ public class LinkDownloadController implements Initializable {
             try {
                 Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 9, Font.BOLD, new BaseColor(0, 0, 0)); 
                 Font bf12 = new Font(FontFamily.TIMES_ROMAN, 9);
-                int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".pdf");
+                int number = getFileName(file_path, "Schedule" + "_" + start + "-" + end, ".pdf");
                 if (number != 0)
-                    file_name += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".pdf";
-                else file_name += "Schedule" + "_" + start + "-" + end + ".pdf";
+                    file_path += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".pdf";
+                else file_path += "Schedule" + "_" + start + "-" + end + ".pdf";
                 Document document = new Document(PageSize.A4);
-                PdfWriter.getInstance(document, new FileOutputStream(file_name));
+                PdfWriter.getInstance(document, new FileOutputStream(file_path));
                 document.open();
                 float[] col = {2f, 2f, 2f, 2f, 2f, 2f, 2f};
                 PdfPTable table = new PdfPTable(col);
@@ -146,11 +149,11 @@ public class LinkDownloadController implements Initializable {
             }
         }
         if (labItem == "Text"){
-            int number = getFileName(file_name, "Schedule" + "_" + start + "-" + end, ".txt");
+            int number = getFileName(file_path, "Schedule" + "_" + start + "-" + end, ".txt");
             if (number != 0)
-                file_name += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".txt";
-            else file_name += "Schedule" + "_" + start + "-" + end + ".txt";
-            FileWriter document = new FileWriter(file_name);
+                file_path += "Schedule" + "_" + start + "-" + end + " (" + String.valueOf(number) + ")" + ".txt";
+            else file_path += "Schedule" + "_" + start + "-" + end + ".txt";
+            FileWriter document = new FileWriter(file_path);
             Board board = new Board(650);
             Block bigblock = new Block(board, 216, 2, title);
             board.setInitialBlock(bigblock.setDataAlign(Block.DATA_CENTER));
