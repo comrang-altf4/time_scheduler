@@ -1,0 +1,32 @@
+.home-button {
+    -fx-background-image: url("home.png");
+	-fx-background-radius: 1em;
+	-fx-background-size: 20px;
+	-fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+}
+
+.sign-out-button {
+    -fx-background-image: url("logout.png");
+	-fx-background-radius: 1em;
+	-fx-background-size: 30px;
+	-fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+}
+
+.left-arrow-button {
+    -fx-background-image: url("left-arrow.png");
+    -fx-background-radius: 1em;
+   	-fx-background-size: 25px;
+   	-fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+}
+
+.right-arrow-button {
+    -fx-background-image: url("right-arrow.png");
+    -fx-background-radius: 1em;
+   	-fx-background-size: 25px;
+   	-fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+}
+

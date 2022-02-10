@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMonth">
+<AnchorPane fx:id="mainPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMonth">
     <children>
-        <Button id="btn1" fx:id="btnPrevDay" layoutX="301.0" layoutY="46.0" mnemonicParsing="false" onAction="#changeviewmonth" prefHeight="26.0" prefWidth="36.0" text="&lt;" />
-        <Button id="btn2" fx:id="btnChangeview" layoutX="645.0" layoutY="47.0" mnemonicParsing="false" onAction="#ChangeView" text="Change View" />
-        <Button id="btn3" fx:id="btnNextDay" layoutX="517.0" layoutY="46.0" mnemonicParsing="false" onAction="#changeviewmonth" text="&gt;" />
-        <GridPane fx:id="gridpane_monthview" focusTraversable="true" gridLinesVisible="true" layoutX="54.0" layoutY="108.0" prefHeight="350.0" prefWidth="702.0">
+        <GridPane fx:id="gridpane_monthview" focusTraversable="true" gridLinesVisible="true" layoutX="57.0" layoutY="120.0" prefHeight="433.0" prefWidth="785.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
@@ -31,11 +31,31 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
             </rowConstraints>
-            <effect>
-                <DropShadow />
-            </effect>
         </GridPane>
-        <Text fx:id="currentDayMonth" layoutX="366.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="104.5367431640625" />
+        <Text fx:id="currentDayMonth" layoutX="353.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="September 2022" textAlignment="CENTER" wrappingWidth="193.33673095703125">
+         <font>
+            <Font name="Trebuchet MS" size="26.0" />
+         </font></Text>
+      <Button fx:id="btnPrevDay" contentDisplay="GRAPHIC_ONLY" layoutX="320.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeviewmonth" prefHeight="25.0" prefWidth="25.0" styleClass="left-arrow-button" stylesheets="@buttons-icon.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnNextDay" contentDisplay="GRAPHIC_ONLY" layoutX="553.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeviewmonth" prefHeight="25.0" prefWidth="25.0" styleClass="right-arrow-button" stylesheets="@buttons-icon.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <JFXButton fx:id="btnChangeview" alignment="CENTER" contentDisplay="CENTER" layoutX="680.0" layoutY="45.0" onAction="#ChangeView" ripplerFill="WHITE" style="-fx-background-color: black;" text="Change view" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Button contentDisplay="GRAPHIC_ONLY" layoutX="830.0" layoutY="42.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="sign-out-button" stylesheets="@buttons-icon.css" text="Button">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
     <effect>
         <DropShadow />
