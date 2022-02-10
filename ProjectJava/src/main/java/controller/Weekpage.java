@@ -124,6 +124,7 @@ public class Weekpage extends VBox {
         });
         addEventBtn.setOnAction(e -> {
             try {
+                Sess1on.tempEvent=new Event();
                 Sess1on.isCreatingEvent = true;
                 addEventBtn.addEvent();
                 addEvent();
