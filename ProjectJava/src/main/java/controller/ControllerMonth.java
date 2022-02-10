@@ -104,6 +104,7 @@ public class ControllerMonth extends Controller {
     }
 
     private void displayMonthCalendar() {
+        for (int i=0;i<42;i++)vBoxes[i].getChildren().clear();
         getDayOrder();
         cal.add(Calendar.MONTH, -1);
         int curMonth = cal.get(Calendar.MONTH);
