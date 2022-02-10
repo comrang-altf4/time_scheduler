@@ -1,9 +1,6 @@
 package backend;
-import backend.wagu.Block;
-import backend.wagu.Board;
-import backend.wagu.Table;
-
-import java.util.Collections;
+import wagu.Block;
+import wagu.Board;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -29,6 +26,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,13 +34,10 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Cell;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
-import javafx.stage.DirectoryChooser;
-/**
+import javafx.stage.DirectoryChooser;/**
  * FXML Controller class
  *
  * @author minhn
@@ -105,7 +100,7 @@ public class LinkDownloadController implements Initializable {
         if(selectedDirectory != null){
             file_path = selectedDirectory.getAbsolutePath()+"/";
         }
-        else file_path = System.getProperty("user.home") + "/Downloads/";
+        else return;
         getEventDay(refDate);
         LocalDate startOfWeek = refDate.minusDays(refDate.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(6);
@@ -301,7 +296,7 @@ public class LinkDownloadController implements Initializable {
               }
           } 
         }
-        Collections.sort(fileAppearance);
+        Collections.sort(fileAppearance);  
         if (fileAppearance.size() > 0)
             number = fileAppearance.get(fileAppearance.size()-1)+1;
         else number = 0;
