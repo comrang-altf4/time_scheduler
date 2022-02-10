@@ -2,6 +2,8 @@ package backend;
 import backend.wagu.Block;
 import backend.wagu.Board;
 import backend.wagu.Table;
+
+import java.util.Collections;
 import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -299,7 +301,7 @@ public class LinkDownloadController implements Initializable {
               }
           } 
         }
-        Collections.sort(fileAppearance);  
+        Collections.sort(fileAppearance);
         if (fileAppearance.size() > 0)
             number = fileAppearance.get(fileAppearance.size()-1)+1;
         else number = 0;

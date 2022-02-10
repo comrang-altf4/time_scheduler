@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,7 +25,12 @@
       </Pane>
       <Pane layoutX="250.0" prefHeight="400.0" prefWidth="350.0">
          <children>
-            <Label layoutX="75.0" layoutY="126.0" prefHeight="40.0" prefWidth="213.0" text="Please enter the verification code we sent to your email address" textAlignment="CENTER" textFill="#313131" wrapText="true">
+            <TextField fx:id="code" alignment="CENTER" layoutX="110.0" layoutY="190.0" onAction="#onVerify" prefHeight="50.0" prefWidth="139.0" promptText="Code">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Label layoutX="75.0" layoutY="126.0" prefHeight="40.0" prefWidth="213.0" text="Enter the verification code sent to your email address" textAlignment="CENTER" textFill="#313131" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
@@ -34,11 +40,13 @@
                   <Font name="Cambria Bold" size="30.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="code" focusColor="#009fff" layoutX="75.0" layoutY="200.0" prefHeight="25.0" prefWidth="213.0" promptText="Enter your verification code" unFocusColor="#313131" />
             <JFXButton buttonType="RAISED" layoutX="74.0" layoutY="265.0" onAction="#onVerify" prefHeight="40.0" prefWidth="213.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Verify" textFill="#313131">
                <font>
                   <Font name="Cambria" size="14.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
               <Hyperlink layoutX="101.0" layoutY="319.0" onAction="#onResendCode" text="Resend verification code" textFill="#313131">
                   <font>
@@ -50,7 +58,10 @@
                       <Font size="14.0" />
                   </font>
               </Hyperlink>
-              <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="23.0" layoutY="26.0" maxHeight="45.0" maxWidth="45.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onHomeAction" prefHeight="20.0" prefWidth="20.0" styleClass="home-button" stylesheets="@home-button.css" />
+              <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" layoutX="23.0" layoutY="26.0" maxHeight="45.0" maxWidth="45.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onHomeAction" prefHeight="20.0" prefWidth="20.0" styleClass="home-button" stylesheets="@buttons-icon.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Label fx:id="verifyMessage" layoutX="74.0" layoutY="227.0" prefHeight="17.0" prefWidth="213.0" textFill="RED">
                <font>
                   <Font size="10.0" />
