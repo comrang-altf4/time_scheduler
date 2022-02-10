@@ -186,6 +186,11 @@ public class Database {
     // Working
     public static int getLastInsertID() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT MAX(EID)\n" + "FROM APPOINTMENTS");
-        return result.getInt(1);
+        if (result.isBeforeFirst()){
+            result.next();
+            return result.getInt(1);
+        }
+        else return 0;
+//        return result.isBeforeFirst()?result.getInt(1):0;
     }
 }

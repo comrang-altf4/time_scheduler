@@ -26,7 +26,7 @@ public class IdentityManagement {
 	}
 
 	public static void updateToDB() throws SQLException,ClassNotFoundException {
-		int curMaxID=Sess1on.getCurMaxID();
+		int curMaxID=Database.getLastInsertID();
 		for (int i=0;i<Sess1on.eventList.size();i++) {
 			if (Sess1on.eventList.get(i).getID() >= 1000000)
 			{

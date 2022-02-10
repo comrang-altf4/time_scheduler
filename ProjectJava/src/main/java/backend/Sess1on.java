@@ -87,4 +87,9 @@ public class Sess1on {
         // Get list of events
         return eventList;
     }
+    public void release()
+    {
+        username="";
+        eventList = new ArrayList<>();
+    }
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import backend.IdentityManagement;
+import backend.Sess1on;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -11,8 +13,12 @@ import javafx.scene.text.Text;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import project.Main;
+import transition.AnimationFX;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 public class Controller {
     static protected Stage stage;
     static protected Scene scene;
@@ -45,7 +51,6 @@ public class Controller {
             "Saturday" };
     protected static final String[] monthOfYear = { "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December" };
-
     public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
@@ -55,5 +60,9 @@ public class Controller {
         stage.setScene(scene);
         stage.show();
        }
-
+   public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+       IdentityManagement.updateToDB();
+       new Sess1on().release();
+       AnimationFX.transitionBackward("/login-view.fxml",(Parent) event.getSource());
+   }
 }

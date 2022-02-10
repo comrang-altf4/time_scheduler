@@ -90,13 +90,8 @@ public class Weekpage extends VBox {
         Button textBtn = new Button("Text");
         backBtn.setOnAction(e -> {
             try {
-                IdentityManagement.updateToDB();
                 new ControllerMonth().ChangeView(e);
             } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
