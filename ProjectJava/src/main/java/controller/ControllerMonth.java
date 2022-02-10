@@ -123,7 +123,7 @@ public class ControllerMonth extends Controller {
                 }
             }
         }
-        currentDayMonth.setText(String.valueOf(cal.get(Calendar.MONTH) + 1));
+        currentDayMonth.setText(monthOfYear[cal.get(Calendar.MONTH)] + " " + cal.get(Calendar.YEAR));
     }
     public void switchWeekpage(javafx.event.Event e, LocalDate lDate)
     {

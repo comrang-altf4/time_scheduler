@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,12 +20,11 @@ import java.util.TimeZone;
 public class ControllerDay extends Controller {
     static Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
     @FXML
-    FlowPane fpTodayEvent;
+    VBox fpTodayEvent;
 
     void display_DayCalendar(int weekday, int day, int month, int year) {
         txtWeekday.setText(dayOfWeek[weekday - 1]);
-        txtDay.setText(String.valueOf(day));
-        txtMonth.setText(String.valueOf(month));
+        txtDayAndMonth.setText(day + " " + monthOfYear[month - 1]);
         txtYear.setText(String.valueOf(year));
         currentDayMonth.setText(dayOfWeek[weekday - 1]);
     }
@@ -39,8 +40,8 @@ public class ControllerDay extends Controller {
         for (Event e : Sess1on.eventList) {
             if (e.getDate().toLocalDate().toString().equals(lDate.toString())) {
                 Label lb = new Label(e.getName());
-                lb.setMaxHeight(Double.MAX_VALUE);
-                lb.setMaxWidth(Double.MAX_VALUE);
+                lb.setPrefHeight(80);
+                lb.setPrefWidth(580);
                 lb.setStyle(e.priorityColor[e.getPriority()]);
                 fpTodayEvent.getChildren().add(lb);
             }

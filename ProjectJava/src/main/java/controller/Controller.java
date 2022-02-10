@@ -38,10 +38,13 @@ public class Controller {
     @FXML
     public Text txtYear;
     @FXML
+    public Text txtDayAndMonth;
+    @FXML
     public AnchorPane mainPane;
     protected static final String[] dayOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
             "Saturday" };
-
+    protected static final String[] monthOfYear = { "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" };
 
     public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
