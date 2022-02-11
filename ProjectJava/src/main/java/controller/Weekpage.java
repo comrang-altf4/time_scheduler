@@ -1,8 +1,7 @@
 package controller;
 
 import backend.Event;
-import backend.IdentityManagement;
-import backend.LinkDownloadController;
+import backend.ExportFile;
 import backend.Sess1on;
 import com.itextpdf.text.DocumentException;
 import javafx.beans.property.BooleanProperty;
@@ -19,7 +18,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -109,7 +107,7 @@ public class Weekpage extends VBox {
         pdfBtn.setOnAction(e -> {
             List<Event> listWeekEvent = new Sess1on().gettEventInWeek(today);
             try {
-                new LinkDownloadController().btnDownloadClicked(today, pdfBtn.getText());
+                new ExportFile().btnDownloadClicked(today, pdfBtn.getText());
             } catch (DocumentException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -119,7 +117,7 @@ public class Weekpage extends VBox {
         textBtn.setOnAction(e -> {
             List<Event> listWeekEvent = new Sess1on().gettEventInWeek(today);
             try {
-                new LinkDownloadController().btnDownloadClicked(today, textBtn.getText());
+                new ExportFile().btnDownloadClicked(today, textBtn.getText());
             } catch (DocumentException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
