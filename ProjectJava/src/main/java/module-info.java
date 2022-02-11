@@ -20,4 +20,5 @@ module project.projectjava {
     opens controller to javafx.fxml;
     exports project;
     exports controller;
+    exports backend;
 }

@@ -114,9 +114,6 @@ public class AddEventController {
         }
         else
         {
-//            System.out.println(tempEvent.getDate());
-//            System.out.println(tempEvent.getPriority());
-//            System.out.println(tempEvent.getTime());
             eventName.setText(tempEvent.getName());
             for (int i=0;i<priority.size();i++) if (priority.get(i).priority==tempEvent.getPriority())
             {
@@ -125,17 +122,27 @@ public class AddEventController {
                 break;
             }
             customLocalDateTime tempCustom=new customLocalDateTime(tempEvent.getDate());
-            for (int i=0;i<timeslot.size();i++)if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
-            {
-                System.out.println("Start time");
-                cbStart.setValue(timeslot.get(i));
-                break;
-            }
-            System.out.println(tempEvent.getDuration());
-            tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(tempEvent.getDuration()));
+            int tempHour=tempCustom.localDateTime.getHour();
+            int tempMinute=tempCustom.localDateTime.getMinute();
             for (int i=0;i<timeslot.size();i++)
             {
-                if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
+                int refHour=timeslot.get(i).localDateTime.getHour();
+                int refMin=timeslot.get(i).localDateTime.getMinute();
+                if (tempHour==refHour&&tempMinute==refMin)
+                {
+                    System.out.println("Start time");
+                    cbStart.setValue(timeslot.get(i));
+                    break;
+                }
+            }
+            tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(tempEvent.getDuration()));
+            tempHour=tempCustom.localDateTime.getHour();
+            tempMinute=tempCustom.localDateTime.getMinute();
+            for (int i=0;i<timeslot.size();i++)
+            {
+                int refHour=timeslot.get(i).localDateTime.getHour();
+                int refMin=timeslot.get(i).localDateTime.getMinute();
+                if (tempHour==refHour&&tempMinute==refMin)
                 {
                     System.out.println("End time");
                     cbEnd.setValue(timeslot.get(i));

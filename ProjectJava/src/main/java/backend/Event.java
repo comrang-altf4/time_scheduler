@@ -1,4 +1,5 @@
 package backend;
+import controller.RemindTime;
 import project.Main;
 
 import java.time.LocalDateTime;
@@ -122,6 +123,7 @@ public class Event {
         this.meetinglink = event.meetinglink;
         this.listParticipants= new ArrayList<>(event.listParticipants);
         this.time=event.time;
+        for (int i=0;i<4;i++)if (this.time== RemindTime.remindInt[i]){this.timeID=i;break;}
     }
 
     /**
