@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provide necessary attributes and functions for the current session
+ * This class provides necessary attributes and functions for the current session
  * @author comrang-altf4
  */
 public class Sess1on {
