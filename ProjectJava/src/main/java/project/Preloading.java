@@ -1,3 +1,7 @@
+/**
+ * This class used for create preloading screen.
+ * @author Huy To Quang
+ */
 package project;
 
 import javafx.application.Preloader;
@@ -11,6 +15,11 @@ import java.io.IOException;
 public class Preloading extends Preloader {
     private Parent parent;
 
+    /**
+     * This function starts a stage and set the preloading view as scene to the stage.
+     * @param stage
+     * @throws IOException
+     */
     public void start(Stage stage) throws IOException {
         // Load preloader
         parent = FXMLLoader.load(getClass().getResource("/preloading-view.fxml"));
@@ -19,6 +28,10 @@ public class Preloading extends Preloader {
         stage.show();
     }
 
+    /**
+     * This function closes the current stage whenever the log in screen starts.
+     * @param event
+     */
     @Override
     public void handleStateChangeNotification(StateChangeNotification event) {
         // Preloader disappears when application starts

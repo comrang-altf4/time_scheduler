@@ -1,3 +1,8 @@
+/**
+ * This class links the database to the application.
+ * @author Huy To Quang
+ */
+
 package backend;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -14,8 +19,12 @@ public class Database {
     private final static String JDBC_User = "S1_student2_18";
     private final static String JDBC_Password = "Ora2221";
 
-    // Working
-    // Connect to database
+
+    /**
+     * This function connects the application to database by using ojdbc.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public static void connectDB() throws ClassNotFoundException, SQLException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_User, JDBC_Password);
@@ -23,7 +32,15 @@ public class Database {
         tStatement = connection.createStatement();
     }
 
-    // Working
+    /**
+     * This function authorizes user whenever they log in the application.
+     * Returns true if the authentication is successful, otherwise false.
+     * @param username
+     * @param password
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean login(String username, String password) throws SQLException, ClassNotFoundException {
         // Result from query
         ResultSet result = statement.executeQuery("SELECT HASHPASS\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
@@ -37,46 +54,86 @@ public class Database {
         return false;
     }
 
-    // Working
+    /**
+     * This function gets corresponding email according to the username.
+     * Returns email of a user as String.
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static String getEmail(String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EMAIL\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
         result.next();
         return result.getString(1);
     }
 
-    // Working
+    /**
+     * This function checks whether an email is already registered.
+     * Returns true if an email is already existed, otherwise false.
+     * @param email
+     * @return
+     * @throws SQLException
+     */
     public static boolean checkEmail(String email) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM ACCOUNTS\n" + "WHERE EMAIL = '" + email + "'");
         return result.isBeforeFirst();
     }
 
-    // Working
+    /**
+     * This function checks whether a username is already registered.
+     * Returns true if username is already existed, otherwise false.
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static boolean checkUsername(String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
         return result.isBeforeFirst();
     }
 
-    // Working
+    /**
+     * This function changes password of a user.
+     * @param email
+     * @param password
+     * @throws SQLException
+     */
     public static void changePassword(String email, String password) throws SQLException {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
         statement.execute("UPDATE ACCOUNTS\n" + "SET HASHPASS = '" + password + "'\n" + "WHERE EMAIL = '" + email + "'");
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function registers new user and store them in database.
+     * @param username
+     * @param password
+     * @param email
+     * @throws SQLException
+     */
     public static void register(String username, String password, String email) throws SQLException {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
         statement.execute("INSERT INTO ACCOUNTS\n" + "VALUES ('" + username + "', '" + password + "', '" + email + "')");
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function checks whether current user is the host of an event.
+     * Returns true if they are the host, otherwise false.
+     * @param id
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static boolean checkHost(int id, String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EUSERNAME\n" + "FROM APPOINTMENTS\n" + "WHERE EID = " + id + " AND EUSERNAME = '" + username + "'");
         return result.isBeforeFirst();
     }
 
-    // Working
+    /**
+     * This function adds new event into the database.
+     * @param event
+     * @throws SQLException
+     */
     public static void addEvent(Event event) throws SQLException {
         LocalDateTime date = event.getDate();
         statement.execute("INSERT INTO APPOINTMENTS\n" + "VALUES(" + event.getID() + ", '" + Main.getSession().getUsername() + "', '" + event.getName() + "', '" + event.getLocation() + "', " +
@@ -87,8 +144,12 @@ public class Database {
         addParticipants(event.getID(), event.getListParticipants());
     }
 
-    // Working
-    // Not host cannot update event
+    /**
+     * This function updates old event only if current user is the host of the event.
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateEvent(Event event) throws SQLException, ClassNotFoundException {
         LocalDateTime date = event.getDate();
         if (checkHost(event.getID(), Main.getSession().getUsername())) {
@@ -101,8 +162,13 @@ public class Database {
     }
 
 
-    // Working
-    // Get list events of a user
+    /**
+     * This function gets all events of current user.
+     * Returns all events in a List.
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
         ResultSet result = tStatement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "'");
         List<Event> eventList = new ArrayList<>();
@@ -116,8 +182,13 @@ public class Database {
         return eventList;
     }
 
-    // Working
-    // Get list of all events in one day for the system
+    /**
+     * This function gets all events that will happen today for sending reminders.
+     * Returns all events in a List.
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Event> getDayEvents() throws SQLException, ClassNotFoundException {
         LocalDateTime localDateTime = LocalDateTime.now();
         List<Event> eventList = new ArrayList<>();
@@ -132,7 +203,11 @@ public class Database {
         return eventList;
     }
 
-    // Working
+    /**
+     * This function deletes events according to corresponding ids.
+     * @param ids
+     * @throws SQLException
+     */
     public static void deleteEvents(List<Integer> ids) throws SQLException {
         for (Integer id : ids) {
             if (checkHost(id, Main.getSession().getUsername()))
@@ -141,7 +216,12 @@ public class Database {
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function adds a list of participants to an event
+     * @param id
+     * @param emails
+     * @throws SQLException
+     */
     public static void addParticipants(int id, List<String> emails) throws SQLException {
         for (String email : emails) {
             if (checkHost(id, Main.getSession().getUsername())&&!email.isEmpty())
@@ -150,7 +230,14 @@ public class Database {
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function gets all participants of an event.
+     * Returns all participants in a List
+     * @param id
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<String> getParticipants(int id) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PEMAIL\n" + "FROM PARTICIPANTS\n" + "WHERE PID = " + id);
         List<String> emails = new ArrayList<>();
@@ -166,7 +253,12 @@ public class Database {
         return emails;
     }
 
-    // Working
+    /**
+     * This function updates the list of participants of an event in a database.
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateParticipants(Event event) throws SQLException, ClassNotFoundException {
         List<String> old = getParticipants(event.getID());
         for(String email: old) {
@@ -181,7 +273,15 @@ public class Database {
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function gets notification time for a reminder.
+     * Returns notify time as Integer.
+     * @param id
+     * @param email
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static int getNotifyTime(int id, String email) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PTIME\n" + "FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + id);
         if (result.isBeforeFirst()) {
@@ -191,13 +291,25 @@ public class Database {
         return 0;
     }
 
-    // Working
+    /**
+     * This function sets new notify time for a reminder.
+     * @param id
+     * @param email
+     * @param time
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void setNotifyTime(int id, String email, int time) throws SQLException, ClassNotFoundException {
         statement.execute("UPDATE PARTICIPANTS\n" + "SET PTIME = " + time + "\nWHERE PID = " + id + " AND PEMAIL = '" + email + "'");
         statement.execute("COMMIT");
     }
 
-    // Working
+    /**
+     * This function gets the last event's id that has been added to database.
+     * Returns the last inserted id as Integer.
+     * @return
+     * @throws SQLException
+     */
     public static int getLastInsertID() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT MAX(EID)\n" + "FROM APPOINTMENTS");
         if (result.isBeforeFirst()) {

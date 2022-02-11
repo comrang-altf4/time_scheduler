@@ -1,3 +1,8 @@
+/**
+ * This class used for sending email in general.
+ * @author Huy To Quang
+ */
+
 package backend;
 
 import java.util.Properties;
@@ -7,6 +12,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Email {
+    /**
+     * This function connects to smtp.gmail.com host server.
+     * Creates session and mime message for sending email.
+     * @param receiver
+     * @return
+     * @throws MessagingException
+     */
     private static Message sendEmail(String receiver) throws MessagingException {
         // System's email
         String sender = "no.reply.timescheduler@gmail.com";
@@ -35,6 +47,13 @@ public class Email {
         return message;
     }
 
+    /**
+     * This function sends verification code to user whenever they change password or register new account.
+     * The content of the mail is an Integer ranging from 100001 to 999999
+     * @param receiver
+     * @return
+     * @throws MessagingException
+     */
     public static String sendVerificationCode(String receiver) throws MessagingException {
         Message message = sendEmail(receiver);
         String verification = String.valueOf(ThreadLocalRandom.current().nextInt(100000, 1000000));
@@ -44,6 +63,13 @@ public class Email {
         return verification;
     }
 
+    /**
+     * This function sends reminder about an event to user.
+     * @param receiver
+     * @param event
+     * @param time
+     * @throws MessagingException
+     */
     public static void sendReminder(String receiver, Event event, int time) throws MessagingException {
         Message message = sendEmail(receiver);
         message.setSubject("Event reminder!!!");

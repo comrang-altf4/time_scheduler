@@ -1,17 +1,29 @@
+/**
+ * This class is used for simple transitions between scenes in a stage.
+ * @author Huy To Quang
+ */
 package transition;
 
 import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
 
 
 public class AnimationFX {
+    /**
+     * This function change scene with fade and keyframe animation from left to right
+     * @param fxml
+     * @param currentParent
+     * @throws IOException
+     */
     public static void transitionForward(String fxml, Parent currentParent) throws IOException {
         // Creating queue for scenes to appear
         Parent newParent = FXMLLoader.load(AnimationFX.class.getResource(fxml));
@@ -43,6 +55,12 @@ public class AnimationFX {
         parallelTransition.play();
     }
 
+    /**
+     * This function change scene with fade and keyframe animation from right to left
+     * @param fxml
+     * @param currentParent
+     * @throws IOException
+     */
     public static void transitionBackward(String fxml, Parent currentParent) throws IOException {
         // Creating queue for scenes to appear
         Parent newParent = FXMLLoader.load(AnimationFX.class.getResource(fxml));
@@ -72,5 +90,28 @@ public class AnimationFX {
 
         parallelTransition.setOnFinished(event -> root.getChildren().remove(currentParent));
         parallelTransition.play();
+    }
+
+    /**
+     * This function change scene by closing current stage and create a new stage.
+     * @param fxml
+     * @param currentParent
+     * @throws IOException
+     */
+    public static void changeView(String fxml, Parent currentParent) throws IOException {
+        Stage stage = (Stage) currentParent.getScene().getWindow();
+        stage.close();
+        Parent newParent = FXMLLoader.load(AnimationFX.class.getResource(fxml));
+
+        Group group = new Group(newParent);
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(group));
+        newStage.initStyle(StageStyle.DECORATED);
+        newStage.show();
+
+        Image icon = new Image("icon.png");
+        newStage.getIcons().add(icon);
+        newStage.setTitle("Kalendar");
+        newStage.setResizable(false);
     }
 }
