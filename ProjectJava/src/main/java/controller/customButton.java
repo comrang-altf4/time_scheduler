@@ -16,7 +16,7 @@ import static backend.Sess1on.tempEvent;
 
 /**
  * This class provides Button with some important attributes
- * @
+ * @author comrang-altf4
  */
 public class customButton extends Button {
     public Event event;

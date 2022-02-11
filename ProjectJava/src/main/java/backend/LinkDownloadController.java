@@ -44,12 +44,11 @@ public class LinkDownloadController {
     private ArrayList<Integer> fileAppearance = new ArrayList<Integer> (1000);
 
     /**
-     * 
-     * @param refdate Gets the information of an object from class LocalDate.
+     * Creating file with chosen extension in the Downloads directory.
+     * @param refDate Gets the information of an object from class LocalDate.
      * @param mode Gets the option PDF or TXT.
      * @throws DocumentException Signals that an error has occurred in a Document.
-     * @throws IOException Signals that an I/O exception of some sort has occurred. 
-     * @return Creating file with chosen extension in the Downloads directory.
+     * @throws IOException Signals that an I/O exception of some sort has occurred.
      */
 //    @FXML
     public void btnDownloadClicked(LocalDate refDate,String mode) throws DocumentException, IOException {

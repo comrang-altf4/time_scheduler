@@ -14,7 +14,7 @@ public class customPriority {
 
     /**
      * override toString() to display the priority in desired string
-     * @return
+     * @return  priority in desired format
      */
     @Override
     public String toString()
