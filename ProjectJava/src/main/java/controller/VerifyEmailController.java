@@ -1,3 +1,8 @@
+/**
+ * This class is the controller for email verification when registering new account
+ * @author Huy To Quang
+ */
+
 package controller;
 
 import backend.Database;

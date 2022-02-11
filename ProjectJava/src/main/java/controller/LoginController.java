@@ -1,3 +1,7 @@
+/**
+ * This class is the controller for log in screen
+ * @author Huy To Quang and Tan Nang Le
+ */
 package controller;
 
 import backend.Database;
@@ -20,7 +24,15 @@ public class LoginController {
     @FXML private PasswordField password;
     @FXML private AnchorPane anchorPane;
     @FXML private Label incorrectInformationMessage;
-    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException, InterruptedException, IOException {
+
+    /**
+     * This function signals errors when authenticating and changes to calendar view when all are authenticated
+     * @param event signal of action on login button
+     * @throws SQLException whenever there is a problem with the database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
+     * @throws IOException whenever there is a problem with file loading
+     */
+    @FXML private void onLoginAction(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
         if(username.getText()==null||username.getText().isEmpty()||password.getText()==null||password.getText().isEmpty()) {
             incorrectInformationMessage.setText("Username or Password is incorrect!");
             incorrectInformationMessage.setTextFill(Color.rgb(210, 39, 30));

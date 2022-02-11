@@ -1,3 +1,7 @@
+/**
+ * This class is the controller for verify email screen when changing password
+ * @author Huy To Quang
+ */
 package controller;
 
 import backend.Email;
@@ -30,6 +34,12 @@ public class VerifyController {
         String newCode = Email.sendVerificationCode(Main.getSession().getEmail());
         Main.getSession().setCode(newCode);
     }
+
+    /**
+     * This function changes to changing password view when email authentication is valid
+     * @param event signal of action on verify button
+     * @throws IOException whenever there is a problem with file loading
+     */
     @FXML
     private void onVerify(ActionEvent event) throws IOException {
         if(code.getText().equals(Main.getSession().getCode()))

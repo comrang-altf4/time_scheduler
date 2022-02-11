@@ -22,8 +22,8 @@ public class Database {
 
     /**
      * This function connects the application to database by using ojdbc.
-     * @throws ClassNotFoundException
-     * @throws SQLException
+     * @throws ClassNotFoundException whenever driver cannot be loaded
+     * @throws SQLException whenever cannot connect to the database
      */
     public static void connectDB() throws ClassNotFoundException, SQLException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -34,12 +34,11 @@ public class Database {
 
     /**
      * This function authorizes user whenever they log in the application.
-     * Returns true if the authentication is successful, otherwise false.
-     * @param username
-     * @param password
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param username username that the user entered
+     * @param password password that the user entered
+     * @return true if the authentication is successful, otherwise false.
+     * @throws SQLException whenever there is a problem relating to database
+     * @throws ClassNotFoundException whenever driver cannot be loaded
      */
     public static boolean login(String username, String password) throws SQLException, ClassNotFoundException {
         // Result from query
@@ -56,10 +55,9 @@ public class Database {
 
     /**
      * This function gets corresponding email according to the username.
-     * Returns email of a user as String.
-     * @param username
-     * @return
-     * @throws SQLException
+     * @param username username of the user
+     * @return email of a user as String
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static String getEmail(String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EMAIL\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
@@ -69,10 +67,9 @@ public class Database {
 
     /**
      * This function checks whether an email is already registered.
-     * Returns true if an email is already existed, otherwise false.
-     * @param email
-     * @return
-     * @throws SQLException
+     * @param email an email that needed to be checked
+     * @return true if an email is already existed, otherwise false.
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static boolean checkEmail(String email) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM ACCOUNTS\n" + "WHERE EMAIL = '" + email + "'");
@@ -81,10 +78,9 @@ public class Database {
 
     /**
      * This function checks whether a username is already registered.
-     * Returns true if username is already existed, otherwise false.
-     * @param username
-     * @return
-     * @throws SQLException
+     * @param username a username that needed to be checked.
+     * @return true if username is already existed, otherwise false.
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static boolean checkUsername(String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
@@ -93,9 +89,9 @@ public class Database {
 
     /**
      * This function changes password of a user.
-     * @param email
-     * @param password
-     * @throws SQLException
+     * @param email email of the user that need to change password
+     * @param password new password that the user entered
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static void changePassword(String email, String password) throws SQLException {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -105,10 +101,10 @@ public class Database {
 
     /**
      * This function registers new user and store them in database.
-     * @param username
-     * @param password
-     * @param email
-     * @throws SQLException
+     * @param username username that the user entered
+     * @param password password that the user entered
+     * @param email email that the user entered
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static void register(String username, String password, String email) throws SQLException {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -118,11 +114,10 @@ public class Database {
 
     /**
      * This function checks whether current user is the host of an event.
-     * Returns true if they are the host, otherwise false.
-     * @param id
-     * @param username
-     * @return
-     * @throws SQLException
+     * @param id id of an event that needed to check host
+     * @param username username that needed to be checked
+     * @return true if they are the host, otherwise false.
+     * @throws SQLException whenever there is a problem relating to database
      */
     public static boolean checkHost(int id, String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EUSERNAME\n" + "FROM APPOINTMENTS\n" + "WHERE EID = " + id + " AND EUSERNAME = '" + username + "'");
@@ -131,8 +126,8 @@ public class Database {
 
     /**
      * This function adds new event into the database.
-     * @param event
-     * @throws SQLException
+     * @param event event that needed to be added to database
+     * @throws SQLException whenever there is a problem with database
      */
     public static void addEvent(Event event) throws SQLException {
         LocalDateTime date = event.getDate();
@@ -146,9 +141,9 @@ public class Database {
 
     /**
      * This function updates old event only if current user is the host of the event.
-     * @param event
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param event event that needed to be updated to the database
+     * @throws SQLException whenever there is a problem with database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
      */
     public static void updateEvent(Event event) throws SQLException, ClassNotFoundException {
         LocalDateTime date = event.getDate();
@@ -164,10 +159,9 @@ public class Database {
 
     /**
      * This function gets all events of current user.
-     * Returns all events in a List.
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @return all events in a List.
+     * @throws SQLException whenever there is a problem with database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
      */
     public static List<Event> getEvents() throws SQLException, ClassNotFoundException {
         ResultSet result = tStatement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "'");
@@ -184,10 +178,9 @@ public class Database {
 
     /**
      * This function gets all events that will happen today for sending reminders.
-     * Returns all events in a List.
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @return all events in a List.
+     * @throws SQLException whenever there is a problem with database
+     * @throws ClassNotFoundException whenever there is problem with class loading
      */
     public static List<Event> getDayEvents() throws SQLException, ClassNotFoundException {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -205,8 +198,8 @@ public class Database {
 
     /**
      * This function deletes events according to corresponding ids.
-     * @param ids
-     * @throws SQLException
+     * @param ids list of ids that needed to be deleted
+     * @throws SQLException whenever there is a problem with the database
      */
     public static void deleteEvents(List<Integer> ids) throws SQLException {
         for (Integer id : ids) {
@@ -218,9 +211,9 @@ public class Database {
 
     /**
      * This function adds a list of participants to an event
-     * @param id
-     * @param emails
-     * @throws SQLException
+     * @param id id of the event that need to add participants in
+     * @param emails list of participants
+     * @throws SQLException whenever there is a problem with the database
      */
     public static void addParticipants(int id, List<String> emails) throws SQLException {
         for (String email : emails) {
@@ -232,11 +225,10 @@ public class Database {
 
     /**
      * This function gets all participants of an event.
-     * Returns all participants in a List
-     * @param id
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param id id of the event that needed to get list of participants from
+     * @return all participants in a List
+     * @throws SQLException whenever there is a problem with the database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
      */
     public static List<String> getParticipants(int id) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PEMAIL\n" + "FROM PARTICIPANTS\n" + "WHERE PID = " + id);
@@ -255,9 +247,9 @@ public class Database {
 
     /**
      * This function updates the list of participants of an event in a database.
-     * @param event
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param event event that needed to be updated new list of participants
+     * @throws SQLException whenever there is a problem with the database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
      */
     public static void updateParticipants(Event event) throws SQLException, ClassNotFoundException {
         List<String> old = getParticipants(event.getID());
@@ -275,12 +267,11 @@ public class Database {
 
     /**
      * This function gets notification time for a reminder.
-     * Returns notify time as Integer.
-     * @param id
-     * @param email
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param id id of the event that needed to be reminded
+     * @param email email of the participant of the event
+     * @return notify time as Integer.
+     * @throws SQLException whenever there is a problem with the database.
+     * @throws ClassNotFoundException whenever there is a problem with class loading.
      */
     public static int getNotifyTime(int id, String email) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PTIME\n" + "FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + id);
@@ -293,11 +284,11 @@ public class Database {
 
     /**
      * This function sets new notify time for a reminder.
-     * @param id
-     * @param email
-     * @param time
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @param id id of the event that needed to change new reminding time
+     * @param email email of the participant in the event
+     * @param time new notify time
+     * @throws SQLException whenever there is a problem with the database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
      */
     public static void setNotifyTime(int id, String email, int time) throws SQLException, ClassNotFoundException {
         statement.execute("UPDATE PARTICIPANTS\n" + "SET PTIME = " + time + "\nWHERE PID = " + id + " AND PEMAIL = '" + email + "'");
@@ -306,9 +297,8 @@ public class Database {
 
     /**
      * This function gets the last event's id that has been added to database.
-     * Returns the last inserted id as Integer.
-     * @return
-     * @throws SQLException
+     * @return last inserted id as Integer.
+     * @throws SQLException whenever there is a problem with the database
      */
     public static int getLastInsertID() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT MAX(EID)\n" + "FROM APPOINTMENTS");

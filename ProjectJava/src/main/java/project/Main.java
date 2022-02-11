@@ -24,7 +24,7 @@ public class Main extends Application {
 
     /**
      * This function delays the start of first screen for preloading effect.
-     * @throws InterruptedException
+     * @throws InterruptedException whenever there is a problem with thread being interrupted
      */
     @Override
     public void init() throws InterruptedException {
@@ -34,8 +34,8 @@ public class Main extends Application {
 
     /**
      * This function starts a stage and set the log in screen as scene to the stage.
-     * @param stage
-     * @throws IOException
+     * @param stage stage that will be started
+     * @throws IOException whenever there is a problem with file loading
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -64,6 +64,10 @@ public class Main extends Application {
         launch(Main.class, args);
     }
 
+    /**
+     * This class return current session that the user will be working on
+     * @return current session
+     */
     public static Sess1on getSession() {
         // Get session
         return session;

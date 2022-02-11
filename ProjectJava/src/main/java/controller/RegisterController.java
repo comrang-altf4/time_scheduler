@@ -1,3 +1,7 @@
+/**
+ * This class is the controller for the register screen
+ * @author Huy To Quang and Tan Nang Le
+ */
 package controller;
 
 import backend.Database;
@@ -28,15 +32,25 @@ public class RegisterController {
     @FXML private Label passwordMessage;
     @FXML private Label emailMessage;
     @FXML private Label repeatPasswordMessage;
+
+    // Regex for username
     public static final Pattern validateUsername = Pattern.compile("^[A-Z0-9]{8,16}$", Pattern.CASE_INSENSITIVE);
+
+    // Regex for email
     public static final Pattern validateEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-
 
     @FXML private void onHomeAction(ActionEvent event) throws IOException {
         AnimationFX.transitionBackward("/login-view.fxml", anchorPane);
     }
-    @FXML private void onSignUp(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, MessagingException {
+
+    /**
+     *
+     * @param event signal action on sign up button
+     * @throws SQLException whenever there is a problem with the database
+     * @throws IOException whenever there is a problem with file loading
+     * @throws MessagingException whenever there is a problem with the smtp
+     */
+    @FXML private void onSignUp(ActionEvent event) throws SQLException, IOException, MessagingException {
         boolean flag = true;
         Matcher matcher = validateUsername.matcher(username.getText());
         usernameMessage.setTextFill(Color.rgb(210, 39, 30));

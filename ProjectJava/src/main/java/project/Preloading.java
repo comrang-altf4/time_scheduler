@@ -17,8 +17,8 @@ public class Preloading extends Preloader {
 
     /**
      * This function starts a stage and set the preloading view as scene to the stage.
-     * @param stage
-     * @throws IOException
+     * @param stage stage that will be started
+     * @throws IOException whenever there is problem with file loading
      */
     public void start(Stage stage) throws IOException {
         // Load preloader
@@ -30,7 +30,7 @@ public class Preloading extends Preloader {
 
     /**
      * This function closes the current stage whenever the log in screen starts.
-     * @param event
+     * @param event signal of any action on current stage
      */
     @Override
     public void handleStateChangeNotification(StateChangeNotification event) {

@@ -15,9 +15,9 @@ public class Email {
     /**
      * This function connects to smtp.gmail.com host server.
      * Creates session and mime message for sending email.
-     * @param receiver
-     * @return
-     * @throws MessagingException
+     * @param receiver email of the receiver
+     * @return a mime message for email sending
+     * @throws MessagingException whenever there is a problem with the smtp
      */
     private static Message sendEmail(String receiver) throws MessagingException {
         // System's email
@@ -50,9 +50,9 @@ public class Email {
     /**
      * This function sends verification code to user whenever they change password or register new account.
      * The content of the mail is an Integer ranging from 100001 to 999999
-     * @param receiver
-     * @return
-     * @throws MessagingException
+     * @param receiver email  of the receiver
+     * @return verification code
+     * @throws MessagingException whenever there is a problem with the smtp
      */
     public static String sendVerificationCode(String receiver) throws MessagingException {
         Message message = sendEmail(receiver);
@@ -65,10 +65,10 @@ public class Email {
 
     /**
      * This function sends reminder about an event to user.
-     * @param receiver
-     * @param event
-     * @param time
-     * @throws MessagingException
+     * @param receiver email of the receiver
+     * @param event event that needed to be reminded
+     * @param time notification time
+     * @throws MessagingException whenever there is a problem with the smtp
      */
     public static void sendReminder(String receiver, Event event, int time) throws MessagingException {
         Message message = sendEmail(receiver);

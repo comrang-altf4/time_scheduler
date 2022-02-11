@@ -1,3 +1,7 @@
+/**
+ * This class is the controller for the change password scene
+ * @author Huy To Quang and Tan Nang Le
+ */
 package controller;
 
 import backend.Database;
@@ -20,11 +24,22 @@ public class ChangeController {
     @FXML private Label passwordMessage;
     @FXML private Label repeatPasswordMessage;
 
+    /**
+     * This function changes back to log in screen
+     * @param event signal of action on home button
+     * @throws IOException whenever there is a problem with file loading
+     */
     @FXML private void onHomeAction(ActionEvent event) throws IOException {
         AnimationFX.transitionBackward("/login-view.fxml", anchorPane);
     }
 
 
+    /**
+     * This function changes back to log in screen after new password has been changed
+     * @throws SQLException whenever there is a problem with database
+     * @throws ClassNotFoundException whenever there is a problem with class loading
+     * @throws IOException whenever there is a problem with file loading
+     */
     @FXML private void onConfirm() throws SQLException, ClassNotFoundException, IOException {
         if(password.getText().length()<8) {
             passwordMessage.setText("Password must be at least 8 characters!");

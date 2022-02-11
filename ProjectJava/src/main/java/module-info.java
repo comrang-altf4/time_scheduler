@@ -14,6 +14,7 @@ module project.projectjava {
     requires java.mail;
     requires itextpdf;
     requires java.desktop;
+    requires com.oracle.database.jdbc;
 
     opens project to javafx.fxml;
     opens controller to javafx.fxml;
