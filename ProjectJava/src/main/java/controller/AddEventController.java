@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 
 import static backend.Sess1on.tempEvent;
 
+/**
+ * This is the controller assigned to add and edit event window
+ * @author comrang-altf4
+ */
 public class AddEventController {
     private final LocalTime firstSlotStart = LocalTime.of(0, 0);
     private final java.time.Duration slotLength = java.time.Duration.ofMinutes(15);
@@ -44,6 +48,9 @@ public class AddEventController {
     @FXML
     ComboBox<RemindTime> cbRemind;//=new ComboBox<RemindTime>();
     @FXML
+    /**
+     * Initialize the window with information depends on the user action (add or edit)
+     */
     void initialize() {
         if (Sess1on.isCreatingEvent)
         {
@@ -148,6 +155,9 @@ public class AddEventController {
         }
     }
 
+    /**
+     * This function swap the visibility of hyperlink box and hyperlink text box
+     */
     private void swapTextLink() {
         hpLink.setVisible(!hpLink.isVisible());
         txtLink.setVisible(!txtLink.isVisible());
@@ -159,6 +169,11 @@ public class AddEventController {
     Hyperlink hpLink=new Hyperlink();
     @FXML
     TextField txtParticipants=new TextField();
+
+    /**
+     * This function create visual for user Event
+     * @param e event trigger this function
+     */
     @FXML
     public void createEvent(ActionEvent e) {
         String name = eventName.getText();
@@ -179,6 +194,11 @@ public class AddEventController {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Delete user Event
+     * @param e event trigger this function
+     */
     @FXML
     public void deleteEvent(ActionEvent e)
     {

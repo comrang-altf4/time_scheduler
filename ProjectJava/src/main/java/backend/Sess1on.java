@@ -1,10 +1,13 @@
 package backend;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provide necessary attributes and functions for the current session
+ * @author comrang-altf4
+ */
 public class Sess1on {
     private String username = "";
     private String password = "";
@@ -55,6 +58,11 @@ public class Sess1on {
         return this.code;
     }
 
+    /**
+     * this function returns all user events in a desired week
+     * @param refWeek reference week
+     * @return  list of user events in the desired week
+     */
     public List<Event> gettEventInWeek(LocalDate refWeek) {
         LocalDate startOfWeek = refWeek.minusDays(refWeek.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(6);
@@ -68,6 +76,12 @@ public class Sess1on {
         }
         return listWeekEvent;
     }
+
+    /**
+     * this function finds user event with specific ID in list of user events
+     * @param id user event ID
+     * @return  index of wanted user event
+     */
     public static int findEvent(int id) {
         int i = 0;
         for (Event e : eventList) {
@@ -76,11 +90,14 @@ public class Sess1on {
         }
         return -1;
     }
-
     public static List<Event> getEventList() {
         // Get list of events
         return eventList;
     }
+
+    /**
+     * release the current session
+     */
     public void release()
     {
         username="";

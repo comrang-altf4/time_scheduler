@@ -20,6 +20,10 @@ import transition.AnimationFX;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ *  Parent class for day controller and month controller, provide core functions and attributes\
+ * @author comrang-altf4
+ */
 public class Controller {
     static protected Stage stage;
     static protected Scene scene;
@@ -52,6 +56,13 @@ public class Controller {
             "Saturday" };
     protected static final String[] monthOfYear = { "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December" };
+
+    /**
+     * This function change the current scene to destined scene
+     * @param e             event trigger this function
+     * @param fxmlfile      name of the fxml of the destined scene
+     * @throws IOException
+     */
     public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
@@ -59,6 +70,14 @@ public class Controller {
         stage.setScene(scene);
         stage.show();
        }
+
+    /**
+     * This function closes the current session, the user will be signed out
+     * @param event                     event trigger this function
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
    public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
        IdentityManagement.updateToDB();
        new Sess1on().release();

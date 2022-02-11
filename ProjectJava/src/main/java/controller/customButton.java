@@ -14,6 +14,10 @@ import java.io.IOException;
 
 import static backend.Sess1on.tempEvent;
 
+/**
+ * This class provides Button with some important attributes
+ * @
+ */
 public class customButton extends Button {
     public Event event;
     private double cellheight = 67.2 / 3;
@@ -21,6 +25,11 @@ public class customButton extends Button {
     {
         super();
     }
+
+    /**
+     * Construct button and assign it with an event
+     * @param e user Event
+     */
     customButton(Event e)
     {
         super();
@@ -28,13 +37,27 @@ public class customButton extends Button {
         updateButtonContent();
         setColor();
     }
+
+    /**
+     * Set color for event based on priority
+     */
     public void setColor()
     {
         this.setStyle(event.priorityColor[event.getPriority()]);
     }
+
+    /**
+     * add new user Event
+     * @throws IOException
+     */
     public void addEvent() throws IOException {
         showPopUp();
     }
+
+    /**
+     * edit event assigned to button
+     * @throws IOException
+     */
     public void editEvent() throws IOException {
         tempEvent=new Event(event);
         showPopUp();
@@ -45,6 +68,9 @@ public class customButton extends Button {
         }
     }
 
+    /**
+     * update button content after editEvent()
+     */
     private void updateButtonContent() {
         int span = event.getDuration() / 15 + 1;
         this.setText(event.getName());
@@ -52,10 +78,17 @@ public class customButton extends Button {
         setColor();
     }
 
+    /**
+     * update user event list with edited event
+     */
     private void updateEventlist() {
         Sess1on.eventList.set(Sess1on.findEvent(event.getID()),event);
     }
 
+    /**
+     * show add/edit user event window
+     * @throws IOException
+     */
     private void showPopUp() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/add-event-view.fxml"));
         Stage stage=new Stage();

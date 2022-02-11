@@ -4,10 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class allocate and deallocate user event ID
+ * @author comrang-altf4
+ */
 public class IdentityManagement {
 	private static int base_id = 1000000;// use for local ID, local ID is from 1000000
 	private static List<Integer> available_id = new ArrayList<Integer>();
 
+	/**
+	 * generates a local user event ID
+	 * @return	ID
+	 */
 	public static int getID() {
 		if (available_id.size() != 0) {
 			int temp = available_id.get(available_id.size() - 1);
@@ -18,6 +26,10 @@ public class IdentityManagement {
 		return base_id;
 	}
 
+	/**
+	 * deletes an user event with specific ID
+	 * @param ID ID of wanted user event
+	 */
 	public static void deleteID(int ID) {
 		if (ID < 1000000)
 			available_id.add(ID);
@@ -25,6 +37,11 @@ public class IdentityManagement {
 		System.out.println("ID released");
 	}
 
+	/**
+	 * push any updates to the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public static void updateToDB() throws SQLException,ClassNotFoundException {
 		int curMaxID=Database.getLastInsertID();
 		for (int i=0;i<Sess1on.eventList.size();i++) {

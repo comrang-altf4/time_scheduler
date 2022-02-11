@@ -25,6 +25,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class generates the week page with all the functions
+ * @author comrang-altf4
+ */
 public class Weekpage extends VBox {
 
     private final Group group = new Group();
@@ -42,6 +46,10 @@ public class Weekpage extends VBox {
     GridPane calendarView = new GridPane();
     ScrollPane scrollPane = new ScrollPane();
 
+    /**
+     * construct Week page with a date in the desired week
+     * @param selectedDay
+     */
     public Weekpage(LocalDate selectedDay) {
         super();
         for (int i = 0; i < 7; i++)
@@ -52,6 +60,9 @@ public class Weekpage extends VBox {
         setScene();
     }
 
+    /**
+     * generates contents for Week page
+     */
     public void setScene() {
         refreshAgenda();
         // headers:
@@ -136,6 +147,9 @@ public class Weekpage extends VBox {
         }
     }
 
+    /**
+     * This class provides utils for representing each time slot in week page
+     */
     public static class TimeSlot {
 
         private final LocalDateTime start;
@@ -183,12 +197,18 @@ public class Weekpage extends VBox {
         }
     }
 
+    /**
+     * add new user event to user event list
+     */
     public void addEvent() {
         Event event = new Event(Sess1on.tempEvent, 1);
         Sess1on.eventList.add(event);
         addEventToGrid(event);
     }
 
+    /**
+     * refresh week page contents
+     */
     public void refreshAgenda() {
         for (int i = 0; i < 7; i++)
             hboxes[i] = new ArrayList<customHbox>();
@@ -207,6 +227,10 @@ public class Weekpage extends VBox {
         }
     }
 
+    /**
+     * generates Week page by assigning button to Gridpane cell
+     * @param event user event
+     */
     public void addEventToGrid(Event event) {
         LocalDate temp = event.getDate().toLocalDate();
         if ((temp.isAfter(startOfWeek) || temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek) || temp.isEqual(endOfWeek))) {

@@ -39,7 +39,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-
+/**
+ * This is the controller class assigned to the Month view.
+ * @author      comrang-altf4
+ */
 public class ControllerMonth extends Controller {
     static Calendar cal = Calendar.getInstance(TimeZone.getDefault());
     customVbox[] vBoxes = new customVbox[42];
@@ -71,6 +74,9 @@ public class ControllerMonth extends Controller {
 
     }
 
+    /**
+     * gets the order of all days displayed in Month view
+     */
     private void getDayOrder() {
         cal.set(Calendar.DAY_OF_MONTH, 1);
         int totaldays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -95,6 +101,10 @@ public class ControllerMonth extends Controller {
 
     }
 
+    /**
+     * Changes to month view
+     * @param   e the event trigger this function
+     */
     public void changeviewmonth(ActionEvent e) {
         if (e.getSource() == btnPrevDay)
             cal.add(Calendar.MONTH, -1);
@@ -103,6 +113,9 @@ public class ControllerMonth extends Controller {
         displayMonthCalendar();
     }
 
+    /**
+     * Generates contents for the Month view
+     */
     private void displayMonthCalendar() {
         for (int i=0;i<42;i++)vBoxes[i].getChildren().clear();
         getDayOrder();
@@ -131,6 +144,12 @@ public class ControllerMonth extends Controller {
         }
         currentDayMonth.setText(monthOfYear[cal.get(Calendar.MONTH)] + " " + cal.get(Calendar.YEAR));
     }
+
+    /**
+     * Changes to week page corresponding to chosen date
+     * @param e     the event trigger this function
+     * @param lDate the chosen date
+     */
     public void switchWeekpage(javafx.event.Event e, LocalDate lDate)
     {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
