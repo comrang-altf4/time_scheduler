@@ -36,11 +36,11 @@ public class AddEventController {
     @FXML
     TextField eventName = new TextField();
     @FXML
-    ComboBox<customLocalDateTime> cbStart; //= new ComboBox<customLocalDateTime>();
+    ComboBox<customLocalDateTime> cbStart= new ComboBox<customLocalDateTime>();
     @FXML
-    ComboBox<customLocalDateTime> cbEnd ;//= new ComboBox<customLocalDateTime>();
+    ComboBox<customLocalDateTime> cbEnd = new ComboBox<customLocalDateTime>();
     @FXML
-    ComboBox<customPriority> cbPriority;// = new ComboBox<customPriority>();
+    ComboBox<customPriority> cbPriority = new ComboBox<customPriority>();
     @FXML
     DatePicker dpDate;
     @FXML
@@ -125,17 +125,21 @@ public class AddEventController {
                 break;
             }
             customLocalDateTime tempCustom=new customLocalDateTime(tempEvent.getDate());
-            for (int i=0;i<timeslot.size();i++)if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
+            int eventHour=tempCustom.localDateTime.getHour();
+            int eventMinute=tempCustom.localDateTime.getMinute();
+            for (int i=0;i<timeslot.size();i++)
+                if (eventHour==timeslot.get(i).localDateTime.getHour()&&eventMinute==timeslot.get(i).localDateTime.getMinute())
             {
                 System.out.println("Start time");
                 cbStart.setValue(timeslot.get(i));
                 break;
             }
-            System.out.println(tempEvent.getDuration());
             tempCustom= new customLocalDateTime(tempCustom.localDateTime.plusMinutes(tempEvent.getDuration()));
+            eventHour=tempCustom.localDateTime.getHour();
+            eventMinute=tempCustom.localDateTime.getMinute();
             for (int i=0;i<timeslot.size();i++)
             {
-                if (tempCustom.localDateTime.equals(timeslot.get(i).localDateTime))
+                if (eventHour==timeslot.get(i).localDateTime.getHour()&&eventMinute==timeslot.get(i).localDateTime.getMinute())
                 {
                     System.out.println("End time");
                     cbEnd.setValue(timeslot.get(i));
