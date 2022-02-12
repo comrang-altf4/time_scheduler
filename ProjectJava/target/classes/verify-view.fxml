@@ -25,7 +25,7 @@
         </Pane>
         <Pane layoutX="250.0" prefHeight="400.0" prefWidth="350.0">
             <children>
-            <TextField fx:id="code" alignment="CENTER" layoutX="110.0" layoutY="190.0" onAction="#onVerify" prefHeight="50.0" prefWidth="139.0" promptText="Code">
+            <TextField fx:id="code" alignment="CENTER" layoutX="110.0" layoutY="189.0" onAction="#onVerify" prefHeight="50.0" prefWidth="139.0" promptText="Code">
                <font>
                   <Font size="24.0" />
                </font>
@@ -40,7 +40,7 @@
                         <Font name="Cambria Bold" size="30.0" />
                     </font>
                 </Label>
-                <JFXButton buttonType="RAISED" layoutX="75.0" layoutY="260.0" onAction="#onVerify" prefHeight="40.0" prefWidth="213.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Verify" textFill="#313131">
+                <JFXButton buttonType="RAISED" layoutX="75.0" layoutY="265.0" onAction="#onVerify" prefHeight="40.0" prefWidth="213.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Verify" textFill="#313131">
                     <font>
                         <Font name="Cambria" size="14.0" />
                     </font>
@@ -48,12 +48,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </JFXButton>
-                <Hyperlink layoutX="100.0" layoutY="314.0" onAction="#onResendCode" text="Resend verification code" textFill="#313131">
+                <Hyperlink layoutX="100.0" layoutY="319.0" onAction="#onResendCode" text="Resend verification code" textFill="#313131">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Hyperlink>
-                <Hyperlink layoutX="159.0" layoutY="340.0" onAction="#onBack" text="Back" textFill="#313131">
+                <Hyperlink layoutX="159.0" layoutY="345.0" onAction="#onBack" text="Back" textFill="#313131">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -62,7 +62,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-                <Label fx:id="verifyMessage" layoutX="74.0" layoutY="227.0" prefHeight="17.0" prefWidth="213.0" textFill="RED">
+                <Label fx:id="verifyMessage" layoutX="126.0" layoutY="240.0" prefHeight="17.0" prefWidth="112.0" textAlignment="CENTER" textFill="RED">
                     <font>
                         <Font size="10.0" />
                     </font>

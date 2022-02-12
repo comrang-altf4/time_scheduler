@@ -6,6 +6,7 @@
 package project;
 
 import backend.Background;
+import backend.IdentityManagement;
 import backend.Sess1on;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class Main extends Application {
-    protected static Sess1on session = new Sess1on();
-
+    static Sess1on session = new Sess1on();
+    static Background background = new Background();
     /**
      * This function delays the start of first screen for preloading effect.
      * @throws InterruptedException whenever there is a problem with thread being interrupted
@@ -31,12 +32,17 @@ public class Main extends Application {
         // Delay app starting
         Thread.sleep(1000);
     }
-
+    @Override
+    public void stop() throws SQLException, ClassNotFoundException {
+        IdentityManagement.updateToDB();
+        Background.stop();
+    }
     /**
      * This function starts a stage and set the log in screen as scene to the stage.
      * @param stage stage that will be started
      * @throws IOException whenever there is a problem with file loading
      */
+
     @Override
     public void start(Stage stage) throws IOException {
         // Load login screen
@@ -57,7 +63,6 @@ public class Main extends Application {
         System.setProperty("javafx.preloader", Preloading.class.getCanonicalName());
 
         // Set background running to send email
-        Background background = new Background();
         background.start();
 
         // Start the application

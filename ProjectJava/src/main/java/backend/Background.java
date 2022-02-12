@@ -1,6 +1,7 @@
 /**
  * This class is the background of the application which is used to send reminders in specific time.
  * This class is meant to be running on a server.
+ *
  * @author Huy To Quang
  */
 package backend;
@@ -13,7 +14,8 @@ import java.util.List;
 import static backend.Database.connectDB;
 
 public class Background implements Runnable {
-    private Thread thread;
+    private static Thread thread;
+    private static boolean signal = true;
 
     /**
      * This function starts the application of the thread
@@ -24,7 +26,7 @@ public class Background implements Runnable {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        while (true) {
+        while (signal) {
             try {
                 // Get all events in today
                 List<Event> eventList = Database.getDayEvents();
@@ -38,25 +40,29 @@ public class Background implements Runnable {
                         int notify = Database.getNotifyTime(event.getID(), participant);
 
                         // Compare if the time has come to send reminder
-                        if(notify<=time&&notify>=0) {
+                        if (notify <= time && notify >= 0) {
                             Email.sendReminder(participant, event, notify);
                             Database.setNotifyTime(event.getID(), participant, -1);
                         }
                     }
                 }
-                Thread.sleep(1000 * 30);
-
-            } catch (SQLException|ClassNotFoundException|InterruptedException|MessagingException exception) {
-                exception.printStackTrace();
+                Thread.sleep(30 * 1000);
+            } catch (SQLException | ClassNotFoundException | MessagingException | InterruptedException exception) {
+                signal = false;
             }
         }
+    }
+
+    public static void stop() throws SQLException {
+        thread.interrupt();
+        Database.closeConnectionDB();
     }
 
     /**
      * This function constructs a new thread if there is no thread running.
      */
     public void start() {
-        if(thread==null) {
+        if (thread == null) {
             thread = new Thread(this);
             thread.start();
         }

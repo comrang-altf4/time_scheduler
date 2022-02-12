@@ -61,7 +61,8 @@ public class Database {
      */
     public static String getEmail(String username) throws SQLException {
         ResultSet result = statement.executeQuery("SELECT EMAIL\n" + "FROM ACCOUNTS\n" + "WHERE USERNAME = '" + username + "'");
-        result.next();
+        if(result.isBeforeFirst())
+            result.next();
         return result.getString(1);
     }
 
@@ -167,11 +168,14 @@ public class Database {
         ResultSet result = tStatement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS JOIN PARTICIPANTS ON (EID = PID)\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "'");
         List<Event> eventList = new ArrayList<>();
         LocalDateTime localDateTime = LocalDateTime.now();
-        while (result.next()) {
-            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10)).withSecond(0).withNano(0);
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
-            event.setListParticipants(getParticipants(event.getID()));
-            eventList.add(event);
+        if(result.isBeforeFirst())
+        {
+            while (result.next()) {
+                LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10)).withSecond(0).withNano(0);
+                Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
+                event.setListParticipants(getParticipants(event.getID()));
+                eventList.add(event);
+            }
         }
         return eventList;
     }
@@ -187,11 +191,13 @@ public class Database {
         List<Event> eventList = new ArrayList<>();
         ResultSet result = statement.executeQuery("SELECT *\n" + "FROM APPOINTMENTS\n" + "WHERE EDAY = " + localDateTime.getDayOfMonth() + " AND EMONTH = " + localDateTime.getMonthValue() +
                 " AND EYEAR = " + localDateTime.getYear());
-
-        while (result.next()) {
-            LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
-            Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
-            eventList.add(event);
+        if (result.isBeforeFirst())
+        {
+            while (result.next()) {
+                LocalDateTime date = localDateTime.withDayOfMonth(result.getInt(6)).withMonth(result.getInt(7)).withYear(result.getInt(8)).withHour(result.getInt(9)).withMinute(result.getInt(10));
+                Event event = new Event(result.getInt(1), result.getString(3), result.getString(4), result.getInt(5), date, result.getInt(11), result.getString(12));
+                eventList.add(event);
+            }
         }
         return eventList;
     }
@@ -234,12 +240,15 @@ public class Database {
         ResultSet result = statement.executeQuery("SELECT PEMAIL\n" + "FROM PARTICIPANTS\n" + "WHERE PID = " + id);
         List<String> emails = new ArrayList<>();
         boolean flag = true;
-        while(result.next()) {
-            // Add participant's email to list
-            emails.add(result.getString(1));
-            if(emails.size()==1&&flag) {
-                emails.remove(0);
-                flag = false;
+        if(result.isBeforeFirst())
+        {
+            while(result.next()) {
+                // Add participant's email to list
+                emails.add(result.getString(1));
+                if(emails.size()==1&&flag) {
+                    emails.remove(0);
+                    flag = false;
+                }
             }
         }
         return emails;
@@ -306,5 +315,10 @@ public class Database {
             result.next();
             return result.getInt(1);
         } else return 0;
+    }
+
+    public static void closeConnectionDB() throws SQLException {
+        // Close connection with database
+        statement.close();
     }
 }

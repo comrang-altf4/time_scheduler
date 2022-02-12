@@ -66,7 +66,8 @@ public class Controller {
     public void doChangeview(ActionEvent e, String fxmlfile) throws IOException {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(fxmlfile));
-        scene = new Scene(root);
+        Group group = new Group(root);
+        scene = new Scene(group);
         stage.setScene(scene);
         stage.show();
        }
