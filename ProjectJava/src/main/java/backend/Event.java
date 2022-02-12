@@ -19,7 +19,7 @@ public class Event {
     private String meetinglink="";
     private LocalDateTime date;
     private int priority;
-    public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color: #f57b42;","-fx-background-color: #8df542;"};
+    public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color:#f2f542;","-fx-background-color: #8df542;"};
     private String username;
     private int time=10;
     private int timeID=1;
