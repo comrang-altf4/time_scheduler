@@ -178,6 +178,10 @@ public class ExportFile {
         String minute = String.valueOf(event.getDate().getMinute());
         String hee = String.valueOf(ee.getHour());
         String mee = String.valueOf(ee.getMinute());
+        if (event.getDate().getHour() < 10) hour = "0" + hour;
+        if (event.getDate().getMinute() < 10) minute = "0" + minute;
+        if (ee.getHour() < 10) hee = "0" + hee;
+        if (ee.getMinute() < 10) mee = "0" + mee;
         text = text + "\n" + hour + ":" + minute + " - " + hee + ":" + mee;
         return text;
     }
