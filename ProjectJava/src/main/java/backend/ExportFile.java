@@ -262,5 +262,6 @@ public class ExportFile {
         if (fileAppearance.size() > 0)
             number = fileAppearance.get(fileAppearance.size()-1)+1;
         else number = 0;
-        return number;    }
+        return number;    
+    }
 }
