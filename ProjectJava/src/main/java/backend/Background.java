@@ -48,6 +48,7 @@ public class Background implements Runnable {
                 Thread.sleep(30 * 1000);
             } catch (SQLException | ClassNotFoundException | MessagingException | InterruptedException exception) {
                 signal = false;
+                System.out.println("asdasdasd");
             }
         }
     }

@@ -99,6 +99,7 @@ public class Email {
 
     public static void sendUpdateNotification(Event event) throws MessagingException, SQLException, ClassNotFoundException {
         for (String receiver:event.getListParticipants()) {
+            if (receiver=="")break;
             Message message = sendEmail(receiver);
             message.setSubject("Notification!!!");
             String content  = "Event " + event.getName() + " has been updated. The event will start at " +

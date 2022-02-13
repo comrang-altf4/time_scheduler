@@ -242,7 +242,6 @@ public class Event {
         this.meetinglink = "";
         this.meetinglink = meetinglink;
         this.name = name;
-        this.location = "";
         this.location = location;
         this.duration = duration;
         this.date = date;

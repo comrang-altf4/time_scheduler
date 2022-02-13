@@ -39,7 +39,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXTextField focusColor="#46b8ff" layoutX="180.0" layoutY="149.0" prefHeight="26.0" prefWidth="378.0" promptText="Location" />
+      <JFXTextField focusColor="#46b8ff" layoutX="180.0" fx:id="txtLocation\" layoutY="149.0" prefHeight="26.0" prefWidth="378.0" promptText="Location" />
       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@bell.png" />
@@ -74,7 +74,7 @@
       </ImageView>
       <Hyperlink fx:id="hpLink" layoutX="180.0" layoutY="308.0" text="Meeting link" textFill="#313131" />
       <JFXTextField fx:id="txtLink" focusColor="#46b8ff" layoutX="180.0" layoutY="306.0" prefHeight="26.0" prefWidth="378.0" promptText="Description" />
-      <JFXTextField focusColor="#46b8ff" layoutX="180.0" layoutY="349.0" prefHeight="26.0" prefWidth="378.0" promptText="Description" />
+      <JFXTextField focusColor="#46b8ff" fx:id="txtDescription" layoutX="180.0" layoutY="349.0" prefHeight="26.0" prefWidth="378.0" promptText="Description" />
       <JFXButton buttonType="RAISED" layoutX="522.0" layoutY="420.0" onAction="#createEvent" prefHeight="38.0" prefWidth="106.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Save">
          <font>
             <Font size="14.0" />

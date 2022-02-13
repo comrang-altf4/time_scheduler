@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.io.IOException;
@@ -119,6 +120,7 @@ public class AddEventController {
         cbEnd.setItems(timeslot);
         cbPriority.setItems(priority);
         cbRemind.setItems(remindTimes);
+        txtLocation.setText(Sess1on.tempEvent.getLocation());
         for (int i = 0; i < 3; i++) priority.add(new customPriority(i));
         if (Sess1on.tempEvent.getName().equals("thisisdummyEvent")) {
             cbPriority.setValue(priority.get(0));
@@ -192,7 +194,10 @@ public class AddEventController {
     Hyperlink hpLink=new Hyperlink();
     @FXML
     TextField txtParticipants=new TextField();
-
+    @FXML
+    TextField txtDescription= new TextField();
+    @FXML
+    TextField txtLocation=new TextField();
     /**
      * This function create visual for user Event
      * @param e event trigger this function
@@ -203,7 +208,8 @@ public class AddEventController {
         int duration = (int) ChronoUnit.MINUTES.between(cbStart.getValue().localDateTime, cbEnd.getValue().localDateTime);
         int tp = cbPriority.getValue().priority;
         int time = cbRemind.getValue().getTime();
-        String location = "";
+        String location = txtLocation.getText();
+        String description = txtDescription.getText();
         LocalDateTime dateOfEvent = dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
         String meettingLink=txtLink.getText();
         List<String>listParticipants=new ArrayList<>();
