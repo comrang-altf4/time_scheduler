@@ -129,7 +129,7 @@ public class Weekpage extends VBox {
                 Sess1on.isCreatingEvent = true;
                 addEventBtn.addEvent();
                 addEvent();
-
+                System.out.println(String.format("create %s", Sess1on.tempEvent.getLocation()));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -211,7 +211,6 @@ public class Weekpage extends VBox {
         calendarView = new GridPane();
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("E MMM d");
         for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
-            System.out.println(date.format(dayFormatter));
             Label label = new Label(date.format(dayFormatter));
             label.setPadding(new Insets(1));
             label.setTextAlignment(TextAlignment.CENTER);
@@ -264,7 +263,6 @@ public class Weekpage extends VBox {
     public void addEventToGrid(Event event) {
         LocalDate temp = event.getDate().toLocalDate();
         if ((temp.isAfter(startOfWeek) || temp.isEqual(startOfWeek)) && (temp.isBefore(endOfWeek) || temp.isEqual(endOfWeek))) {
-            System.out.println("dddd");
             int colId, rowId, span;
             colId = event.getDate().getDayOfWeek().getValue() - 1;
             rowId = event.getDate().getHour();
@@ -279,6 +277,7 @@ public class Weekpage extends VBox {
                     Sess1on.isCreatingEvent = false;
                     Sess1on.deleteEvent = false;
                     btn.editEvent();
+                    System.out.println(String.format("create %s", btn.event.getLocation()));
                     refreshAgenda();
 //                    Sess1on.eventList.forEach((x) -> addEventToGrid(x));
                     updateAgenda();

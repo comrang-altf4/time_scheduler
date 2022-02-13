@@ -65,7 +65,7 @@ public class IdentityManagement {
 					}
 				}
 				if (flag) {
-//					Email.sendUpdateNotification(Sess1on.eventList.get(i));
+					Email.sendUpdateNotification(Sess1on.eventList.get(i));
 					Email.sendAddParticipantNotification(Sess1on.eventList.get(i));
 					Database.updateEvent(Sess1on.eventList.get(i));
 				}

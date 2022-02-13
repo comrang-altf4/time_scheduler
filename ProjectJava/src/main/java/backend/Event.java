@@ -1,4 +1,5 @@
 package backend;
+
 import controller.RemindTime;
 import project.Main;
 
@@ -10,42 +11,39 @@ import java.util.Objects;
 
 /**
  * Event is a class contains all information and  about an event
- * @author      comrang-altf4
+ *
+ * @author comrang-altf4
  */
 public class Event {
     private int id;
     private int duration;
-    private String name;
-    private String location;
-    private String meetinglink;
+    private String name = "";
+    private String location = "";
+    private String meetinglink = "";
     private LocalDateTime date;
     private int priority;
-    public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color:#f2f542;","-fx-background-color: #8df542;"};
+    public String[] priorityColor = {"-fx-background-color: #ff0000;", "-fx-background-color:#f2f542;", "-fx-background-color: #8df542;"};
     private String username;
-    private int time=10;
-    private int timeID=1;
-    private List<String> listParticipants=new ArrayList<>();
+    private int time = 10;
+    private int timeID = 1;
+    private List<String> listParticipants = new ArrayList<>();
 
     /**
-     *
      * @return the combobox item index of the selected reminder time
      */
-    public int getTimeID()
-    {
+    public int getTimeID() {
         return timeID;
     }
 
     /**
-     *
      * @return the reminder time in minute
      */
-    public int getTime()
-    {
+    public int getTime() {
         return time;
     }
 
     public Event(int id, String name, String location, int duration, LocalDateTime date, int priority) {
-        this.username= Main.getSession().getUsername();
+        this.username = Main.getSession().getUsername();
         this.id = id;
         this.name = name;
         this.location = location;
@@ -56,6 +54,7 @@ public class Event {
 
     /**
      * Construct an event
+     *
      * @param id
      * @param name
      * @param location
@@ -65,23 +64,21 @@ public class Event {
      * @param hyperlink
      */
     public Event(int id, String name, String location, int duration, LocalDateTime date, int priority, String hyperlink) {
-        this.username= Main.getSession().getUsername();
+        this.username = Main.getSession().getUsername();
         this.id = id;
         this.name = name;
-        this.location = location;
+        this.location = location==null?"":location;
         this.duration = duration;
         this.date = date;
         this.date.truncatedTo(ChronoUnit.SECONDS);
         this.priority = priority;
-        this.meetinglink = hyperlink;
+        this.meetinglink =  hyperlink==null?"":hyperlink;
     }
 
     /**
-     *
-     * @return  the time when the event end
+     * @return the time when the event end
      */
-    public LocalDateTime getEndTime()
-    {
+    public LocalDateTime getEndTime() {
         return date.plusMinutes(duration);
     }
 
@@ -89,16 +86,17 @@ public class Event {
      * Construct a dummy event
      */
     public Event() {
-        this.name="thisisdummyEvent";
-        this.id = (int)1e6;
+        this.name = "thisisdummyEvent";
+        this.id = (int) 1e6;
         this.location = "";
-        this.duration =10 ;
+        this.duration = 10;
         this.date = LocalDateTime.now();
         this.priority = 1;
     }
 
     /**
      * Assign id for event
+     *
      * @param id
      */
     public void setId(int id) {
@@ -106,30 +104,32 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the meeting link (if any)
+     * @return the meeting link (if any)
      */
-    public String getMeetinglink()
-    {
+    public String getMeetinglink() {
         return meetinglink;
     }
+
     public Event(Event event, Object... mode) {
-        if (mode.length==0)this.id = event.getID();
-        else this.id=IdentityManagement.getID();
+        if (mode.length == 0) this.id = event.getID();
+        else this.id = IdentityManagement.getID();
         this.name = event.getName();
         this.location = event.getLocation();
         this.date = event.getDate();
         this.priority = event.getPriority();
         this.duration = event.getDuration();
         this.meetinglink = event.meetinglink;
-        this.listParticipants= new ArrayList<>(event.listParticipants);
-        this.time=event.time;
-        for (int i=0;i<4;i++)if (this.time== RemindTime.remindInt[i]){this.timeID=i;break;}
+        this.listParticipants = new ArrayList<>(event.listParticipants);
+        this.time = event.time;
+        for (int i = 0; i < 4; i++)
+            if (this.time == RemindTime.remindInt[i]) {
+                this.timeID = i;
+                break;
+            }
     }
 
     /**
-     *
-     * @return  the event name
+     * @return the event name
      */
     public String getName() {
         // Get name
@@ -137,8 +137,7 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the event location
+     * @return the event location
      */
     public String getLocation() {
         // Get location
@@ -146,7 +145,6 @@ public class Event {
     }
 
     /**
-     *
      * @return the host of the event
      */
     public String getUsername() {
@@ -155,8 +153,7 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the ID of the event
+     * @return the ID of the event
      */
     public int getID() {
         // Get id
@@ -164,7 +161,6 @@ public class Event {
     }
 
     /**
-     *
      * @return the duration of the event in minute
      */
     public int getDuration() {
@@ -173,8 +169,7 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the date of the event
+     * @return the date of the event
      */
     public LocalDateTime getDate() {
         // Get date
@@ -182,8 +177,7 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the priority of the event
+     * @return the priority of the event
      */
     public int getPriority() {
         // Get priority
@@ -191,8 +185,7 @@ public class Event {
     }
 
     /**
-     *
-     * @param date  the date to assign to the event date
+     * @param date the date to assign to the event date
      */
     public void setDate(LocalDateTime date) {
         // Set date
@@ -200,8 +193,7 @@ public class Event {
     }
 
     /**
-     *
-     * @param name  the name to assign to the event
+     * @param name the name to assign to the event
      */
     public void setName(String name) {
         // Set event's name
@@ -209,8 +201,7 @@ public class Event {
     }
 
     /**
-     *
-     * @param location  the location to assign to the event
+     * @param location the location to assign to the event
      */
     public void setLocation(String location) {
         // Set event's location
@@ -218,8 +209,7 @@ public class Event {
     }
 
     /**
-     *
-     * @param username  the host to assign to the event
+     * @param username the host to assign to the event
      */
     public void setUsername(String username) {
         // Set event's host
@@ -227,31 +217,32 @@ public class Event {
     }
 
     /**
-     *
-     * @return  the email list of people who participate the event
+     * @return the email list of people who participate the event
      */
-    public List<String> getListParticipants()
-    {
-        return  listParticipants;
+    public List<String> getListParticipants() {
+        return listParticipants;
     }
 
     /**
      * This function update the event with provided arguments
-     * @param name              name of the event
-     * @param location          location of the event
-     * @param duration          duration of the event
-     * @param date              date of the event
-     * @param priority          priority of the event
-     * @param meetinglink       the meeting link of the event
-     * @param listParticipants  the list of people who participate in the event
-     * @param time              the remind time of the event
+     *
+     * @param name             name of the event
+     * @param location         location of the event
+     * @param duration         duration of the event
+     * @param date             date of the event
+     * @param priority         priority of the event
+     * @param meetinglink      the meeting link of the event
+     * @param listParticipants the list of people who participate in the event
+     * @param time             the remind time of the event
      */
-    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority,String meetinglink,List<String>listParticipants,int time) {
+    public void updateEvent(String name, String location, int duration, LocalDateTime date, int priority, String meetinglink, List<String> listParticipants, int time) {
 //        this.id=ID_management.getID();
-        this.time=time;
-        this.listParticipants= new ArrayList<>(listParticipants);
-        this.meetinglink=meetinglink;
+        this.time = time;
+        this.listParticipants = new ArrayList<>(listParticipants);
+        this.meetinglink = "";
+        this.meetinglink = meetinglink;
         this.name = name;
+        this.location = "";
         this.location = location;
         this.duration = duration;
         this.date = date;
@@ -259,18 +250,20 @@ public class Event {
     }
 
     public boolean compareEvent(Event event) {
-        System.out.println(this.location);
-        System.out.println(event.getLocation());
-        return Objects.equals(this.location, event.getLocation())&&Objects.equals(this.meetinglink, event.getMeetinglink())&&this.name.equals(event.getName())&&
-                this.duration==event.getDuration()&&this.date.equals(event.getDate());
+//        System.out.println(this.location);
+//        System.out.println(event.getLocation());
+        if (this.location != event.getLocation())
+            System.out.println(this.location+"ssssss"+event.getLocation());
+        return Objects.equals(this.location, event.getLocation()) && Objects.equals(this.meetinglink, event.getMeetinglink()) && this.name.equals(event.getName()) &&
+                this.duration == event.getDuration() && this.date.equals(event.getDate());
     }
 
     /**
      * This function set the event participants
-     * @param participants  list of participants
+     *
+     * @param participants list of participants
      */
-    public void setListParticipants(List<String>participants)
-    {
+    public void setListParticipants(List<String> participants) {
         this.listParticipants.addAll(participants);
     }
 }

@@ -212,7 +212,7 @@ public class AddEventController {
         {
             listParticipants.add(x);
         }
-        System.out.println(listParticipants);
+        System.out.println();
         Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp,meettingLink,listParticipants,time);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
