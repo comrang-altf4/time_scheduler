@@ -30,3 +30,23 @@
     -fx-background-color: transparent;
 }
 
+.month-view-button {
+    -fx-background-image: url("month-view.png");
+   	-fx-background-size: 100px;
+   	-fx-background-repeat: no-repeat;
+   	-fx-background-color: transparent;
+}
+
+.week-view-button {
+    -fx-background-image: url("week-view.png");
+   	-fx-background-size: 100px;
+   	-fx-background-repeat: no-repeat;
+   	-fx-background-color: transparent;
+}
+
+.day-view-button {
+    -fx-background-image: url("day-view.png");
+   	-fx-background-size: 100px;
+   	-fx-background-repeat: no-repeat;
+   	-fx-background-color: transparent;
+}
