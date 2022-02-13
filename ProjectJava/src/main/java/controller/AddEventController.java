@@ -15,6 +15,9 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -47,6 +50,10 @@ public class AddEventController {
     Button btnDelete=new Button();
     @FXML
     ComboBox<RemindTime> cbRemind;//=new ComboBox<RemindTime>();
+    private void openLink(ActionEvent event) throws URISyntaxException, IOException {
+        System.out.println("Link clicked!");
+        Desktop.getDesktop().browse(new URI(hpLink.getText()));
+    }
     @FXML
     /**
      * Initialize the window with information depends on the user action (add or edit)
@@ -62,6 +69,15 @@ public class AddEventController {
         {
             btnDelete.setVisible(true);
             hpLink.setVisible(true);
+            hpLink.setOnAction(e-> {
+                try {
+                    openLink(e);
+                } catch (URISyntaxException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
             hpLink.setText(Sess1on.tempEvent.getMeetinglink());
             txtLink.setVisible(false);
             txtParticipants.setText(Sess1on.tempEvent.getListParticipants().stream().

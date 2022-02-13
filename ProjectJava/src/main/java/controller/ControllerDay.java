@@ -101,7 +101,7 @@ public class ControllerDay extends Controller {
     public void switchWeekpage(ActionEvent e) {
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         Weekpage wp = new Weekpage(LocalDate.now());
-        scene = new Scene(wp, 600, 600);
+        scene = new Scene(wp, 650, 600);
         scene.getStylesheets().add(getClass().getResource("/calendar-view.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
