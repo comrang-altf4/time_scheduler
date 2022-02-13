@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Event is a class contains all information and  about an event
@@ -16,7 +17,7 @@ public class Event {
     private int duration;
     private String name;
     private String location;
-    private String meetinglink="";
+    private String meetinglink;
     private LocalDateTime date;
     private int priority;
     public String[] priorityColor={"-fx-background-color: #ff0000;","-fx-background-color:#f2f542;","-fx-background-color: #8df542;"};
@@ -255,6 +256,13 @@ public class Event {
         this.duration = duration;
         this.date = date;
         this.priority = priority;
+    }
+
+    public boolean compareEvent(Event event) {
+        System.out.println(this.location);
+        System.out.println(event.getLocation());
+        return Objects.equals(this.location, event.getLocation())&&Objects.equals(this.meetinglink, event.getMeetinglink())&&this.name.equals(event.getName())&&
+                this.duration==event.getDuration()&&this.date.equals(event.getDate());
     }
 
     /**

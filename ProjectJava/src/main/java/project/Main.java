@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -33,7 +34,8 @@ public class Main extends Application {
         Thread.sleep(1000);
     }
     @Override
-    public void stop() throws SQLException, ClassNotFoundException {
+    public void stop() throws SQLException, ClassNotFoundException, MessagingException {
+        System.out.println("Main!");
         IdentityManagement.updateToDB();
         Background.stop();
     }

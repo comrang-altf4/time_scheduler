@@ -38,10 +38,9 @@ public class Background implements Runnable {
                     int time = (date.getDayOfMonth() - current.getDayOfMonth()) * 24 * 60 + (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
                     for (String participant : participants) {
                         int notify = Database.getNotifyTime(event.getID(), participant);
-
                         // Compare if the time has come to send reminder
-                        if (notify <= time && notify >= 0) {
-                            Email.sendReminder(participant, event, notify);
+                        if (notify >= time && time >= 0) {
+                            Email.sendReminder(participant, event, time);
                             Database.setNotifyTime(event.getID(), participant, -1);
                         }
                     }
