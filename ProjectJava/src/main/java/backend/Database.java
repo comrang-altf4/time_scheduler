@@ -8,6 +8,7 @@ package backend;
 import org.mindrot.jbcrypt.BCrypt;
 import project.Main;
 
+import javax.mail.MessagingException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class Database {
      * @throws SQLException whenever there is a problem with database
      * @throws ClassNotFoundException whenever there is a problem with class loading
      */
-    public static void updateEvent(Event event) throws SQLException, ClassNotFoundException {
+    public static void updateEvent(Event event) throws SQLException, ClassNotFoundException, MessagingException {
         LocalDateTime date = event.getDate();
         if (checkHost(event.getID(), Main.getSession().getUsername())) {
             statement.execute("UPDATE APPOINTMENTS\n" + "SET EUSERNAME = '" + Main.getSession().getUsername() + "', ENAME = '" + event.getName() + "', ELOCATION = '" + event.getLocation() + "', EDURATION = " + event.getDuration() + ", EDAY = " +
@@ -211,6 +212,8 @@ public class Database {
         for (Integer id : ids) {
             if (checkHost(id, Main.getSession().getUsername()))
                 statement.execute("DELETE FROM APPOINTMENTS\n" + "WHERE EID = " + id);
+            else
+                statement.execute("DELETE FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + Main.getSession().getEmail() + "' AND PID = " + id);
         }
         statement.execute("COMMIT");
     }
@@ -239,16 +242,11 @@ public class Database {
     public static List<String> getParticipants(int id) throws SQLException, ClassNotFoundException {
         ResultSet result = statement.executeQuery("SELECT PEMAIL\n" + "FROM PARTICIPANTS\n" + "WHERE PID = " + id);
         List<String> emails = new ArrayList<>();
-        boolean flag = true;
         if(result.isBeforeFirst())
         {
             while(result.next()) {
                 // Add participant's email to list
                 emails.add(result.getString(1));
-                if(emails.size()==1&&flag) {
-                    emails.remove(0);
-                    flag = false;
-                }
             }
         }
         return emails;
@@ -260,7 +258,7 @@ public class Database {
      * @throws SQLException whenever there is a problem with the database
      * @throws ClassNotFoundException whenever there is a problem with class loading
      */
-    public static void updateParticipants(Event event) throws SQLException, ClassNotFoundException {
+    public static void updateParticipants(Event event) throws SQLException, ClassNotFoundException, MessagingException {
         List<String> old = getParticipants(event.getID());
         for(String email: old) {
             statement.execute("DELETE FROM PARTICIPANTS\n" + "WHERE PEMAIL = '" + email + "' AND PID = " + event.getID());
@@ -269,7 +267,10 @@ public class Database {
         for(String participant: event.getListParticipants()) {
             if(participant.isEmpty())
                 continue;
-            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + participant + "', 30)");
+            int time = 30;
+            if(participant.equals(Main.getSession().getEmail()))
+                time = event.getTime();
+            statement.execute("INSERT INTO PARTICIPANTS\n" + "VALUES(" + event.getID() + ", '" + participant + "', " + time + ")");
         }
         statement.execute("COMMIT");
     }
@@ -315,6 +316,15 @@ public class Database {
             result.next();
             return result.getInt(1);
         } else return 0;
+    }
+
+    public static String getEventName(int id) throws SQLException {
+        ResultSet result = statement.executeQuery("SELECT ENAME\nFROM APPOINTMENTS\nWHERE EID = " + id);
+        if (result.isBeforeFirst()) {
+            result.next();
+            return result.getString(1);
+        }
+        return "";
     }
 
     public static void closeConnectionDB() throws SQLException {

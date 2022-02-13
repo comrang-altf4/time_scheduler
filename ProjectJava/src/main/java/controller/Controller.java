@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import project.Main;
 import transition.AnimationFX;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -79,7 +80,8 @@ public class Controller {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-   public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+   public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, MessagingException {
+       System.out.println("Sign out");
        IdentityManagement.updateToDB();
        new Sess1on().release();
        doChangeview(event,"/login-view.fxml");

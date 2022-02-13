@@ -1,5 +1,6 @@
 package backend;
 
+import javax.mail.MessagingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,21 +42,40 @@ public class IdentityManagement {
 	 * push any updates to the database
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
+	 * @throws MessagingException
 	 */
-	public static void updateToDB() throws SQLException,ClassNotFoundException {
+	public static void updateToDB() throws SQLException, ClassNotFoundException, MessagingException {
 		int curMaxID=Database.getLastInsertID();
 		for (int i=0;i<Sess1on.eventList.size();i++) {
 			if (Sess1on.eventList.get(i).getID() >= 1000000)
 			{
 				curMaxID+=1;
 				Sess1on.eventList.get(i).setId(curMaxID);
-				System.out.println("Aaaa");
+				Email.sendAddParticipantNotification(Sess1on.getEventList().get(i));
 				Database.addEvent(Sess1on.eventList.get(i));
 			}
-			else Database.updateEvent(Sess1on.eventList.get(i));
+			else {
+				boolean flag = true;
+				List<Event> olds = Database.getEvents();
+				for (Event old:olds) {
+					if(old.getID()!=Sess1on.eventList.get(i).getID())
+						continue;
+					if(old.compareEvent(Sess1on.eventList.get(i))) {
+						flag = false;
+					}
+				}
+				if (flag) {
+//					Email.sendUpdateNotification(Sess1on.eventList.get(i));
+					Email.sendAddParticipantNotification(Sess1on.eventList.get(i));
+					Database.updateEvent(Sess1on.eventList.get(i));
+				}
+			}
 			System.out.println(Sess1on.eventList.get(i).getID());
-		};
+		}
 		System.out.println(available_id);
+		Email.sendDeleteNotification(available_id);
 		Database.deleteEvents(available_id);
 	}
 }
+
+
