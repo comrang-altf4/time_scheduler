@@ -123,6 +123,8 @@ public class Email {
         List<String> olds = Database.getParticipants(event.getID());
         List<String> participants = event.getListParticipants();
         for (String receiver:participants) {
+            if(receiver.isEmpty())
+                continue;
             boolean flag = true;
             for (String old:olds) {
                 if(Objects.equals(old, receiver)) {
