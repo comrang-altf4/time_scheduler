@@ -14,24 +14,24 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddEventController">
    <children>
-      <JFXTextField fx:id="eventName" focusColor="#46b8ff" layoutX="180.0" layoutY="45.0" prefHeight="26.0" prefWidth="378.0" promptText="Event name">
+      <JFXTextField fx:id="eventName" focusColor="#46b8ff" layoutX="180.0" layoutY="82.0" prefHeight="26.0" prefWidth="378.0" promptText="Event name">
          <font>
             <Font size="24.0" />
          </font></JFXTextField>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@clock.png" />
          </image>
       </ImageView>
-      <JFXDatePicker fx:id="dpDate" defaultColor="#46b8ff" focusTraversable="false" layoutX="180.0" layoutY="109.0" prefHeight="28.0" prefWidth="138.0" promptText="Choose date">
+      <JFXDatePicker fx:id="dpDate" defaultColor="#46b8ff" focusTraversable="false" layoutX="180.0" layoutY="146.0" prefHeight="28.0" prefWidth="138.0" promptText="Choose date">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXDatePicker>
-      <JFXComboBox fx:id="cbStart" focusColor="#46b8ff" layoutX="317.0" layoutY="110.0" prefHeight="26.0" prefWidth="106.0" />
-      <Text layoutX="432.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to" />
-      <JFXComboBox fx:id="cbEnd" focusColor="#46b8ff" layoutX="452.0" layoutY="110.0" prefHeight="26.0" prefWidth="106.0" />
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+      <JFXComboBox fx:id="cbStart" focusColor="#46b8ff" layoutX="317.0" layoutY="147.0" prefHeight="26.0" prefWidth="106.0" />
+      <Text layoutX="432.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to" />
+      <JFXComboBox fx:id="cbEnd" focusColor="#46b8ff" layoutX="452.0" layoutY="147.0" prefHeight="26.0" prefWidth="106.0" />
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@location.png" />
          </image>
@@ -39,8 +39,8 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <JFXTextField focusColor="#46b8ff" layoutX="180.0" fx:id="txtLocation\" layoutY="149.0" prefHeight="26.0" prefWidth="378.0" promptText="Location" />
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
+      <JFXTextField fx:id="txtLocation" focusColor="#46b8ff" layoutX="180.0" layoutY="186.0" prefHeight="26.0" prefWidth="378.0" promptText="Location" />
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@bell.png" />
          </image>
@@ -48,33 +48,28 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Text layoutX="180.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remind me:" />
-      <JFXComboBox fx:id="cbRemind" focusColor="#46b8ff" layoutX="249.0" layoutY="189.0" prefHeight="26.0" prefWidth="106.0" />
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+      <Text layoutX="180.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remind me:" />
+      <JFXComboBox fx:id="cbRemind" focusColor="#46b8ff" layoutX="249.0" layoutY="226.0" prefHeight="26.0" prefWidth="106.0" />
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@calendar.png" />
          </image>
       </ImageView>
-      <Text layoutX="180.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority:" />
-      <JFXComboBox fx:id="cbPriority" focusColor="#46b8ff" layoutX="229.0" layoutY="229.0" prefHeight="26.0" prefWidth="99.0" />
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+      <Text layoutX="180.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority:" />
+      <JFXComboBox fx:id="cbPriority" focusColor="#46b8ff" layoutX="229.0" layoutY="266.0" prefHeight="26.0" prefWidth="127.0" />
+      <JFXTextField fx:id="txtParticipants" focusColor="#46b8ff" layoutX="180.0" layoutY="306.0" prefHeight="26.0" prefWidth="378.0" promptText="Participants" />
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@participant.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@share-link.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@pencil.png" />
-         </image>
-      </ImageView>
-      <Hyperlink fx:id="hpLink" layoutX="180.0" layoutY="308.0" text="Meeting link" textFill="#313131" />
-      <JFXTextField fx:id="txtLink" focusColor="#46b8ff" layoutX="180.0" layoutY="306.0" prefHeight="26.0" prefWidth="378.0" promptText="Description" />
-      <JFXTextField focusColor="#46b8ff" fx:id="txtDescription" layoutX="180.0" layoutY="349.0" prefHeight="26.0" prefWidth="378.0" promptText="Description" />
+      <Hyperlink fx:id="hpLink" layoutX="180.0" layoutY="345.0" text="Meeting link" textFill="#313131" />
+      <JFXTextField fx:id="txtLink" focusColor="#46b8ff" layoutX="180.0" layoutY="343.0" prefHeight="26.0" prefWidth="378.0" promptText="Meeting link" />
       <JFXButton buttonType="RAISED" layoutX="522.0" layoutY="420.0" onAction="#createEvent" prefHeight="38.0" prefWidth="106.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Save">
          <font>
             <Font size="14.0" />
@@ -88,6 +83,5 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXTextField focusColor="#46b8ff" fx:id="txtParticipants" layoutX="180.0" layoutY="269.0" prefHeight="26.0" prefWidth="378.0" promptText="Participants" />
    </children>
 </AnchorPane>
