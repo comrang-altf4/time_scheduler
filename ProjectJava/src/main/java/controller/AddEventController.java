@@ -3,6 +3,8 @@ package controller;
 import backend.IdentityManagement;
 import backend.Sess1on;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -135,14 +137,17 @@ public class AddEventController {
         cbRemind.setItems(remindTimes);
         txtLocation.setText(Sess1on.tempEvent.getLocation());
         for (int i = 0; i < 3; i++) priority.add(new customPriority(i));
+        cbPriority.setOnAction((event) ->{
+            priorityColor.setImage(priorityColorList.get(cbPriority.getValue().priority));
+        });
         if (Sess1on.tempEvent.getName().equals("thisisdummyEvent")) {
             cbPriority.setValue(priority.get(0));
             priorityColor.setImage(priorityColorList.get(0));
             cbStart.setValue(timeslot.get(0));
             cbEnd.setValue(timeslot.get(1));
             dpDate.setValue(today);
-            eventName.setText("Untitled");
             cbRemind.setValue(remindTimes.get(0));
+            eventName.setText("Untitled");
         }
         else
         {
