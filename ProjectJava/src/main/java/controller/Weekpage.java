@@ -129,7 +129,6 @@ public class Weekpage extends VBox {
                 Sess1on.isCreatingEvent = true;
                 addEventBtn.addEvent();
                 addEvent();
-                System.out.println(String.format("create %s", Sess1on.tempEvent.getLocation()));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

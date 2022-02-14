@@ -116,6 +116,8 @@ public class ControllerDay extends Controller {
     Button addEventBtn=new Button();
     @FXML
     public void addEvent(ActionEvent e) throws IOException {
+        Sess1on.tempEvent = new Event();
+        Sess1on.isCreatingEvent = true;
         new customButton().addEvent();
         updateFlowPane();
     }
