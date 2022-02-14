@@ -78,7 +78,7 @@ public class Email {
      * @param time notification time
      * @throws MessagingException whenever there is a problem with the smtp
      */
-    public static void sendReminder(String receiver, Event event, int time) throws MessagingException {
+    public static void sendReminder(String receiver, Event event, long time) throws MessagingException {
         Message message = sendEmail(receiver);
         message.setSubject("Event reminder!!!");
         message.setText(event.getName() + " is happening in " + time + " minutes!!!");
@@ -99,7 +99,8 @@ public class Email {
 
     public static void sendUpdateNotification(Event event) throws MessagingException, SQLException, ClassNotFoundException {
         for (String receiver:event.getListParticipants()) {
-            if (receiver=="")break;
+            if (receiver.isEmpty())
+                continue;
             Message message = sendEmail(receiver);
             message.setSubject("Notification!!!");
             String content  = "Event " + event.getName() + " has been updated. The event will start at " +

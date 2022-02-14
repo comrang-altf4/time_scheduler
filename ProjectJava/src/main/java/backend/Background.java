@@ -8,6 +8,7 @@ package backend;
 
 import javax.mail.MessagingException;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Background implements Runnable {
                     LocalDateTime date = event.getDate();
                     LocalDateTime current = LocalDateTime.now();
                     List<String> participants = Database.getParticipants(event.getID());
-                    int time = (date.getDayOfMonth() - current.getDayOfMonth()) * 24 * 60 + (date.getHour() - current.getHour()) * 60 + (date.getMinute() - current.getMinute());
+                    long time = Duration.between(current, date).toMinutes();
                     for (String participant : participants) {
                         int notify = Database.getNotifyTime(event.getID(), participant);
                         // Compare if the time has come to send reminder
@@ -48,7 +49,6 @@ public class Background implements Runnable {
                 Thread.sleep(30 * 1000);
             } catch (SQLException | ClassNotFoundException | MessagingException | InterruptedException exception) {
                 signal = false;
-                System.out.println("asdasdasd");
             }
         }
     }

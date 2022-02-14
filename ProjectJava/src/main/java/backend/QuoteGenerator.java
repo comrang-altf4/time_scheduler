@@ -9,7 +9,7 @@ public class QuoteGenerator {
     public static int totalQuotes=0;
     public static int random_int;
     public QuoteGenerator() throws FileNotFoundException {
-        File myObj = new File(System.getProperty("user.dir")+"/Quotes");
+        File myObj = new File(System.getProperty("user.dir")+"/Quotes.txt");
         System.out.println(myObj.exists());
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
