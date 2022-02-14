@@ -195,8 +195,6 @@ public class AddEventController {
     @FXML
     TextField txtParticipants=new TextField();
     @FXML
-    TextField txtDescription= new TextField();
-    @FXML
     TextField txtLocation=new TextField();
     /**
      * This function create visual for user Event
@@ -209,7 +207,6 @@ public class AddEventController {
         int tp = cbPriority.getValue().priority;
         int time = cbRemind.getValue().getTime();
         String location = txtLocation.getText();
-        String description = txtDescription.getText();
         LocalDateTime dateOfEvent = dpDate.getValue().atTime(cbStart.getValue().localDateTime.toLocalTime());
         String meettingLink=txtLink.getText();
         List<String>listParticipants=new ArrayList<>();
