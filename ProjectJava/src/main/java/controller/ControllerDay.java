@@ -4,8 +4,11 @@ import backend.Event;
 import backend.Sess1on;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -105,5 +108,20 @@ public class ControllerDay extends Controller {
         scene.getStylesheets().add(getClass().getResource("/calendar-view.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    Button addEventBtn=new Button();
+    @FXML
+    public void addEvent(ActionEvent e) throws IOException {
+        System.out.println("123123");
+        new customButton().addEvent();
+        updateFlowPane();
+    }
+    private void showPopUp() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/add-event-view.fxml"));
+        Stage stage=new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
     }
 }

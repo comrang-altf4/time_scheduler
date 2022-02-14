@@ -199,9 +199,9 @@ public class Weekpage extends VBox {
      * add new user event to user event list
      */
     public void addEvent() {
-        Event event = new Event(Sess1on.tempEvent, 1);
-        Sess1on.eventList.add(event);
-        addEventToGrid(event);
+//        Event event = new Event(Sess1on.tempEvent, 1);
+//        Sess1on.eventList.add(event);
+        addEventToGrid(Sess1on.eventList.get(Sess1on.eventList.size()-1));
     }
 
     /**

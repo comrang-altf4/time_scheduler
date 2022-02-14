@@ -61,7 +61,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="addEventBtn" contentDisplay="GRAPHIC_ONLY" layoutX="207.0" layoutY="28.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="198.0" styleClass="add-event-button" stylesheets="@buttons-icon.css" text="Button">
+      <Button fx:id="addEventBtn" onAction="#addEvent" contentDisplay="GRAPHIC_ONLY" layoutX="207.0" layoutY="28.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="198.0" styleClass="add-event-button" stylesheets="@buttons-icon.css" text="Button">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
