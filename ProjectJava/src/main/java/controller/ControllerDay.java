@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -58,11 +59,13 @@ public class ControllerDay extends Controller {
      * Update the event displayed in the flow pane
      */
     void updateFlowPane() {
+        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("HH:mm");
         fpTodayEvent.getChildren().clear();
         LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         for (Event e : Sess1on.eventList) {
             if (e.getDate().toLocalDate().toString().equals(lDate.toString())) {
-                Label lb = new Label(e.getName());
+                String lbName= e.getName()+'\n'+e.getDate().format(dayFormatter)+" - "+e.getDate().plusMinutes(e.getDuration()).format(dayFormatter);
+                Label lb = new Label(lbName);
                 lb.setPrefHeight(80);
                 lb.setPrefWidth(580);
                 lb.setStyle(e.priorityColor[e.getPriority()]);
@@ -113,7 +116,6 @@ public class ControllerDay extends Controller {
     Button addEventBtn=new Button();
     @FXML
     public void addEvent(ActionEvent e) throws IOException {
-        System.out.println("123123");
         new customButton().addEvent();
         updateFlowPane();
     }
