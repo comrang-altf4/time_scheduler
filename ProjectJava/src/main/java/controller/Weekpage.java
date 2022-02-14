@@ -200,6 +200,7 @@ public class Weekpage extends VBox {
     public void addEvent() {
 //        Event event = new Event(Sess1on.tempEvent, 1);
 //        Sess1on.eventList.add(event);
+        Sess1on.sortEvent();
         addEventToGrid(Sess1on.eventList.get(Sess1on.eventList.size()-1));
     }
 

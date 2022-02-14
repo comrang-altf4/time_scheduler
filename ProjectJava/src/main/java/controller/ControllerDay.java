@@ -119,6 +119,7 @@ public class ControllerDay extends Controller {
         Sess1on.tempEvent = new Event();
         Sess1on.isCreatingEvent = true;
         new customButton().addEvent();
+        Sess1on.sortEvent();
         updateFlowPane();
     }
 }

@@ -94,7 +94,17 @@ public class Sess1on {
         // Get list of events
         return eventList;
     }
-
+    public static void sortEvent()
+    {
+        for (int i=0;i< eventList.size()-1;i++)
+            for (int j=i+1;j<eventList.size();j++)
+                if (eventList.get(i).getDate().isAfter(eventList.get(j).getDate()))
+                {
+                    Event temp=new Event(eventList.get(i));
+                    eventList.set(i,eventList.get(j));
+                    eventList.set(j,temp);
+                }
+    }
     /**
      * release the current session
      */
