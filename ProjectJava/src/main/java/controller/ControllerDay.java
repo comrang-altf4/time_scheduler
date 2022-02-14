@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +31,6 @@ public class ControllerDay extends Controller {
     static Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
     @FXML
     VBox fpTodayEvent;
-
     /**
      * Generates contents for Day view
      * @param weekday   day in week (Monday, Tuesday,...)
@@ -54,12 +54,17 @@ public class ControllerDay extends Controller {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         display_DayCalendar(dayOfWeek, day, month, year);
     }
-
+    @FXML
+    Text author=new Text();
+    @FXML
+    Text quote=new Text();
     /**
      * Update the event displayed in the flow pane
      */
     void updateFlowPane() {
         QuoteGenerator.generate();
+        author.setText(QuoteGenerator.getAuthor());
+        quote.setText(QuoteGenerator.getQuote());
         System.out.println(String.format("%s asdasd",Sess1on.eventList.size()));
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("HH:mm");
         fpTodayEvent.getChildren().clear();

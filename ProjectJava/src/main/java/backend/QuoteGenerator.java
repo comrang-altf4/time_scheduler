@@ -24,6 +24,13 @@ public class QuoteGenerator {
         int max = totalQuotes;
         random_int = (int)Math.floor(Math.random()*(max-min+1)+min)-1;
         if (random_int%2!=0)random_int-=1;
-        System.out.println(totalQuotes);
+    }
+    public static String getAuthor()
+    {
+        return String.format("- %s -",quotes[random_int+1].length()<2?"Anonymous": quotes[random_int+1]);
+    }
+    public static String getQuote()
+    {
+        return quotes[random_int];
     }
 }
