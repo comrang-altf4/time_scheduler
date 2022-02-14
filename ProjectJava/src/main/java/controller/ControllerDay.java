@@ -1,6 +1,7 @@
 package controller;
 
 import backend.Event;
+import backend.QuoteGenerator;
 import backend.Sess1on;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,7 @@ public class ControllerDay extends Controller {
      * Update the event displayed in the flow pane
      */
     void updateFlowPane() {
+        QuoteGenerator.generate();
         System.out.println(String.format("%s asdasd",Sess1on.eventList.size()));
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("HH:mm");
         fpTodayEvent.getChildren().clear();

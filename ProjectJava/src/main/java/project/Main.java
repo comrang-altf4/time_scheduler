@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import javax.mail.MessagingException;
+import javax.mail.Quota;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -60,8 +62,9 @@ public class Main extends Application {
         stage.setResizable(false);
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, FileNotFoundException {
         // Set system property to start preloader first
+        new backend.QuoteGenerator();
         System.setProperty("javafx.preloader", Preloading.class.getCanonicalName());
 
         // Set background running to send email
