@@ -52,13 +52,13 @@ public class ControllerDay extends Controller {
         int year = calendar.get(Calendar.YEAR);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         display_DayCalendar(dayOfWeek, day, month, year);
-        updateFlowPane();
     }
 
     /**
      * Update the event displayed in the flow pane
      */
     void updateFlowPane() {
+        System.out.println(String.format("%s asdasd",Sess1on.eventList.size()));
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("HH:mm");
         fpTodayEvent.getChildren().clear();
         LocalDate lDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
@@ -120,12 +120,5 @@ public class ControllerDay extends Controller {
         Sess1on.isCreatingEvent = true;
         new customButton().addEvent();
         updateFlowPane();
-    }
-    private void showPopUp() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/add-event-view.fxml"));
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-
     }
 }

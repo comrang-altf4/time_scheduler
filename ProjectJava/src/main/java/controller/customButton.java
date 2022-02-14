@@ -52,7 +52,7 @@ public class customButton extends Button {
      */
     public void addEvent() throws IOException {
         showPopUp();
-        Event event = new Event(Sess1on.tempEvent, 1);
+        if (Sess1on.saveClicked==false)return;Event event = new Event(Sess1on.tempEvent, 1);
         Sess1on.eventList.add(event);
     }
 

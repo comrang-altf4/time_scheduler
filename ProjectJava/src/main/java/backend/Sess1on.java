@@ -17,7 +17,7 @@ public class Sess1on {
     public static Boolean deleteEvent=false;
     public static Event tempEvent = new Event();
     public static List<Event> eventList = new ArrayList<>();
-
+    public static boolean saveClicked=false;
     public void setUsername(String username) {
         // Set username
         this.username = username;

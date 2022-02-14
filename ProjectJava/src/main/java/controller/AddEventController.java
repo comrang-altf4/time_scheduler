@@ -66,6 +66,7 @@ public class AddEventController {
      * Initialize the window with information depends on the user action (add or edit)
      */
     void initialize() {
+        Sess1on.saveClicked=false;
         if (Sess1on.isCreatingEvent)
         {
             btnDelete.setVisible(false);
@@ -238,6 +239,7 @@ public class AddEventController {
         System.out.println();
         Sess1on.tempEvent.updateEvent(name, location, duration, dateOfEvent, tp,meettingLink,listParticipants,time);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        Sess1on.saveClicked=true;
         stage.close();
     }
 
