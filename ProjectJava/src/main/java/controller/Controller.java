@@ -3,6 +3,7 @@ package controller;
 import backend.IdentityManagement;
 import backend.Sess1on;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -55,6 +56,10 @@ public class Controller {
     public Text txtDayAndMonth;
     @FXML
     public AnchorPane mainPane;
+    @FXML
+    public Text quote;
+    @FXML
+    public Text author;
     protected static final String[] dayOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
             "Saturday" };
     protected static final String[] monthOfYear = { "January", "February", "March", "April", "May", "June",

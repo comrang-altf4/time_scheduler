@@ -53,7 +53,7 @@
 
 .add-event-button {
     -fx-background-image: url("new-event.png");
-   	-fx-background-size: 200px;
+   	-fx-background-size: 150px;
    	-fx-background-repeat: no-repeat;
    	-fx-background-color: transparent;
 }

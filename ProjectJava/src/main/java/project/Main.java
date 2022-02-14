@@ -37,7 +37,6 @@ public class Main extends Application {
     }
     @Override
     public void stop() throws SQLException, ClassNotFoundException, MessagingException {
-        System.out.println("Main!");
         IdentityManagement.updateToDB();
         Background.stop();
     }

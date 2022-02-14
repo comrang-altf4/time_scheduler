@@ -70,7 +70,7 @@
          </image>
       </ImageView>
       <Hyperlink fx:id="hpLink" layoutX="180.0" layoutY="345.0" text="Meeting link" textFill="#313131" />
-      <JFXTextField fx:id="txtLink" focusColor="#46b8ff" layoutX="180.0" layoutY="343.0" prefHeight="26.0" prefWidth="378.0" promptText="Meeting link" />
+      <JFXTextField fx:id="txtLink" focusColor="#46b8ff" layoutX="180.0" layoutY="343.0" prefHeight="26.0" prefWidth="378.0" text="Meeting link" />
       <JFXButton buttonType="RAISED" layoutX="522.0" layoutY="420.0" onAction="#createEvent" prefHeight="38.0" prefWidth="106.0" ripplerFill="#00dfff" style="-fx-background-color: #46B8FF;" text="Save">
          <font>
             <Font size="14.0" />
