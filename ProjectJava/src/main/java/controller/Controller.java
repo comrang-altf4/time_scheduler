@@ -38,6 +38,8 @@ public class Controller {
     @FXML
     protected Button btnNextDay;
     @FXML
+    protected Button addEventBtn;
+    @FXML
     protected Text currentDayMonth=new Text();
     @FXML
     public Button btnClose;

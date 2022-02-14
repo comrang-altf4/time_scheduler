@@ -11,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
@@ -45,6 +47,8 @@ public class AddEventController {
     ComboBox<customLocalDateTime> cbEnd ;//= new ComboBox<customLocalDateTime>();
     @FXML
     ComboBox<customPriority> cbPriority;// = new ComboBox<customPriority>();
+    @FXML
+    ImageView priorityColor = new ImageView();
     @FXML
     DatePicker dpDate;
     @FXML
@@ -119,11 +123,21 @@ public class AddEventController {
         cbStart.setItems(timeslot);
         cbEnd.setItems(timeslot);
         cbPriority.setItems(priority);
+
+        ArrayList<Image> priorityColorList = new ArrayList<Image>();
+        Image redPriority = new Image("red.png");
+        Image yellowPriority = new Image("yellow.png");
+        Image greenPriority = new Image("green.png");
+        priorityColorList.add(redPriority);
+        priorityColorList.add(yellowPriority);
+        priorityColorList.add(greenPriority);
+
         cbRemind.setItems(remindTimes);
         txtLocation.setText(Sess1on.tempEvent.getLocation());
         for (int i = 0; i < 3; i++) priority.add(new customPriority(i));
         if (Sess1on.tempEvent.getName().equals("thisisdummyEvent")) {
             cbPriority.setValue(priority.get(0));
+            priorityColor.setImage(priorityColorList.get(0));
             cbStart.setValue(timeslot.get(0));
             cbEnd.setValue(timeslot.get(1));
             dpDate.setValue(today);
@@ -137,6 +151,7 @@ public class AddEventController {
             {
                 System.out.println(timeslot.size());
                 cbPriority.setValue(priority.get(i));
+                priorityColor.setImage(priorityColorList.get(i));
                 break;
             }
             customLocalDateTime tempCustom=new customLocalDateTime(tempEvent.getDate());

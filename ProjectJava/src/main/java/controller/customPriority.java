@@ -6,7 +6,7 @@ package controller;
  */
 public class customPriority {
     public int priority;
-    String[] color={"High (Red)","Medium (Yellow)","Low (Green)"};
+    String[] color={"High","Medium","Low"};
     customPriority(int x)
     {
         priority=x;
