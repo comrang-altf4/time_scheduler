@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"project.projectjava"}];updateSearchResults();
