@@ -12,7 +12,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static backend.Database.connectDB;
 
 public class Background implements Runnable {
     private static Thread thread;
@@ -46,6 +45,7 @@ public class Background implements Runnable {
                         }
                     }
                 }
+                IdentityManagement.updateToDB();
                 Thread.sleep(30 * 1000);
             } catch (SQLException | ClassNotFoundException | MessagingException | InterruptedException exception) {
                 signal = false;

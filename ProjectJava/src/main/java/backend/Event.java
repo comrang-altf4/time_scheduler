@@ -249,10 +249,6 @@ public class Event {
     }
 
     public boolean compareEvent(Event event) {
-//        System.out.println(this.location);
-//        System.out.println(event.getLocation());
-        if (this.location != event.getLocation())
-            System.out.println(this.location+"ssssss"+event.getLocation());
         return Objects.equals(this.location, event.getLocation()) && Objects.equals(this.meetinglink, event.getMeetinglink()) && this.name.equals(event.getName()) &&
                 this.duration == event.getDuration() && this.date.equals(event.getDate());
     }

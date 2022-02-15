@@ -87,12 +87,8 @@ public class Controller {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-   public void signOut(ActionEvent event) throws SQLException, ClassNotFoundException, IOException, MessagingException {
-       System.out.println("asdasdasd");
-       IdentityManagement.updateToDB();
-       System.out.println("qweqweqwe");
+   public void signOut(ActionEvent event) throws IOException {
        new Sess1on().release();
-       System.out.println("zxczxczxc");
        doChangeview(event,"/login-view.fxml");
    }
 }

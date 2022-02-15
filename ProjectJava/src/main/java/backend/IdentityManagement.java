@@ -70,11 +70,12 @@ public class IdentityManagement {
 					Database.updateEvent(Sess1on.eventList.get(i));
 				}
 			}
-			System.out.println(Sess1on.eventList.get(i).getID());
+//			System.out.println(Sess1on.eventList.get(i).getID());
 		}
-		System.out.println(available_id);
+//		System.out.println(available_id);
 		Email.sendDeleteNotification(available_id);
 		Database.deleteEvents(available_id);
+		available_id.clear();
 	}
 }
 
