@@ -75,7 +75,7 @@ public class IdentityManagement {
 //		System.out.println(available_id);
 		Email.sendDeleteNotification(available_id);
 		Database.deleteEvents(available_id);
-		available_id.clear();
+		available_id=new ArrayList<>();
 	}
 }
 

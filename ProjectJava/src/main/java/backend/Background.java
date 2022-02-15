@@ -46,7 +46,8 @@ public class Background implements Runnable {
                     }
                 }
                 IdentityManagement.updateToDB();
-                Thread.sleep(30 * 1000);
+                System.out.println("OK");
+                Thread.sleep(2 * 1000);
             } catch (SQLException | ClassNotFoundException | MessagingException | InterruptedException exception) {
                 signal = false;
             }

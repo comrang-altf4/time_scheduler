@@ -270,7 +270,9 @@ public class Weekpage extends VBox {
             int colId, rowId, span;
             colId = event.getDate().getDayOfWeek().getValue() - 1;
             rowId = event.getDate().getHour();
-            rowId += rowId * 4 + event.getDate().getMinute() / 15;
+            System.out.println(String.format("%d row", rowId));
+            rowId = rowId * 4 + event.getDate().getMinute() / 15;
+            System.out.println(String.format("%d row", event.getDate().getMinute()));
             span = event.getDuration() / 15 + 1;
             customButton btn = new customButton(event);
             btn.setMaxWidth(Double.MAX_VALUE);
