@@ -133,12 +133,7 @@ public class Weekpage extends VBox {
                 ex.printStackTrace();
             }
         });
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        column1.setPercentWidth(50);
-        column2.setPercentWidth(25);
-        calendarView.getColumnConstraints().addAll(column2,column1,column1,column1,column1,column1,column1,column1);
-        calendarView.setMaxWidth(Double.MAX_VALUE);
+
         scrollPane.setContent(calendarView);
         HBox hb = new HBox();
         hb.getChildren().addAll(backBtn, addEventBtn, pdfBtn, textBtn,previousWeekBtn,nextWeekBtn);
@@ -212,6 +207,12 @@ public class Weekpage extends VBox {
      */
     public void refreshAgenda() {
         calendarView = new GridPane();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        column1.setPercentWidth(50);
+        column2.setPercentWidth(25);
+        calendarView.getColumnConstraints().addAll(column2,column1,column1,column1,column1,column1,column1,column1);
+        calendarView.setMaxWidth(Double.MAX_VALUE);
         DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("E MMM d");
         for (LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)) {
             Label label = new Label(date.format(dayFormatter));
