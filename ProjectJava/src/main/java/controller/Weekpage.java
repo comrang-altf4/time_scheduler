@@ -133,12 +133,16 @@ public class Weekpage extends VBox {
                 ex.printStackTrace();
             }
         });
-//        fp.getChildren().add(calendarView);
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        column1.setPercentWidth(50);
+        column2.setPercentWidth(25);
+        calendarView.getColumnConstraints().addAll(column2,column1,column1,column1,column1,column1,column1,column1);
+        calendarView.setMaxWidth(Double.MAX_VALUE);
         scrollPane.setContent(calendarView);
         HBox hb = new HBox();
         hb.getChildren().addAll(backBtn, addEventBtn, pdfBtn, textBtn,previousWeekBtn,nextWeekBtn);
         this.getChildren().addAll(hb, scrollPane);
-//        System.out.println(this.getChildren().size());
         for (Event event : Sess1on.eventList) {
             addEventToGrid(event);
         }
@@ -198,10 +202,7 @@ public class Weekpage extends VBox {
      * add new user event to user event list
      */
     public void addEvent() {
-//        Event event = new Event(Sess1on.tempEvent, 1);
-//        Sess1on.eventList.add(event);
         Sess1on.sortEvent();
-//        addEventToGrid(Sess1on.eventList.get(Sess1on.eventList.size()-1));
         refreshAgenda();
         updateAgenda();
     }
