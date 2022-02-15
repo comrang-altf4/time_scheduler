@@ -138,7 +138,7 @@ public class Weekpage extends VBox {
         HBox hb = new HBox();
         hb.getChildren().addAll(backBtn, addEventBtn, pdfBtn, textBtn,previousWeekBtn,nextWeekBtn);
         this.getChildren().addAll(hb, scrollPane);
-        System.out.println(this.getChildren().size());
+//        System.out.println(this.getChildren().size());
         for (Event event : Sess1on.eventList) {
             addEventToGrid(event);
         }
@@ -201,7 +201,9 @@ public class Weekpage extends VBox {
 //        Event event = new Event(Sess1on.tempEvent, 1);
 //        Sess1on.eventList.add(event);
         Sess1on.sortEvent();
-        addEventToGrid(Sess1on.eventList.get(Sess1on.eventList.size()-1));
+//        addEventToGrid(Sess1on.eventList.get(Sess1on.eventList.size()-1));
+        refreshAgenda();
+        updateAgenda();
     }
 
     /**
@@ -277,9 +279,7 @@ public class Weekpage extends VBox {
                     Sess1on.isCreatingEvent = false;
                     Sess1on.deleteEvent = false;
                     btn.editEvent();
-                    System.out.println(String.format("create %s", btn.event.getLocation()));
                     refreshAgenda();
-//                    Sess1on.eventList.forEach((x) -> addEventToGrid(x));
                     updateAgenda();
                 } catch (IOException ex) {
                     ex.printStackTrace();

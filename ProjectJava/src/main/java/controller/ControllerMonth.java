@@ -117,7 +117,9 @@ public class ControllerMonth extends Controller {
      * Generates contents for the Month view
      */
     private void displayMonthCalendar() {
-        for (int i=0;i<42;i++)vBoxes[i].getChildren().clear();
+        for (int i=0;i<42;i++) {
+            vBoxes[i].getChildren().clear();
+        }
         getDayOrder();
         cal.add(Calendar.MONTH, -1);
         int curMonth = cal.get(Calendar.MONTH);
@@ -134,8 +136,9 @@ public class ControllerMonth extends Controller {
                     lb.setMaxWidth(Double.MAX_VALUE);
                     lb.setStyle(e.priorityColor[e.getPriority()]);
                     vBoxes[i].totalChildren+=1;
-                    if (vBoxes[i].totalChildren>=4)
+                    if (vBoxes[i].getChildren().size()>=4)
                     {
+                        System.out.println("asdasdasdasd");
                         vBoxes[i].getChildren().set(3,new Label(String.format("and %d more",vBoxes[i].totalChildren-2)));
                     }
                     else vBoxes[i].getChildren().add(lb);
