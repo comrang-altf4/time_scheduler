@@ -1,6 +1,6 @@
 # time_scheduler
 
-To run the code with completed UI, you have to launch the app with the following VM Parameter:
+To run the code with completed UI, you need to launch the app with the following VM Parameter:
       
 --add-opens=java.base/java.lang.reflect=ALL-UNNAMED,
 
